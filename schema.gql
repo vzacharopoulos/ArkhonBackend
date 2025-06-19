@@ -323,6 +323,19 @@ type PackageSpeedResult {
   total: Float!
 }
 
+type Pporderlines2 {
+  id: Int!
+  pporderno: String
+  custporderno: String
+  prodDate: Date
+  upDate: Date
+  status: Int
+  isCanceled: Int
+  panelcode: String
+  tradecode: String
+  packagesTotal: Float
+}
+
 """Date custom scalar type"""
 scalar Date
 
@@ -346,6 +359,8 @@ type Query {
   ppackages: [PPackages!]!
   ppackage(id: Int!): PPackages
   packageProductionTimes: [PackageSpeedResult!]!
+  pporderlines2: [Pporderlines2!]!
+  pporderline2(id: Int!): Pporderlines2
   panelSpeeds: [PanelSpeeds!]!
   panelSpeed(code: String!): PanelSpeeds
   me: Users!

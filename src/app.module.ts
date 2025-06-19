@@ -17,6 +17,7 @@ import { AuthModule } from './auth/auth.module';
 import { CoilColorModule } from './color/coil.color.module';
 import { PanelspeedsModule } from './panelspeeds/panelspeeds.module';
 import { PpackagesModule } from './ppackages/ppackages.module';
+import { Pporderlines2Module } from './pporderlines2/pporderlines2.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { PpackagesModule } from './ppackages/ppackages.module';
      UsersLocationAccessModule,
      LocationModule,
      PpackagesModule,
+     Pporderlines2Module,
     PanelspeedsModule,
      AuthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
