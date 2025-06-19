@@ -287,6 +287,42 @@ type PanelSpeeds {
   speed: Float
 }
 
+type PPackages {
+  id: Int!
+  packno: String
+  iteid: Int
+  itename: String
+  description: String
+  pcs: Int
+  quantity: Float
+  tradecode: String
+  createDt: Date
+  despatchDt: Date
+  status: Int
+  loc: Int
+  upDate: Date
+  classification: String
+  comment: String
+  importNo: Int
+  panelThickness: String
+  cin: String
+  cout: String
+  thickin: String
+  thickout: String
+  moldin: String
+  moldout: String
+  panelWeightPerMeter: Float
+  widthin: String
+  widthout: String
+  total: Float
+}
+
+type PackageSpeedResult {
+  description: String!
+  code: String!
+  total: Float!
+}
+
 """Date custom scalar type"""
 scalar Date
 
@@ -307,6 +343,9 @@ type Query {
   allowedLocations(userId: String!): [Location!]!
   locations: [Location!]!
   location(locationId: Int!): Location
+  ppackages: [PPackages!]!
+  ppackage(id: Int!): PPackages
+  packageProductionTimes: [PackageSpeedResult!]!
   panelSpeeds: [PanelSpeeds!]!
   panelSpeed(code: String!): PanelSpeeds
   me: Users!

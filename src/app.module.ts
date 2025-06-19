@@ -16,6 +16,7 @@ import { MeResolver } from './auth/me.resolver';
 import { AuthModule } from './auth/auth.module';
 import { CoilColorModule } from './color/coil.color.module';
 import { PanelspeedsModule } from './panelspeeds/panelspeeds.module';
+import { PpackagesModule } from './ppackages/ppackages.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { PanelspeedsModule } from './panelspeeds/panelspeeds.module';
      CoilColorModule,
      UsersLocationAccessModule,
      LocationModule,
+     PpackagesModule,
     PanelspeedsModule,
      AuthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
