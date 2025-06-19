@@ -1,32 +1,46 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 
-@Index("PK_PPORDERLINES2", ["id"], { unique: true })
-@Entity("PPORDERLINES2", { schema: "dbo" })
+@ObjectType()
+@Index('PK_PPORDERLINES2', ['id'], { unique: true })
+@Entity('PPORDERLINES2', { schema: 'dbo' })
 export class Pporderlines2 {
-  @PrimaryGeneratedColumn({ type: "int", name: "id" })
+  @Field(() => Int)
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column("nvarchar", { name: "PPORDERNO", nullable: true, length: 30 })
+  @Field({ nullable: true })
+  @Column('nvarchar', { name: 'PPORDERNO', nullable: true, length: 30 })
   pporderno: string | null;
 
-  @Column("nvarchar", { name: "CUSTPORDERNO", nullable: true, length: 30 })
+  @Field({ nullable: true })
+  @Column('nvarchar', { name: 'CUSTPORDERNO', nullable: true, length: 30 })
   custporderno: string | null;
 
-  @Column("smalldatetime", { name: "prodDate", nullable: true })
+  @Field({ nullable: true })
+  @Column('smalldatetime', { name: 'prodDate', nullable: true })
   prodDate: Date | null;
 
-  @Column("smalldatetime", { name: "up_date", nullable: true })
+  @Field({ nullable: true })
+  @Column('smalldatetime', { name: 'up_date', nullable: true })
   upDate: Date | null;
 
-  @Column("int", { name: "status", nullable: true })
+  @Field(() => Int, { nullable: true })
+  @Column('int', { name: 'status', nullable: true })
   status: number | null;
 
-  @Column("int", { name: "isCanceled", nullable: true, default: () => "(0)" })
+  @Field(() => Int, { nullable: true })
+  @Column('int', { name: 'isCanceled', nullable: true, default: () => '(0)' })
   isCanceled: number | null;
 
-  @Column("nvarchar", { name: "PANELCODE", nullable: true, length: 150 })
+  @Field({ nullable: true })
+  @Column('nvarchar', { name: 'PANELCODE', nullable: true, length: 150 })
   panelcode: string | null;
 
-  @Column("nvarchar", { name: "tradecode", nullable: true, length: 30 })
+  @Field({ nullable: true })
+  @Column('nvarchar', { name: 'tradecode', nullable: true, length: 30 })
   tradecode: string | null;
+
+  @Field(() => Float, { nullable: true })
+  packagesTotal?: number | null;
 }
