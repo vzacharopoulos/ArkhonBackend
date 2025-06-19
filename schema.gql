@@ -281,6 +281,12 @@ type CoilColorType {
   isPvc: Int
 }
 
+type PanelSpeeds {
+  code: String!
+  thickness: String
+  speed: Float
+}
+
 """Date custom scalar type"""
 scalar Date
 
@@ -301,6 +307,8 @@ type Query {
   allowedLocations(userId: String!): [Location!]!
   locations: [Location!]!
   location(locationId: Int!): Location
+  panelSpeeds: [PanelSpeeds!]!
+  panelSpeed(code: String!): PanelSpeeds
   me: Users!
 }
 

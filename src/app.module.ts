@@ -15,6 +15,8 @@ import { LocationModule } from './location/location.module';
 import { MeResolver } from './auth/me.resolver';
 import { AuthModule } from './auth/auth.module';
 import { CoilColorModule } from './color/coil.color.module';
+import { PanelspeedsModule } from './panelspeeds/panelspeeds.module';
+
 @Module({
   imports: [
     RecipesModule,
@@ -24,6 +26,7 @@ import { CoilColorModule } from './color/coil.color.module';
      CoilColorModule,
      UsersLocationAccessModule,
      LocationModule,
+    PanelspeedsModule,
      AuthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -46,7 +49,7 @@ import { CoilColorModule } from './color/coil.color.module';
   database: 'panelMESDB_testing',
   username: 'tseroki',
   password: 'ariskobo',
- entities: [__dirname + '/**/*.entity{.ts,.js}'],
+ entities: [__dirname + '/**/*.entity{.ts,.js}',__dirname + '/**/*.view{.ts,.js}'],
   synchronize: false,  // true ONLY if you want to auto-create tables
   autoLoadEntities: true,
   options: {

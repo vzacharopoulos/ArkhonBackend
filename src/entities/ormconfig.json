@@ -8,6 +8,7 @@
     "password": "ariskobo",
     "database": "",
     "synchronize": false,
-    "entities": ["entities/*.js"]
+    "entities": ["entities/*.js",
+  "views/**/*.js","views/**/*.ts","entities/**/*.ts"]
   }
 ]
