@@ -318,7 +318,7 @@ type PPackages {
 }
 
 type PackageSpeedResult {
-  description: String!
+  itename: String!
   code: String!
   total: Float!
 }

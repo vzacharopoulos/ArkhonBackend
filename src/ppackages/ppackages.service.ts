@@ -21,7 +21,7 @@ export class PpackagesService {
       speeds.map((s) => [s.code.trim(), s.speed ?? 0]),
     );
     return packages.map((p) => {
-      const speed = speedMap.get(p.description?.trim() ?? '');
+      const speed = speedMap.get(p.itename?.trim() ?? '');
       if (speed != null && p.quantity != null) {
         p.total = Number(p.quantity) * Number(speed);
       }
@@ -32,9 +32,9 @@ export class PpackagesService {
   async findOne(id: number): Promise<PPackages | null> {
     const pkg = await this.ppackagesRepository.findOne({ where: { id } });
     if (!pkg) return null;
-    if (pkg.description) {
+    if (pkg.itename) {
       const speed = await this.panelSpeedsRepository.findOne({
-        where: { code: pkg.description.trim() },
+        where: { code: pkg.itename.trim() },
       });
       if (speed && pkg.quantity != null) {
         pkg.total = Number(pkg.quantity) * Number(speed.speed ?? 0);
@@ -43,14 +43,14 @@ export class PpackagesService {
     return pkg;
   }
 
-  async calculateQuantitySpeed(): Promise<{ description: string; code: string; total: number }[]> {
+  async calculateQuantitySpeed(): Promise<{ itename: string; code: string; total: number }[]> {
     return this.ppackagesRepository
       .createQueryBuilder('p')
-      .innerJoin(PanelSpeeds, 'ps', 'RTRIM(p.description) = RTRIM(ps.code)')
-      .select('p.description', 'description')
+      .innerJoin(PanelSpeeds, 'ps', 'RTRIM(p.itename) = RTRIM(ps.code)')
+      .select('p.itename', 'itename')
       .addSelect('ps.code', 'code')
       .addSelect('SUM(p.quantity * ps.speed)', 'total')
-      .groupBy('p.description')
+      .groupBy('p.itename')
       .addGroupBy('ps.code')
       .getRawMany();
   }

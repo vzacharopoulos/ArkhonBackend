@@ -3,7 +3,7 @@ import { ObjectType, Field, Float } from '@nestjs/graphql';
 @ObjectType()
 export class PackageSpeedResult {
   @Field()
-  description: string;
+  itename: string;
 
   @Field()
   code: string;
