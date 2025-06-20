@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
+import { PanelSpeeds } from './PanelSpeeds';
 
 @ObjectType()
 @Entity('PPackages', { schema: 'dbo' })
@@ -125,4 +126,9 @@ export class PPackages {
 
   @Field(() => Float, { nullable: true })
   total?: number;
+
+  @Field(() => PanelSpeeds, { nullable: true })
+  @ManyToOne(() => PanelSpeeds, (speed) => speed.packages)
+  @JoinColumn({ name: 'itename', referencedColumnName: 'code' })
+  panelSpeed?: PanelSpeeds | null;
 }
