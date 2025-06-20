@@ -281,12 +281,6 @@ type CoilColorType {
   isPvc: Int
 }
 
-type PanelSpeeds {
-  code: String!
-  thickness: String
-  speed: Float
-}
-
 type PPackages {
   id: Int!
   packno: String
@@ -315,12 +309,15 @@ type PPackages {
   widthin: String
   widthout: String
   total: Float
+  panelSpeed: PanelSpeeds
+  productionTime: Float
 }
 
-type PackageSpeedResult {
-  itename: String!
+type PanelSpeeds {
   code: String!
-  total: Float!
+  thickness: String
+  speed: Float
+  packages: [PPackages!]!
 }
 
 type Pporderlines2 {
@@ -333,7 +330,6 @@ type Pporderlines2 {
   isCanceled: Int
   panelcode: String
   tradecode: String
-  packagesTotal: Float
 }
 
 """Date custom scalar type"""
@@ -358,7 +354,6 @@ type Query {
   location(locationId: Int!): Location
   ppackages: [PPackages!]!
   ppackage(id: Int!): PPackages
-  packageProductionTimes: [PackageSpeedResult!]!
   pporderlines2: [Pporderlines2!]!
   pporderline2(id: Int!): Pporderlines2
   panelSpeeds: [PanelSpeeds!]!

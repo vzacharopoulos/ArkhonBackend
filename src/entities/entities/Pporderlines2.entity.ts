@@ -41,6 +41,5 @@ export class Pporderlines2 {
   @Column('nvarchar', { name: 'tradecode', nullable: true, length: 30 })
   tradecode: string | null;
 
-  @Field(() => Float, { nullable: true })
-  packagesTotal?: number | null;
+ 
 }

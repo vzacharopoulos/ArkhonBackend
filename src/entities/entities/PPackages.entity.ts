@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql'
+import { PanelSpeeds } from "../views/PanelSpeeds";
 
 
 @ObjectType()
@@ -128,5 +129,15 @@ export class PPackages {
   
   @Field(() => Float, { nullable: true })
   total?: number;
+
+  @Field(() => PanelSpeeds, { nullable: true })
+  @ManyToOne(() => PanelSpeeds, (speed) => speed.packages)
+  @JoinColumn({ name: 'itename', referencedColumnName: 'code' })
+  panelSpeed?: PanelSpeeds | null;
+
+    @Field(() => Float, { nullable: true })
+   get productionTime(): number | null {
+    return this.panelSpeed ? this.quantity * this.panelSpeed.speed : null;
+  }
 
 }

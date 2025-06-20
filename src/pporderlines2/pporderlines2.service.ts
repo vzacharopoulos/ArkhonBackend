@@ -18,28 +18,13 @@ export class Pporderlines2Service {
   ) {}
 
   async findAll(): Promise<Pporderlines2[]> {
-    const lines = await this.pporderlines2Repository.find();
-    for (const line of lines) {
-      line.packagesTotal = await this.getPPorderlines2Total(line.tradecode);
-    }
-    return lines;
+    return  this.pporderlines2Repository.find();
+    
   }
 
   async findOne(id: number): Promise<Pporderlines2 | null> {
-    const line = await this.pporderlines2Repository.findOne({ where: { id } });
-    if (!line) return null;
-    line.packagesTotal = await this.getPPorderlines2Total(line.tradecode);
-    return line;
+    return this.pporderlines2Repository.findOne({ where: { id } });
+    
   }
 
-  private async getPPorderlines2Total(tradecode: string | null): Promise<number | null> {
-    if (!tradecode) return null;
-    const result = await this.ppackagesRepository
-      .createQueryBuilder('p')
-      .innerJoin(PanelSpeeds, 'ps', 'RTRIM(p.itename) = RTRIM(ps.code)')
-      .where('p.tradecode = :tradecode', { tradecode })
-      .select('SUM(p.quantity * ps.speed)', 'total')
-      .getRawOne<{ total: string }>();
-    return result?.total != null ? Number(result.total) : null;
-  }
 }

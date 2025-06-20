@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { ObjectType, Field, Float } from '@nestjs/graphql';
+import { PPackages } from '../entities/PPackages.entity';
 
 @ObjectType()
 @Entity('PANELSPEEDS', { schema: 'dbo' })
@@ -15,4 +16,8 @@ export class PanelSpeeds {
   @Field(() => Float, { nullable: true })
   @Column('decimal', { name: 'speed', nullable: true, precision: 18, scale: 1 })
   speed: number | null;
+
+    @Field(() => [PPackages])
+  @OneToMany(() => PPackages, (pkg) => pkg.panelSpeed)
+  packages: PPackages[];
 }

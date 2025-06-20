@@ -18,8 +18,7 @@ export class PpackagesResolver {
     return this.ppackagesService.findOne(id);
   }
 
-  @Query(() => [PackageSpeedResult])
-  async packageProductionTimes(): Promise<PackageSpeedResult[]> {
-    return this.ppackagesService.calculateQuantitySpeed();
-  }
+  
+
+  
 }
