@@ -18,6 +18,9 @@ import { CoilColorModule } from './color/coil.color.module';
 import { PanelspeedsModule } from './panelspeeds/panelspeeds.module';
 import { PpackagesModule } from './ppackages/ppackages.module';
 import { Pporderlines2Module } from './pporderlines2/pporderlines2.module';
+import { PpordersModule } from './pporders/pporders.module';
+import { Panelproductionordersext2Module } from './panelproductionordersext2/panelproductionordersext2.module';
+import { ProdordersviewModule } from './paneproductionordersviewwithiscanceled/paneproductionordersview-with-iscanceled.module';
 
 @Module({
   imports: [
@@ -29,7 +32,11 @@ import { Pporderlines2Module } from './pporderlines2/pporderlines2.module';
      UsersLocationAccessModule,
      LocationModule,
      PpackagesModule,
-     Pporderlines2Module,
+             PpackagesModule,
+    Pporderlines2Module,
+    PpordersModule,
+    ProdordersviewModule,
+    Panelproductionordersext2Module,
     PanelspeedsModule,
      AuthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({

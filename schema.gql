@@ -344,6 +344,53 @@ type Pporderlines2 {
   tradecode: String
 }
 
+type Pporders {
+  id: Int!
+  pporderno: String
+  startDate: Date
+  finishDate: Date
+  status: Int
+  panelcode: String
+  estDateOfProd: Date
+  createDate: Date
+  quantity: Float
+}
+
+type PanelProductionOrdersExt2 {
+  prodOrder: String!
+  productionNo: Int!
+  tradecode: String
+  materialCode: String
+  cin: String
+  cout: String
+  thickin: String
+  thickout: String
+  moldin: String
+  moldout: String
+  widthin: String
+  widthout: String
+  importNo: Int
+  ttm: Float
+}
+
+type ProdOrdersView {
+  prodOrder: String!
+  productionNo: Int!
+  tradecode: String
+  materialCode: String
+  cin: String
+  cout: String
+  thickin: String
+  thickout: String
+  moldin: String
+  moldout: String
+  widthin: String
+  widthout: String
+  importNo: Int
+  ttm: Float
+  isCanceled: Boolean
+}
+
 """Date custom scalar type"""
 scalar Date
 
@@ -369,6 +416,25 @@ type Query {
   ppackagesGrouped: [PpackagesSummary!]!
   pporderlines2: [Pporderlines2!]!
   pporderline2(id: Int!): Pporderlines2
+
+  """Get a single production order by ID"""
+  pporder(
+    """The ID of the production order"""
+    id: Int!
+  ): Pporders!
+
+  """Get all production orders"""
+  pporders(
+    """Filter by PP order number"""
+    pporderno: String
+
+    """Filter by status code"""
+    status: Int
+  ): [Pporders!]!
+  prodOrdersViews: [ProdOrdersView!]!
+  prodOrdersView(prodOrder: String!): ProdOrdersView
+  panelProductionOrdersExt2s: [PanelProductionOrdersExt2!]!
+  panelProductionOrdersExt2(prodOrder: String!): PanelProductionOrdersExt2
   panelSpeeds: [PanelSpeeds!]!
   panelSpeed(code: String!): PanelSpeeds
   me: Users!
@@ -438,6 +504,15 @@ type Mutation {
   addRecipe(newRecipeData: NewRecipeInput!): Recipe!
   removeRecipe(id: String!): Boolean!
   updateOneCoil(input: UpdateOneCoilInput!): Coil!
+
+  """Create a new production order"""
+  createPporder(input: CreatePpordersInput!): Pporders!
+
+  """Update an existing production order"""
+  updatePporder(id: Int!, input: UpdatePpordersInput!): Pporders!
+
+  """Delete a production order"""
+  deletePporder(id: Int!): Boolean!
   login(loginInput: LoginInput!): LoginResponse!
 }
 
@@ -471,6 +546,28 @@ input UpdateCoilInput {
   commentsPanel: String
   cutComment: String
   prodComment: String
+}
+
+input CreatePpordersInput {
+  pporderno: String
+  startDate: Date
+  finishDate: Date
+  status: Int
+  panelcode: String
+  estDateOfProd: Date
+  createDate: Date
+  quantity: Float
+}
+
+input UpdatePpordersInput {
+  pporderno: String
+  startDate: Date
+  finishDate: Date
+  status: Int
+  panelcode: String
+  estDateOfProd: Date
+  createDate: Date
+  quantity: Float
 }
 
 input LoginInput {

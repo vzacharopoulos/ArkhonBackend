@@ -3,6 +3,8 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { PpordersService } from './pporders.service';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
+import { CreatePpordersInput } from './dto/create-pporder.input';
+import { UpdatePpordersInput } from './dto/update-pporder.input';
 
 
 @Resolver(() => Pporders)
