@@ -320,6 +320,18 @@ type PanelSpeeds {
   packages: [PPackages!]!
 }
 
+type PpackagesSummary {
+  itename: String
+  tradecode: String
+  cin: String
+  cout: String
+  thickin: String
+  thickout: String
+  moldin: String
+  moldout: String
+  totalProductionTime: Float!
+}
+
 type Pporderlines2 {
   id: Int!
   pporderno: String
@@ -354,6 +366,7 @@ type Query {
   location(locationId: Int!): Location
   ppackages: [PPackages!]!
   ppackage(id: Int!): PPackages
+  ppackagesGrouped: [PpackagesSummary!]!
   pporderlines2: [Pporderlines2!]!
   pporderline2(id: Int!): Pporderlines2
   panelSpeeds: [PanelSpeeds!]!

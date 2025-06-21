@@ -1,7 +1,7 @@
 import { Resolver, Query, Args, Int } from '@nestjs/graphql';
 import { PpackagesService } from './ppackages.service';
 import { PPackages } from 'src/entities/entities/PPackages.entity';
-import { PackageSpeedResult } from './dto/ppackage-speed-result.type';
+import { PpackagesSummary } from './dto/ppackages-summary.type';
 
 
 @Resolver(() => PPackages)
@@ -18,7 +18,11 @@ export class PpackagesResolver {
     return this.ppackagesService.findOne(id);
   }
 
-  
+   @Query(() => [PpackagesSummary])
+  async ppackagesGrouped(): Promise<PpackagesSummary[]> {
+    return this.ppackagesService.groupByAttributes();
+  }
+
 
   
 }
