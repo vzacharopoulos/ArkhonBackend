@@ -21,7 +21,7 @@ export class ProdOrdersView {
 
   @Field({ nullable: true })
   @Column('nvarchar', { name: 'code', nullable: true, length: 50 })
-  materialCode: string | null;
+  code: string | null;
 
   @Field({ nullable: true })
   @Column('nvarchar', { name: 'cin', nullable: true, length: 100 })
@@ -64,9 +64,11 @@ export class ProdOrdersView {
   ttm: number | null;
 
     @Field(() => PanelSpeeds, { nullable: true })
-  @ManyToOne(() => PanelSpeeds, { eager: true })
+  @ManyToOne(() => PanelSpeeds,(speed) => speed.prodorderview)
   @JoinColumn({ name: 'code', referencedColumnName: 'code' })
   panelSpeed?: PanelSpeeds | null;
+
+  
 
   @Field(() => Float, { nullable: true })
   get speed(): number | null {

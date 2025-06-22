@@ -318,6 +318,7 @@ type PanelSpeeds {
   thickness: String
   speed: Float
   packages: [PPackages!]!
+  prodorderview: [PPackages!]!
 }
 
 type PpackagesSummary {
@@ -336,7 +337,7 @@ type ProdOrdersView {
   prodOrder: String!
   productionNo: Int!
   tradecode: String
-  materialCode: String
+  code: String
   cin: String
   cout: String
   thickin: String

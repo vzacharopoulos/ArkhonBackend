@@ -20,4 +20,8 @@ export class PanelSpeeds {
     @Field(() => [PPackages])
   @OneToMany(() => PPackages, (pkg) => pkg.panelSpeed)
   packages: PPackages[];
+
+    @Field(() => [PPackages])
+  @OneToMany(() => PPackages, (ppordv) => ppordv.panelSpeed)
+  prodorderview: PPackages[];
 }
