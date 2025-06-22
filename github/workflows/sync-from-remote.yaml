@@ -1,0 +1,33 @@
+name: Sync with remote
+
+# Manually trigger or run on a schedule (daily at midnight)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0          # get full history
+
+      - name: Configure git
+        run: |
+          git config user.name 'GitHub Actions'
+          git config user.email 'actions@users.noreply.github.com'
+
+      # Add a remote pointing to the upstream repo (replace URL with the correct one)
+      - name: Add upstream remote
+        run: git remote add upstream https://github.com/vzacharopoulos/ArkhonBackend
+
+      - name: Fetch and merge changes
+        run: |
+          git fetch upstream
+          git merge upstream/main --allow-unrelated-histories -m "chore: sync from upstream"
+
+      - name: Push updates to origin
+        run: git push origin HEAD:main

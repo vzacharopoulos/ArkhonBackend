@@ -347,6 +347,8 @@ type ProdOrdersView {
   widthout: String
   importNo: Int
   ttm: Float
+  panelSpeed: PanelSpeeds
+  speed: Float
   isCanceled: Boolean
 }
 

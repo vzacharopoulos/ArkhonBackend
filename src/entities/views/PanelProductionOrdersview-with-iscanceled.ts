@@ -1,7 +1,8 @@
 import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { Pporderlines } from '../entities/Pporderlines';
 import { Pporderlines2 } from '../entities/Pporderlines2.entity';
+import { PanelSpeeds } from './PanelSpeeds';
 
 @ObjectType()
 @Entity('PanelProductionOrdersExt2', { schema: 'dbo' })
@@ -61,6 +62,16 @@ export class ProdOrdersView {
   @Field(() => Float, { nullable: true })
   @Column('decimal', { name: 'ttm', nullable: true, precision: 18, scale: 2 })
   ttm: number | null;
+
+    @Field(() => PanelSpeeds, { nullable: true })
+  @ManyToOne(() => PanelSpeeds, { eager: true })
+  @JoinColumn({ name: 'code', referencedColumnName: 'code' })
+  panelSpeed?: PanelSpeeds | null;
+
+  @Field(() => Float, { nullable: true })
+  get speed(): number | null {
+    return this.panelSpeed ? this.panelSpeed.speed : null;
+  }
 
   @Field({ nullable: true })
   @Column('bit', { name: 'isCanceled', nullable: true })

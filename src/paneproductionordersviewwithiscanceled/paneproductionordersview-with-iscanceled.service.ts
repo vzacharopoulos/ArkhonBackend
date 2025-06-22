@@ -12,10 +12,13 @@ export class ProdordersviewService {
   ) {}
 
   findAll(): Promise<ProdOrdersView[]> {
-    return this.prodOrdersRepository.find();
+     return this.prodOrdersRepository.find({ relations: { panelSpeed: true } });
   }
 
   findOne(prodOrder: string): Promise<ProdOrdersView | null> {
-    return this.prodOrdersRepository.findOne({ where: { prodOrder } });
-  }
+   return this.prodOrdersRepository.findOne({
+      where: { prodOrder },
+      relations: { panelSpeed: true },
+    });
+}
 }
