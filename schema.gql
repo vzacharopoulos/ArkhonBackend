@@ -350,6 +350,7 @@ type ProdOrdersView {
   ttm: Float
   panelSpeed: PanelSpeeds
   speed: Float
+  time: Float
   isCanceled: Boolean
 }
 
@@ -376,6 +377,7 @@ type Pporders {
   estDateOfProd: Date
   createDate: Date
   quantity: Float
+  timeSum: Float
 }
 
 type PanelProductionOrdersExt2 {

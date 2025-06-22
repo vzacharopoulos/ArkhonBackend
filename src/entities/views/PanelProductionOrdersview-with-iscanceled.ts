@@ -75,6 +75,13 @@ export class ProdOrdersView {
     return this.panelSpeed ? this.panelSpeed.speed : null;
   }
 
+   @Field(() => Float, { nullable: true })
+  get time(): number | null {
+    const speed = this.panelSpeed?.speed;
+    return speed != null && this.ttm != null ?  this.ttm / speed: null;
+  }
+
+
   @Field({ nullable: true })
   @Column('bit', { name: 'isCanceled', nullable: true })
   isCanceled: boolean | null;

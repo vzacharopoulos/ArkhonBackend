@@ -54,4 +54,8 @@ export class Pporders {
     scale: 2,
   })
   quantity: number | null;
+
+  
+  @Field(() => Float, { nullable: true })
+  timeSum?: number | null;
 }
