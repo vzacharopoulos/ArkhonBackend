@@ -1,5 +1,6 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
+import { ProdOrdersView } from '../views/PanelProductionOrdersview-with-iscanceled';
 
 @ObjectType()
 @Index('PK_PPORDERLINES2', ['id'], { unique: true })
@@ -41,5 +42,13 @@ export class Pporderlines2 {
   @Column('nvarchar', { name: 'tradecode', nullable: true, length: 30 })
   tradecode: string | null;
 
- 
+
+  @Field(() => ProdOrdersView, { nullable: true })
+  @OneToOne(() => ProdOrdersView)
+  @JoinColumn([
+    { name: 'CUSTPORDERNO', referencedColumnName: 'prodOrder' }
+    
+  ]) prodOrdersView?: ProdOrdersView | null;
 }
+
+ 

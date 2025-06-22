@@ -332,6 +332,24 @@ type PpackagesSummary {
   totalProductionTime: Float!
 }
 
+type ProdOrdersView {
+  prodOrder: String!
+  productionNo: Int!
+  tradecode: String
+  materialCode: String
+  cin: String
+  cout: String
+  thickin: String
+  thickout: String
+  moldin: String
+  moldout: String
+  widthin: String
+  widthout: String
+  importNo: Int
+  ttm: Float
+  isCanceled: Boolean
+}
+
 type Pporderlines2 {
   id: Int!
   pporderno: String
@@ -342,6 +360,7 @@ type Pporderlines2 {
   isCanceled: Int
   panelcode: String
   tradecode: String
+  prodOrdersView: ProdOrdersView
 }
 
 type Pporders {
@@ -371,24 +390,6 @@ type PanelProductionOrdersExt2 {
   widthout: String
   importNo: Int
   ttm: Float
-}
-
-type ProdOrdersView {
-  prodOrder: String!
-  productionNo: Int!
-  tradecode: String
-  materialCode: String
-  cin: String
-  cout: String
-  thickin: String
-  thickout: String
-  moldin: String
-  moldout: String
-  widthin: String
-  widthout: String
-  importNo: Int
-  ttm: Float
-  isCanceled: Boolean
 }
 
 """Date custom scalar type"""

@@ -1,5 +1,7 @@
 import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Pporderlines } from '../entities/Pporderlines';
+import { Pporderlines2 } from '../entities/Pporderlines2.entity';
 
 @ObjectType()
 @Entity('PanelProductionOrdersExt2', { schema: 'dbo' })
@@ -63,4 +65,9 @@ export class ProdOrdersView {
   @Field({ nullable: true })
   @Column('bit', { name: 'isCanceled', nullable: true })
   isCanceled: boolean | null;
+
+
+
 }
+
+

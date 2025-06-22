@@ -5,12 +5,14 @@ import { Kind, ValueNode } from 'graphql';
 export class DateScalar implements CustomScalar<number, Date> {
   description = 'Date custom scalar type';
 
-  parseValue(value: number): Date {
-    return new Date(value); // value from the client
+  parseValue(value: number | string | Date): Date {
+    // Accept numeric timestamps, date strings, or Date instances
+    return value instanceof Date ? value : new Date(value);
   }
 
-  serialize(value: Date): number {
-    return value.getTime(); // value sent to the client
+  serialize(value: Date | string | number): number {
+    const date = value instanceof Date ? value : new Date(value);
+    return date.getTime(); // value sent to the client
   }
 
   parseLiteral(ast: ValueNode): Date {
