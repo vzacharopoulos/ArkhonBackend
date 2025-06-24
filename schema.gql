@@ -420,7 +420,7 @@ type Query {
   ppackages: [PPackages!]!
   ppackage(id: Int!): PPackages
   ppackagesGrouped: [PpackagesSummary!]!
-  pporderlines2: [Pporderlines2!]!
+  pporderlines2(filter: Pporderlines2FilterInput): [Pporderlines2!]!
   pporderline2(id: Int!): Pporderlines2
 
   """Get a single production order by ID"""
@@ -430,13 +430,7 @@ type Query {
   ): Pporders!
 
   """Get all production orders"""
-  pporders(
-    """Filter by PP order number"""
-    pporderno: String
-
-    """Filter by status code"""
-    status: Int
-  ): [Pporders!]!
+  pporders(filter: PpordersFilterInput): [Pporders!]!
   prodOrdersViews: [ProdOrdersView!]!
   prodOrdersView(prodOrder: String!): ProdOrdersView
   panelProductionOrdersExt2s: [PanelProductionOrdersExt2!]!
@@ -506,6 +500,16 @@ enum SortOrder {
   DESC
 }
 
+input Pporderlines2FilterInput {
+  ppordernos: [String!]
+}
+
+input PpordersFilterInput {
+  pporderno: String
+  status: Int
+  lastDays: Int
+}
+
 type Mutation {
   addRecipe(newRecipeData: NewRecipeInput!): Recipe!
   removeRecipe(id: String!): Boolean!
@@ -556,6 +560,7 @@ input UpdateCoilInput {
 
 input CreatePpordersInput {
   pporderno: String
+  id: Int
   startDate: Date
   finishDate: Date
   status: Int
@@ -567,6 +572,7 @@ input CreatePpordersInput {
 
 input UpdatePpordersInput {
   pporderno: String
+  id: Int
   startDate: Date
   finishDate: Date
   status: Int

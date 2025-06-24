@@ -5,7 +5,9 @@ export class CreatePpordersInput {
   @Field({ nullable: true })
   pporderno?: string;
 
-
+  @Field(() => Int, { nullable: true })
+  id?: number;
+  
   @Field(() => Date, { nullable: true })
   startDate?: Date;
 

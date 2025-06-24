@@ -5,6 +5,7 @@ import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersview-with-iscanceled';
 import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
 import { Repository } from 'typeorm';
+import { Pporderlines2FilterInput } from './dto/pporderlines-filter-input';
 
 
 @Injectable()
@@ -20,8 +21,8 @@ export class Pporderlines2Service {
     private readonly prodOrdersRepository: Repository<ProdOrdersView>,
   ) {}
 
-  async findAll(): Promise<Pporderlines2[]> {
-    return this.pporderlines2Repository
+   async findAll(filter?: Pporderlines2FilterInput): Promise<Pporderlines2[]> {
+    const qb = this.pporderlines2Repository
       .createQueryBuilder('line')
       .leftJoinAndMapOne(
         'line.prodOrdersView',
@@ -34,8 +35,13 @@ export class Pporderlines2Service {
         PanelSpeeds,
         'panelSpeed',
         'prodOrdersView.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code'
-      )
-      .getMany();
+      );
+
+    if (filter?.ppordernos && filter.ppordernos.length > 0) {
+      qb.where('line.pporderno IN (:...ppordernos)', { ppordernos: filter.ppordernos });
+    }
+
+    return qb.getMany();
 
   }
 

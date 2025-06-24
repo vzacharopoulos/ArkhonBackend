@@ -1,10 +1,11 @@
-// src/pporders/pporders.resolver.ts
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { PpordersService } from './pporders.service';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
 import { CreatePpordersInput } from './dto/create-pporder.input';
 import { UpdatePpordersInput } from './dto/update-pporder.input';
+import { PpordersFilterInput } from './dto/pporders-filter-input';
+
 
 
 @Resolver(() => Pporders)
@@ -22,18 +23,10 @@ export class PpordersResolver {
   // Get all orders with optional filtering
   @Query(() => [Pporders], { name: 'pporders', description: 'Get all production orders' })
   async getAllPporders(
-    @Args('pporderno', { type: () => String, nullable: true, description: 'Filter by PP order number' }) 
-    pporderno?: string,
-    
-    @Args('status', { type: () => Int, nullable: true, description: 'Filter by status code' }) 
-    status?: number
+    @Args('filter', { type: () => PpordersFilterInput, nullable: true })
+    filter?: PpordersFilterInput,
   ): Promise<Pporders[]> {
-    if (pporderno) {
-      return this.ppordersService.findByPporderno(pporderno);
-    }
-    
-    
-    return this.ppordersService.findAll();
+    return this.ppordersService.findAll(filter);
   }
 
   // Create new order
@@ -59,5 +52,4 @@ export class PpordersResolver {
     @Args('id', { type: () => Int }) id: number
   ): Promise<boolean> {
     return this.ppordersService.delete(id);
-  }
-}
+  }}

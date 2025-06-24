@@ -12,6 +12,7 @@ import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersview-wit
   providers: [
     PpordersService,
     PpordersResolver,
+    
   ],
   exports: [PpordersService],
 })
