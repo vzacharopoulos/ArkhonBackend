@@ -376,8 +376,10 @@ type Pporders {
   panelcode: String
   estDateOfProd: Date
   createDate: Date
-  quantity: Float
-  timeSum: Float
+  startDateDatetime: Date
+  finishDateDatetime: Date
+  estDateOfProdDatetime: Date
+  pporderlines: [Pporderlines2!]
 }
 
 type PanelProductionOrdersExt2 {
@@ -506,7 +508,7 @@ input Pporderlines2FilterInput {
 
 input PpordersFilterInput {
   pporderno: String
-  status: Int
+  status: [Int!]
   lastDays: Int
 }
 
@@ -563,6 +565,9 @@ input CreatePpordersInput {
   id: Int
   startDate: Date
   finishDate: Date
+  finishDateDatetime: Date
+  startDateDatetime: Date
+  estDateOfProdDatetime: Date
   status: Int
   panelcode: String
   estDateOfProd: Date
@@ -575,6 +580,9 @@ input UpdatePpordersInput {
   id: Int
   startDate: Date
   finishDate: Date
+  finishDateDatetime: Date
+  startDateDatetime: Date
+  estDateOfProdDatetime: Date
   status: Int
   panelcode: String
   estDateOfProd: Date

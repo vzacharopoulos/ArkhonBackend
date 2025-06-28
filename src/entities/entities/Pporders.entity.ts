@@ -1,6 +1,7 @@
 +10-9
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Field, ObjectType, Int, Float } from "@nestjs/graphql";
+import { Pporderlines2 } from "./Pporderlines2.entity";
 
 
 @ObjectType()
@@ -46,16 +47,20 @@ export class Pporders {
   @Column("date", { name: "create_date", nullable: true })
   createDate: Date | null;
 
-  @Field(() => Float, { nullable: true })
-  @Column("decimal", {
-    name: "quantity",
-    nullable: true,
-    precision: 5,
-    scale: 2,
-  })
-  quantity: number | null;
+  @Field(() => Date, { nullable: true })
+  @Column("datetime", { name: "start_date_datetime", nullable: true })
+  startDateDatetime: Date | null;
 
+    @Field(() => Date, { nullable: true })
+  @Column("datetime", { name: "finish_date_datetime", nullable: true })
+  finishDateDatetime: Date | null;   @Field(() => Date, { nullable: true })
+
+  @Column("datetime", { name: "est_date_of_prod_datetime", nullable: true })
+  estDateOfProdDatetime: Date | null;
+
+@Field(() => [Pporderlines2], { nullable: true })
+  @OneToMany(() => Pporderlines2,pporderline => pporderline.pporderno)
   
-  @Field(() => Float, { nullable: true })
-  timeSum?: number | null;
+    
+   pporderlines?: Pporderlines2 | null;
 }

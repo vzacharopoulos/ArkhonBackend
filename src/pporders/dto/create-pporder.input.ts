@@ -14,6 +14,16 @@ export class CreatePpordersInput {
   @Field(() => Date, { nullable: true })
   finishDate?: Date;
 
+    @Field(() => Date, { nullable: true })
+  finishDateDatetime?: Date;
+
+  @Field(() => Date, { nullable: true })
+  startDateDatetime?: Date;
+
+   @Field(() => Date, { nullable: true })
+  estDateOfProdDatetime?: Date;
+
+
   @Field(() => Int, { nullable: true })
   status?: number;
 

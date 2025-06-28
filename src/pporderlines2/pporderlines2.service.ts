@@ -64,7 +64,7 @@ export class Pporderlines2Service {
       .getOne();
 
   }
- async groupSpeedByPporderno(ppordernos?: string[]): Promise<{ pporderno: string; speedSum: number }[]> {
+ /*async groupSpeedByPporderno(ppordernos?: string[]): Promise<{ pporderno: string; speedSum: number }[]> {
     const qb = this.pporderlines2Repository
       .createQueryBuilder('line')
       .leftJoin(ProdOrdersView, 'prodOrdersView',
@@ -82,5 +82,5 @@ export class Pporderlines2Service {
 
     const rows = await qb.getRawMany<{ pporderno: string; totalTime: string }>();
     return rows.map((r) => ({ pporderno: r.pporderno, speedSum: parseFloat(r.totalTime) }));
-  }
+  }*/
 }
