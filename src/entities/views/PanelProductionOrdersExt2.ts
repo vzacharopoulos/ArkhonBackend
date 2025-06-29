@@ -59,6 +59,9 @@ export class PanelProductionOrdersExt2 {
   @Field(() => Float, { nullable: true })
   @Column('decimal', { name: 'ttm', nullable: true, precision: 18, scale: 2 })
   ttm: number | null;
-
+ 
+   @Field(() => Int, { nullable: true })
+  @Column('int', { name: 'count', nullable: true })
+  count: number | null;
 
 }

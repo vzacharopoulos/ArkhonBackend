@@ -352,19 +352,7 @@ type ProdOrdersView {
   speed: Float
   time: Float
   isCanceled: Boolean
-}
-
-type Pporderlines2 {
-  id: Int!
-  pporderno: String
-  custporderno: String
-  prodDate: Date
-  upDate: Date
-  status: Int
-  isCanceled: Int
-  panelcode: String
-  tradecode: String
-  prodOrdersView: ProdOrdersView
+  count: Int
 }
 
 type Pporders {
@@ -379,7 +367,22 @@ type Pporders {
   startDateDatetime: Date
   finishDateDatetime: Date
   estDateOfProdDatetime: Date
-  pporderlines: [Pporderlines2!]
+  pporderlines: [Pporderlines2!]!
+  totalTime: Float
+}
+
+type Pporderlines2 {
+  id: Int!
+  pporderno: String
+  custporderno: String
+  prodDate: Date
+  upDate: Date
+  status: Int
+  isCanceled: Int
+  panelcode: String
+  tradecode: String
+  prodOrdersView: ProdOrdersView
+  pporders: Pporders
 }
 
 type PanelProductionOrdersExt2 {
@@ -397,6 +400,7 @@ type PanelProductionOrdersExt2 {
   widthout: String
   importNo: Int
   ttm: Float
+  count: Int
 }
 
 """Date custom scalar type"""

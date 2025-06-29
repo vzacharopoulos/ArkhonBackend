@@ -51,9 +51,11 @@ export class Pporderlines2 {
     
   ]) prodOrdersView?: ProdOrdersView | null;
 
+  
+  @Field(() => Pporders, { nullable: true })
   @ManyToOne(() => Pporders, pporder => pporder.pporderlines)
-
-pporders: Pporders;
+  @JoinColumn([{ name: 'PPORDERNO', referencedColumnName: 'pporderno' }])
+   pporders?: Pporders | null;
 }
 
  

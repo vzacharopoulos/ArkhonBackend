@@ -86,7 +86,9 @@ export class ProdOrdersView {
   @Column('bit', { name: 'isCanceled', nullable: true })
   isCanceled: boolean | null;
 
-
+   @Field(() => Int, { nullable: true })
+  @Column('int', { name: 'count', nullable: true })
+  count: number | null;
 
 }
 

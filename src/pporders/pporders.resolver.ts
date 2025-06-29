@@ -1,10 +1,11 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 
 import { PpordersService } from './pporders.service';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
 import { CreatePpordersInput } from './dto/create-pporder.input';
 import { UpdatePpordersInput } from './dto/update-pporder.input';
 import { PpordersFilterInput } from './dto/pporders-filter-input';
+import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 
 
 
@@ -27,6 +28,18 @@ export class PpordersResolver {
     filter?: PpordersFilterInput,
   ): Promise<Pporders[]> {
     return this.ppordersService.findAll(filter);
+  }
+
+  @ResolveField('pporderlines', () => [Pporderlines2])
+  async getPporderlines(@Parent() order: Pporders): Promise<Pporderlines2[]> {
+    if (!order.pporderno) return [];
+    return this.ppordersService.getPporderlines(order.pporderno);
+  }
+
+   @ResolveField('totalTime', () => Number, { nullable: true })
+  async getTotalTime(@Parent() order: Pporders): Promise<number | null> {
+    if (!order.pporderno) return null;
+    return this.ppordersService.getTotalTime(order.pporderno);
   }
 
   // Create new order

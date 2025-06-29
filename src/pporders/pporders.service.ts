@@ -7,12 +7,17 @@ import { UpdatePpordersInput } from './dto/update-pporder.input';
 
 import { Pporders } from 'src/entities/entities/Pporders.entity';
 import { PpordersFilterInput } from './dto/pporders-filter-input';
+import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
+import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersview-with-iscanceled';
+import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
 
 @Injectable()
 export class PpordersService {
   constructor(
     @InjectRepository(Pporders)
     private readonly ppordersRepository: Repository<Pporders>,
+    @InjectRepository(Pporderlines2)
+    private readonly pporderlines2Repository: Repository<Pporderlines2>,
   ) {}
 
   async findAll(filter?: PpordersFilterInput): Promise<Pporders[]> {
@@ -71,5 +76,29 @@ export class PpordersService {
   async delete(id: number): Promise<boolean> {
     const result = await this.ppordersRepository.delete(id);
     return result.affected !== undefined && result.affected > 0;
+  }
+
+  async getPporderlines(pporderno: string): Promise<Pporderlines2[]> {
+    return this.pporderlines2Repository
+      .createQueryBuilder('line')
+      .leftJoinAndMapOne(
+        'line.prodOrdersView',
+        ProdOrdersView,
+        'prodOrdersView',
+        'line.custporderno COLLATE SQL_Latin1_General_CP1_CI_AS = prodOrdersView.prodOrder'
+      )
+      .leftJoinAndMapOne(
+        'prodOrdersView.panelSpeed',
+        PanelSpeeds,
+        'panelSpeed',
+        'prodOrdersView.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code'
+      )
+      .where('line.pporderno = :pporderno', { pporderno })
+      .getMany();
+  }
+
+   async getTotalTime(pporderno: string): Promise<number> {
+    const lines = await this.getPporderlines(pporderno);
+    return lines.reduce((sum, l) => sum + (l.prodOrdersView?.time ?? 0), 0);
   }
 }

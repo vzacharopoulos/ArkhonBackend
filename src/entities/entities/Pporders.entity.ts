@@ -53,14 +53,16 @@ export class Pporders {
 
     @Field(() => Date, { nullable: true })
   @Column("datetime", { name: "finish_date_datetime", nullable: true })
-  finishDateDatetime: Date | null;   @Field(() => Date, { nullable: true })
+  finishDateDatetime: Date | null;
 
+   @Field(() => Date, { nullable: true })
   @Column("datetime", { name: "est_date_of_prod_datetime", nullable: true })
   estDateOfProdDatetime: Date | null;
 
 @Field(() => [Pporderlines2], { nullable: true })
   @OneToMany(() => Pporderlines2,pporderline => pporderline.pporderno)
-  
-    
-   pporderlines?: Pporderlines2 | null;
+   pporderlines?: Pporderlines2[];
+
+     @Field(() => Number, { nullable: true })
+  totalTime?: number | null;
 }
