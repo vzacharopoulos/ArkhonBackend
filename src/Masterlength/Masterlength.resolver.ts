@@ -13,7 +13,7 @@ export class MasterlengthResolver {
      @Args('filter', { type: () => MasterlengthFilterInput, nullable: true })
         filter?: MasterlengthFilterInput,
         ): Promise<Masterlength[]> {
-    return this.masterlengthService.findAll();
+    return this.masterlengthService.findAll(filter);
   }
 
   @Query(() => Masterlength, { nullable: true })

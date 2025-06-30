@@ -520,7 +520,7 @@ enum SortOrder {
 
 input MasterlengthFilterInput {
   pporderno: String
-  status: Int
+  status: [Int!]
   lastDays: Int
 }
 
