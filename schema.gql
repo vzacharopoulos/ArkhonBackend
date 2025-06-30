@@ -313,26 +313,6 @@ type PPackages {
   productionTime: Float
 }
 
-type PanelSpeeds {
-  code: String!
-  thickness: String
-  speed: Float
-  packages: [PPackages!]!
-  prodorderview: [PPackages!]!
-}
-
-type PpackagesSummary {
-  itename: String
-  tradecode: String
-  cin: String
-  cout: String
-  thickin: String
-  thickout: String
-  moldin: String
-  moldout: String
-  totalProductionTime: Float!
-}
-
 type ProdOrdersView {
   prodOrder: String!
   productionNo: Int!
@@ -353,6 +333,26 @@ type ProdOrdersView {
   time: Float
   isCanceled: Boolean
   count: Int
+}
+
+type PanelSpeeds {
+  code: String!
+  thickness: String
+  speed: Float
+  packages: [PPackages!]!
+  prodorderview: [ProdOrdersView!]!
+}
+
+type PpackagesSummary {
+  itename: String
+  tradecode: String
+  cin: String
+  cout: String
+  thickin: String
+  thickout: String
+  moldin: String
+  moldout: String
+  totalProductionTime: Float!
 }
 
 type Pporders {
@@ -404,6 +404,7 @@ type PanelProductionOrdersExt2 {
 }
 
 type Masterlength {
+  id: Int!
   pporderno: String!
   code: String!
   status: Int
@@ -411,6 +412,8 @@ type Masterlength {
   startDateDatetime: Date
   finishDateDatetime: Date
   createDate: Date
+  panelSpeed: PanelSpeeds
+  time: Float
 }
 
 """Date custom scalar type"""

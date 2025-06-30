@@ -1,6 +1,8 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { ObjectType, Field, Float } from '@nestjs/graphql';
 import { PPackages } from '../entities/PPackages.entity';
+import { ProdOrdersView } from './PanelProductionOrdersview-with-iscanceled';
+import { Masterlength } from './Masterlength';
 
 @ObjectType()
 @Entity('PANELSPEEDS', { schema: 'dbo' })
@@ -21,7 +23,8 @@ export class PanelSpeeds {
   @OneToMany(() => PPackages, (pkg) => pkg.panelSpeed)
   packages: PPackages[];
 
-    @Field(() => [PPackages])
-  @OneToMany(() => PPackages, (ppordv) => ppordv.panelSpeed)
-  prodorderview: PPackages[];
+    @Field(() => [ProdOrdersView])
+  @OneToMany(() => ProdOrdersView, (ppordv) => ppordv.panelSpeed)
+  prodorderview: ProdOrdersView[];
+
 }
