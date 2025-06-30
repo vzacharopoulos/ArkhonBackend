@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, MoreThanOrEqual } from 'typeorm';
+import { Repository, MoreThanOrEqual, In } from 'typeorm';
 import { CreatePpordersInput } from './dto/create-pporder.input';
 import { UpdatePpordersInput } from './dto/update-pporder.input';
 
@@ -26,9 +26,12 @@ export class PpordersService {
       if (filter?.pporderno) {
         where.pporderno = filter.pporderno;
       }
-      if (typeof filter?.status === 'number') {
-        where.status = filter.status;
-      }
+      if (Array.isArray(filter?.status)) {
+      if (filter.status.length > 0) {
+        where.status = In(filter.status);
+      } 
+    }
+  
       if (filter?.lastDays )
          {
         const fromDate = new Date();

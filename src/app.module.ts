@@ -21,6 +21,7 @@ import { Pporderlines2Module } from './pporderlines2/pporderlines2.module';
 import { PpordersModule } from './pporders/pporders.module';
 import { Panelproductionordersext2Module } from './panelproductionordersext2/panelproductionordersext2.module';
 import { ProdordersviewModule } from './paneproductionordersviewwithiscanceled/paneproductionordersview-with-iscanceled.module';
+import { MasterlengthModule } from './Masterlength/Masterlength.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ProdordersviewModule } from './paneproductionordersviewwithiscanceled/p
      UsersLocationAccessModule,
      LocationModule,
      PpackagesModule,
+     MasterlengthModule,
              PpackagesModule,
     Pporderlines2Module,
     PpordersModule,
