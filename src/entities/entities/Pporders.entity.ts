@@ -40,8 +40,12 @@ export class Pporders {
 
 
   @Field(() => Date, { nullable: true })
-  @Column("date", { name: "est_date_of_prod", nullable: true })
-  estDateOfProd: Date | null;
+  @Column("datetime", { name: "est_start_date", nullable: true })
+  estStartDate: Date | null;
+
+    @Field(() => Date, { nullable: true })
+  @Column("datetime", { name: "est_finish_date", nullable: true })
+  estFinishDate: Date | null;
 
   @Field(() => Date, { nullable: true })
   @Column("date", { name: "create_date", nullable: true })
@@ -58,6 +62,31 @@ export class Pporders {
    @Field(() => Date, { nullable: true })
   @Column("datetime", { name: "est_date_of_prod_datetime", nullable: true })
   estDateOfProdDatetime: Date | null;
+
+
+  @Field(() => Int, { nullable: true })
+  @Column("int", { name: "previd", nullable: true })
+  previd: number | null;
+
+    @Field({ nullable: true })
+  @Column("nvarchar", { name: "prevpanelcode", nullable: true, length: 150 })
+  prevpanelcode: string | null;
+
+    @Field(() => Int, { nullable: true })
+  @Column("int", { name: "offtimeduration", nullable: true })
+  offtimeduration: number | null;
+
+    @Field(() => Date, { nullable: true })
+  @Column("datetime", { name: "offtimestartdate", nullable: true })
+  offtimestartdate: Date | null;
+
+
+    @Field(() => Date, { nullable: true })
+  @Column("datetime", { name: "offtimeenddate", nullable: true })
+  offtimeenddate: Date | null;
+
+
+
 
 @Field(() => [Pporderlines2], { nullable: true })
   @OneToMany(() => Pporderlines2,pporderline => pporderline.pporderno)

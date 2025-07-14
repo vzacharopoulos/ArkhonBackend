@@ -45,7 +45,12 @@ import { MasterlengthModule } from './Masterlength/Masterlength.module';
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
       transformSchema: schema => upperDirectiveTransformer(schema, 'upper'),
-      installSubscriptionHandlers: true,
+     subscriptions: {
+ 
+  'graphql-ws': {
+    path: '/graphql',
+  },
+},
       buildSchemaOptions: {
         directives: [
           new GraphQLDirective({

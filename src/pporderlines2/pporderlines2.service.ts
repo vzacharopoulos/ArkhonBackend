@@ -7,6 +7,7 @@ import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
 import { Repository } from 'typeorm';
 import { Pporderlines2FilterInput } from './dto/pporderlines-filter-input';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
+import { UpdatePporderlineStatusInput } from './dto/update-pporderline-status-input';
 
 
 @Injectable()
@@ -71,4 +72,54 @@ export class Pporderlines2Service {
   }
  async getPporder(pporderno: string): Promise<Pporders | null> {
     return this.ppordersRepository.findOne({ where: { pporderno } });
-}}
+}
+
+async updateStatus(input: UpdatePporderlineStatusInput): Promise<Pporderlines2> {
+    const { id, status } = input;
+   
+    // Find the line with proper joins and collation handling
+    const line = await this.pporderlines2Repository
+      .createQueryBuilder('line')
+      .leftJoinAndMapOne(
+        'line.prodOrdersView',
+        ProdOrdersView,
+        'prodOrdersView',
+        'line.custporderno COLLATE SQL_Latin1_General_CP1_CI_AS = prodOrdersView.prodOrder COLLATE SQL_Latin1_General_CP1_CI_AS'
+      )
+      .leftJoinAndMapOne(
+        'prodOrdersView.panelSpeed',
+        PanelSpeeds,
+        'panelSpeed',
+        'prodOrdersView.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code COLLATE SQL_Latin1_General_CP1_CI_AS'
+      )
+      .where('line.id = :id', { id })
+      .andWhere('line.isCanceled = :isCanceled', { isCanceled: 0 })
+      .getOne();
+   
+    if (!line) {
+        throw new Error(`Line with ID ${id} not found`);
+    }
+
+    // Update line properties
+    line.status = status;
+    line.upDate = new Date();
+    await this.pporderlines2Repository.save(line);
+
+    if (line.pporderno) {
+        // Fix collation issue by using query builder with explicit collation
+        const order = await this.ppordersRepository
+            .createQueryBuilder('order')
+            .where('order.pporderno COLLATE SQL_Latin1_General_CP1_CI_AS = :pporderno', {
+                pporderno: line.pporderno
+            })
+            .getOne();
+
+        if (order) {
+            order.startDateDatetime = new Date();
+            await this.ppordersRepository.save(order);
+        }
+    }
+
+    return line;
+  }
+}

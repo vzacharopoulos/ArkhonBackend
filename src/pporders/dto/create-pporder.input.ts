@@ -7,22 +7,26 @@ export class CreatePpordersInput {
 
   @Field(() => Int, { nullable: true })
   id?: number;
-  
+
   @Field(() => Date, { nullable: true })
   startDate?: Date;
 
   @Field(() => Date, { nullable: true })
   finishDate?: Date;
 
-    @Field(() => Date, { nullable: true })
+  @Field(() => Date, { nullable: true })
   finishDateDatetime?: Date;
 
   @Field(() => Date, { nullable: true })
   startDateDatetime?: Date;
 
-   @Field(() => Date, { nullable: true })
-  estDateOfProdDatetime?: Date;
 
+
+  @Field(() => Date, { nullable: true })
+  estStartDate: Date | null;
+
+  @Field(() => Date, { nullable: true })
+  estFinishDate: Date | null;
 
   @Field(() => Int, { nullable: true })
   status?: number;
@@ -38,4 +42,21 @@ export class CreatePpordersInput {
 
   @Field(() => Float, { nullable: true })
   quantity?: number;
+
+
+  @Field(() => Int, { nullable: true })
+  previd: number | null;
+
+  @Field({ nullable: true })
+  prevpanelcode: string | null;
+
+  @Field(() => Int, { nullable: true })
+  offtimeduration: number | null;
+
+  @Field(() => Date, { nullable: true })
+  offtimestartdate: Date | null;
+
+  @Field(() => Date, { nullable: true })
+  offtimeenddate: Date | null;
+
 }

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, MoreThanOrEqual, Repository } from 'typeorm';
 import { Masterlength } from 'src/entities/views/Masterlength';
 import { MasterlengthFilterInput } from './dto/Masterlength-filter-input';
+import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
 
 @Injectable()
 export class MasterlengthService {
@@ -14,8 +15,9 @@ export class MasterlengthService {
 findAll(filter?: MasterlengthFilterInput): Promise<Masterlength[]> {
   const query = this.masterlengthRepository
     .createQueryBuilder('master')
-    .leftJoinAndSelect(
-      'PanelSpeeds', // assuming this is the table name
+    .leftJoinAndMapOne(
+      'master.panelSpeed',
+      PanelSpeeds,
       'panelSpeed',
       'master.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code COLLATE SQL_Latin1_General_CP1_CI_AS'
     );
@@ -38,7 +40,15 @@ findAll(filter?: MasterlengthFilterInput): Promise<Masterlength[]> {
 }
 
   findOne(pporderno: string): Promise<Masterlength | null> {
-    return this.masterlengthRepository.findOne({ where: { pporderno }
-      });
+   return this.masterlengthRepository
+      .createQueryBuilder('master')
+      .leftJoinAndMapOne(
+        'master.panelSpeed',
+        PanelSpeeds,
+        'panelSpeed',
+        'master.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code COLLATE SQL_Latin1_General_CP1_CI_AS'
+      )
+      .where('master.pporderno = :pporderno', { pporderno })
+      .getOne();
   }
 }

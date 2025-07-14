@@ -3,7 +3,7 @@ import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nes
 import { PpordersService } from './pporders.service';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
 import { CreatePpordersInput } from './dto/create-pporder.input';
-import { UpdatePpordersInput } from './dto/update-pporder.input';
+import { UpdatePporderInput, UpdatePpordersInput } from './dto/update-pporder.input';
 import { PpordersFilterInput } from './dto/pporders-filter-input';
 import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 
@@ -50,14 +50,12 @@ export class PpordersResolver {
     return this.ppordersService.create(input);
   }
 
-  // Update existing order
-  @Mutation(() => Pporders, { description: 'Update an existing production order' })
-  async updatePporder(
-    @Args('id', { type: () => Int }) id: number,
-    @Args('input', { type: () => UpdatePpordersInput }) input: UpdatePpordersInput
-  ): Promise<Pporders> {
-    return this.ppordersService.update(id, input);
-  }
+@Mutation(() => Pporders, { description: 'Update an existing production order' })
+async updatePporder(
+  @Args('input', { type: () => UpdatePporderInput }) input: UpdatePporderInput
+): Promise<Pporders> {
+  return this.ppordersService.update(input.id, input.update);
+}
 
   // Delete order
   @Mutation(() => Boolean, { description: 'Delete a production order' })

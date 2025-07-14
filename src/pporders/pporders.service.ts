@@ -67,12 +67,12 @@ export class PpordersService {
     return this.ppordersRepository.save(newOrder);
   }
 
-  async update(id: number, input: UpdatePpordersInput): Promise<Pporders> {
+  async update(id: number, update: UpdatePpordersInput): Promise<Pporders> {
     const order = await this.ppordersRepository.findOne({ where: { id } });
     if (!order) {
       throw new Error(`Order with ID ${id} not found`);
     }
-    Object.assign(order, input);
+    Object.assign(order, update);
     return this.ppordersRepository.save(order);
   }
 

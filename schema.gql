@@ -362,11 +362,17 @@ type Pporders {
   finishDate: Date
   status: Int
   panelcode: String
-  estDateOfProd: Date
+  estStartDate: Date
+  estFinishDate: Date
   createDate: Date
   startDateDatetime: Date
   finishDateDatetime: Date
   estDateOfProdDatetime: Date
+  previd: Int
+  prevpanelcode: String
+  offtimeduration: Int
+  offtimestartdate: Date
+  offtimeenddate: Date
   pporderlines: [Pporderlines2!]!
   totalTime: Float
 }
@@ -541,12 +547,13 @@ type Mutation {
   addRecipe(newRecipeData: NewRecipeInput!): Recipe!
   removeRecipe(id: String!): Boolean!
   updateOneCoil(input: UpdateOneCoilInput!): Coil!
+  updatePporderlineStatus(input: UpdatePporderlineStatusInput!): Pporderlines2!
 
   """Create a new production order"""
   createPporder(input: CreatePpordersInput!): Pporders!
 
   """Update an existing production order"""
-  updatePporder(id: Int!, input: UpdatePpordersInput!): Pporders!
+  updatePporder(input: UpdatePporderInput!): Pporders!
 
   """Delete a production order"""
   deletePporder(id: Int!): Boolean!
@@ -585,6 +592,11 @@ input UpdateCoilInput {
   prodComment: String
 }
 
+input UpdatePporderlineStatusInput {
+  id: Int!
+  status: Int!
+}
+
 input CreatePpordersInput {
   pporderno: String
   id: Int
@@ -592,12 +604,23 @@ input CreatePpordersInput {
   finishDate: Date
   finishDateDatetime: Date
   startDateDatetime: Date
-  estDateOfProdDatetime: Date
+  estStartDate: Date
+  estFinishDate: Date
   status: Int
   panelcode: String
   estDateOfProd: Date
   createDate: Date
   quantity: Float
+  previd: Int
+  prevpanelcode: String
+  offtimeduration: Int
+  offtimestartdate: Date
+  offtimeenddate: Date
+}
+
+input UpdatePporderInput {
+  id: Int!
+  update: UpdatePpordersInput!
 }
 
 input UpdatePpordersInput {
@@ -607,12 +630,18 @@ input UpdatePpordersInput {
   finishDate: Date
   finishDateDatetime: Date
   startDateDatetime: Date
-  estDateOfProdDatetime: Date
+  estStartDate: Date
+  estFinishDate: Date
   status: Int
   panelcode: String
   estDateOfProd: Date
   createDate: Date
   quantity: Float
+  previd: Int
+  prevpanelcode: String
+  offtimeduration: Int
+  offtimestartdate: Date
+  offtimeenddate: Date
 }
 
 input LoginInput {
@@ -622,4 +651,5 @@ input LoginInput {
 
 type Subscription {
   recipeAdded: Recipe!
+  pporderlineStatusChanged: Pporderlines2!
 }

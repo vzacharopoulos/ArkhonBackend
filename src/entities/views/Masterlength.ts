@@ -38,6 +38,7 @@ export class Masterlength {
   @Field(() => Date, { nullable: true })
   @Column('datetime', { name: 'create_date', nullable: true })
   createDate: Date | null;
+  
  @Field(() => PanelSpeeds, { nullable: true }) // <- This is now just for GraphQL
   panelSpeed?: PanelSpeeds | null;
 
