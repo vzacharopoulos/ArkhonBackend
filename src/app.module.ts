@@ -48,7 +48,7 @@ import { ScheduleModule } from '@nestjs/schedule';
       autoSchemaFile: 'schema.gql',
       transformSchema: schema => upperDirectiveTransformer(schema, 'upper'),
        installSubscriptionHandlers: true, // legacy; harmless here
-     subscriptions: { 'graphql-ws': {path: '/graphql',},},
+     //subscriptions: { 'graphql-ws': {path: '/graphql',},},
       buildSchemaOptions: {
         directives: [
           new GraphQLDirective({
