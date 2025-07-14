@@ -84,13 +84,13 @@ async updateStatus(input: UpdatePporderlineStatusInput): Promise<Pporderlines2> 
         'line.prodOrdersView',
         ProdOrdersView,
         'prodOrdersView',
-        'line.custporderno COLLATE SQL_Latin1_General_CP1_CI_AS = prodOrdersView.prodOrder COLLATE SQL_Latin1_General_CP1_CI_AS'
+        'line.custporderno COLLATE SQL_Latin1_General_CP1_CI_AS = prodOrdersView.prodOrder '
       )
       .leftJoinAndMapOne(
         'prodOrdersView.panelSpeed',
         PanelSpeeds,
         'panelSpeed',
-        'prodOrdersView.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code COLLATE SQL_Latin1_General_CP1_CI_AS'
+        'prodOrdersView.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code '
       )
       .where('line.id = :id', { id })
       .andWhere('line.isCanceled = :isCanceled', { isCanceled: 0 })

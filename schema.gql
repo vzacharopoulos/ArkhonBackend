@@ -409,6 +409,11 @@ type PanelProductionOrdersExt2 {
   count: Int
 }
 
+type PanelProductionOrdersExt2Response {
+  nodes: [PanelProductionOrdersExt2!]!
+  totalCount: Int!
+}
+
 type Masterlength {
   id: Int!
   pporderno: String!
@@ -460,7 +465,7 @@ type Query {
   pporders(filter: PpordersFilterInput): [Pporders!]!
   prodOrdersViews: [ProdOrdersView!]!
   prodOrdersView(prodOrder: String!): ProdOrdersView
-  panelProductionOrdersExt2s: [PanelProductionOrdersExt2!]!
+  panelProductionOrdersExt2s(filter: PanelProductionOrdersExt2FilterInput, sorting: [PanelProductionOrdersExt2SortInput!], limit: Int, offset: Int): PanelProductionOrdersExt2Response!
   panelProductionOrdersExt2(prodOrder: String!): PanelProductionOrdersExt2
   panelSpeeds: [PanelSpeeds!]!
   panelSpeed(code: String!): PanelSpeeds
@@ -521,7 +526,6 @@ enum CoilSortField {
   color
 }
 
-"""Specify ascending or descending order"""
 enum SortOrder {
   ASC
   DESC
@@ -541,6 +545,23 @@ input PpordersFilterInput {
   pporderno: String
   status: [Int!]
   lastDays: Int
+}
+
+input PanelProductionOrdersExt2FilterInput {
+  prodOrder: String
+  tradecode: String
+  materialCode: String
+}
+
+input PanelProductionOrdersExt2SortInput {
+  field: PanelProductionOrdersExt2SortField!
+  direction: SortOrder!
+}
+
+enum PanelProductionOrdersExt2SortField {
+  prodOrder
+  productionNo
+  tradecode
 }
 
 type Mutation {
@@ -652,4 +673,5 @@ input LoginInput {
 type Subscription {
   recipeAdded: Recipe!
   pporderlineStatusChanged: Pporderlines2!
+  pporderUpdated: Pporders!
 }

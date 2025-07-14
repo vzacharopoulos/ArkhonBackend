@@ -1,4 +1,4 @@
-import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql';
 
 import { PpordersService } from './pporders.service';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
@@ -6,7 +6,7 @@ import { CreatePpordersInput } from './dto/create-pporder.input';
 import { UpdatePporderInput, UpdatePpordersInput } from './dto/update-pporder.input';
 import { PpordersFilterInput } from './dto/pporders-filter-input';
 import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
-
+import { pubSub } from '../common/pubsub';
 
 
 @Resolver(() => Pporders)
@@ -50,12 +50,14 @@ export class PpordersResolver {
     return this.ppordersService.create(input);
   }
 
-@Mutation(() => Pporders, { description: 'Update an existing production order' })
-async updatePporder(
-  @Args('input', { type: () => UpdatePporderInput }) input: UpdatePporderInput
-): Promise<Pporders> {
-  return this.ppordersService.update(input.id, input.update);
-}
+  @Mutation(() => Pporders, { description: 'Update an existing production order' })
+  async updatePporder(
+    @Args('input', { type: () => UpdatePporderInput }) input: UpdatePporderInput,
+  ): Promise<Pporders> {
+    const updated = await this.ppordersService.update(input.id, input.update);
+    await pubSub.publish('pporderUpdated', { pporderUpdated: updated });
+    return updated;
+  }
 
   // Delete order
   @Mutation(() => Boolean, { description: 'Delete a production order' })
@@ -63,4 +65,9 @@ async updatePporder(
     @Args('id', { type: () => Int }) id: number
   ): Promise<boolean> {
     return this.ppordersService.delete(id);
-  }}
+  }
+ @Subscription(() => Pporders)
+  pporderUpdated() {
+    return pubSub.asyncIterableIterator('pporderUpdated');
+  }
+}

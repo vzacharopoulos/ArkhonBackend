@@ -73,9 +73,16 @@ export class PpordersService {
       throw new Error(`Order with ID ${id} not found`);
     }
     Object.assign(order, update);
-    return this.ppordersRepository.save(order);
-  }
+    const saved = await this.ppordersRepository.save(order);
 
+    if (update.status !== undefined && order.pporderno) {
+      await this.pporderlines2Repository.update(
+        { pporderno: order.pporderno },
+        { status: update.status, upDate: new Date() },
+      );
+    }
+    return saved;
+  }
   async delete(id: number): Promise<boolean> {
     const result = await this.ppordersRepository.delete(id);
     return result.affected !== undefined && result.affected > 0;
