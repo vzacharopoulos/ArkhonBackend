@@ -22,9 +22,11 @@ import { PpordersModule } from './pporders/pporders.module';
 import { Panelproductionordersext2Module } from './panelproductionordersext2/panelproductionordersext2.module';
 import { ProdordersviewModule } from './paneproductionordersviewwithiscanceled/paneproductionordersview-with-iscanceled.module';
 import { MasterlengthModule } from './Masterlength/Masterlength.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     RecipesModule,
     UsersModule,
     CoilsModule,
@@ -45,12 +47,7 @@ import { MasterlengthModule } from './Masterlength/Masterlength.module';
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
       transformSchema: schema => upperDirectiveTransformer(schema, 'upper'),
-     subscriptions: {
- 
-  'graphql-ws': {
-    path: '/graphql',
-  },
-},
+     subscriptions: { 'graphql-ws': {path: '/graphql',},},
       buildSchemaOptions: {
         directives: [
           new GraphQLDirective({

@@ -4,10 +4,9 @@ import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 import { Pporderlines2FilterInput } from './dto/pporderlines-filter-input';
 import { fileURLToPath } from 'url';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
-import { PubSub } from 'graphql-subscriptions';
+import { pubSub } from '../common/pubsub';
 import { UpdatePporderlineStatusInput } from './dto/update-pporderline-status-input';
 
-const pubSub = new PubSub();
 @Resolver(() => Pporderlines2)
 export class Pporderlines2Resolver {
   constructor(private readonly pporderlines2Service: Pporderlines2Service) {}
@@ -35,9 +34,7 @@ export class Pporderlines2Resolver {
     @Args('input') input: UpdatePporderlineStatusInput,
   ): Promise<Pporderlines2> {
     const line = await this.pporderlines2Service.updateStatus(input);
-    await pubSub.publish('pporderlineStatusChanged', {
-      pporderlineStatusChanged: line,
-    });
+   
     return line;
   }
 

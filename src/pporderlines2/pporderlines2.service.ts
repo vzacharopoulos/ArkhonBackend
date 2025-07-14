@@ -109,7 +109,7 @@ async updateStatus(input: UpdatePporderlineStatusInput): Promise<Pporderlines2> 
         // Fix collation issue by using query builder with explicit collation
         const order = await this.ppordersRepository
             .createQueryBuilder('order')
-            .where('order.pporderno COLLATE SQL_Latin1_General_CP1_CI_AS = :pporderno', {
+            .where('order.pporderno  = :pporderno', {
                 pporderno: line.pporderno
             })
             .getOne();
