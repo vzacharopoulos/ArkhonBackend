@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { PanelProductionOrdersExt2 } from 'src/entities/views/PanelProductionOrdersExt2';
 import { PanelProductionOrdersExt2FilterInput } from './dto/panelproductionordersext2-filter.input';
 import { PanelProductionOrdersExt2SortInput } from './dto/panelproductionordersext2-sort.input.ts';
+import { OffsetPaging } from './dto/paging.input';
 
 @Injectable()
 export class Panelproductionordersext2Service {
@@ -16,8 +17,7 @@ export class Panelproductionordersext2Service {
   async findAll(
     filter?: PanelProductionOrdersExt2FilterInput,
     sorting?: PanelProductionOrdersExt2SortInput[],
-    limit?: number,
-    offset?: number,
+      paging?: OffsetPaging,
   ): Promise<{ nodes: PanelProductionOrdersExt2[]; totalCount: number }> {
     const qb = this.prodOrdersRepo.createQueryBuilder('order');
 
@@ -41,13 +41,12 @@ export class Panelproductionordersext2Service {
 
     const totalCount = await qb.getCount();
 
-    if (limit !== undefined) {
-      qb.take(limit);
+   if (paging?.limit !== undefined) {
+      qb.take(paging.limit);
     }
-    if (offset !== undefined) {
-      qb.skip(offset);
+    if (paging?.offset !== undefined) {
+      qb.skip(paging.offset);
     }
-
     const nodes = await qb.getMany();
     return { nodes, totalCount };
   }

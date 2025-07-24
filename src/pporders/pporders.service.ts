@@ -10,6 +10,7 @@ import { PpordersFilterInput } from './dto/pporders-filter-input';
 import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersview-with-iscanceled';
 import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
+import { getLocalTime } from 'src/common/utils/fixtimezone';
 
 @Injectable()
 export class PpordersService {
@@ -75,12 +76,20 @@ export class PpordersService {
     Object.assign(order, update);
     const saved = await this.ppordersRepository.save(order);
 
-    if (update.status !== undefined && order.pporderno) {
+    if (update.status ===14 && order.pporderno) {
       await this.pporderlines2Repository.update(
         { pporderno: order.pporderno },
-        { status: update.status, upDate: new Date() },
+        { status: 14, upDate: getLocalTime() },
       );
     }
+
+     if (update.status ===1 && order.pporderno) {
+      await this.pporderlines2Repository.update(
+        { pporderno: order.pporderno },
+        { status: 1, upDate: new Date() },
+      );
+    }
+     
     return saved;
   }
   async delete(id: number): Promise<boolean> {
@@ -111,4 +120,9 @@ export class PpordersService {
     const lines = await this.getPporderlines(pporderno);
     return lines.reduce((sum, l) => sum + (l.prodOrdersView?.time ?? 0), 0);
   }
+ async getTotalTtm(pporderno: string): Promise<number> {
+    const lines = await this.getPporderlines(pporderno);
+    return lines.reduce((sum, l) => sum + (l.prodOrdersView?.ttm ?? 0), 0);
+  }
+
 }

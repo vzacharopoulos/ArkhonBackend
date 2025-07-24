@@ -375,6 +375,7 @@ type Pporders {
   offtimeenddate: Date
   pporderlines: [Pporderlines2!]!
   totalTime: Float
+  totalTtm: Float
 }
 
 type Pporderlines2 {
@@ -423,6 +424,11 @@ type Masterlength {
   startDateDatetime: Date
   finishDateDatetime: Date
   createDate: Date
+  previd: Int
+  prevpanelcode: String
+  offtimeduration: Float
+  offtimestartdate: Date
+  offtimeenddate: Date
   panelSpeed: PanelSpeeds
   time: Float
 }
@@ -465,7 +471,7 @@ type Query {
   pporders(filter: PpordersFilterInput): [Pporders!]!
   prodOrdersViews: [ProdOrdersView!]!
   prodOrdersView(prodOrder: String!): ProdOrdersView
-  panelProductionOrdersExt2s(filter: PanelProductionOrdersExt2FilterInput, sorting: [PanelProductionOrdersExt2SortInput!], limit: Int, offset: Int): PanelProductionOrdersExt2Response!
+  panelProductionOrdersExt2s(filter: PanelProductionOrdersExt2FilterInput, sorting: [PanelProductionOrdersExt2SortInput!], paging: OffsetPaging): PanelProductionOrdersExt2Response!
   panelProductionOrdersExt2(prodOrder: String!): PanelProductionOrdersExt2
   panelSpeeds: [PanelSpeeds!]!
   panelSpeed(code: String!): PanelSpeeds
@@ -562,6 +568,11 @@ enum PanelProductionOrdersExt2SortField {
   prodOrder
   productionNo
   tradecode
+}
+
+input OffsetPaging {
+  limit: Int
+  offset: Int
 }
 
 type Mutation {

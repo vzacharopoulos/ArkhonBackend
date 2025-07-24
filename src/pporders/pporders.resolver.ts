@@ -42,6 +42,13 @@ export class PpordersResolver {
     return this.ppordersService.getTotalTime(order.pporderno);
   }
 
+     @ResolveField('totalTtm', () => Number, { nullable: true })
+  async getTotalTtm(@Parent() order: Pporders): Promise<number | null> {
+    if (!order.pporderno) return null;
+    return this.ppordersService.getTotalTtm(order.pporderno);
+  }
+
+
   // Create new order
   @Mutation(() => Pporders, { description: 'Create a new production order' })
   async createPporder(

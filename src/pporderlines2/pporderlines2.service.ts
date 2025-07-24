@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { Pporderlines2FilterInput } from './dto/pporderlines-filter-input';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
 import { UpdatePporderlineStatusInput } from './dto/update-pporderline-status-input';
+import { getLocalTime } from 'src/common/utils/fixtimezone';
 
 
 @Injectable()
@@ -73,7 +74,7 @@ export class Pporderlines2Service {
  async getPporder(pporderno: string): Promise<Pporders | null> {
     return this.ppordersRepository.findOne({ where: { pporderno } });
 }
-
+//this doesnt really fire ever
 async updateStatus(input: UpdatePporderlineStatusInput): Promise<Pporderlines2> {
     const { id, status } = input;
    
@@ -102,7 +103,7 @@ async updateStatus(input: UpdatePporderlineStatusInput): Promise<Pporderlines2> 
 
     // Update line properties
     line.status = status;
-    line.upDate = new Date();
+    line.upDate = getLocalTime()
     await this.pporderlines2Repository.save(line);
 
     if (line.pporderno) {
@@ -115,7 +116,7 @@ async updateStatus(input: UpdatePporderlineStatusInput): Promise<Pporderlines2> 
             .getOne();
 
         if (order) {
-            order.startDateDatetime = new Date();
+            order.startDateDatetime = getLocalTime();
             await this.ppordersRepository.save(order);
         }
     }

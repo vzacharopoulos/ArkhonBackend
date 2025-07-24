@@ -94,4 +94,7 @@ export class Pporders {
 
      @Field(() => Number, { nullable: true })
   totalTime?: number | null;
+
+       @Field(() => Number, { nullable: true })
+  totalTtm?: number | null;
 }

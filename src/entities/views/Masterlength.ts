@@ -38,6 +38,26 @@ export class Masterlength {
   @Field(() => Date, { nullable: true })
   @Column('datetime', { name: 'create_date', nullable: true })
   createDate: Date | null;
+
+  @Field(() => Int, { nullable: true })
+@Column('int', { name: 'previd', nullable: true })
+previd: number | null;
+
+@Field(() => String, { nullable: true })
+@Column('nvarchar', { name: 'prevpanelcode', nullable: true, length: 30 })
+prevpanelcode: string | null;
+
+@Field(() => Float, { nullable: true })
+@Column('decimal', { name: 'offtimeduration', nullable: true, precision: 10, scale: 2 })
+offtimeduration: number | null;
+
+@Field(() => Date, { nullable: true })
+@Column('datetime', { name: 'offtimestartdate', nullable: true })
+offtimestartdate: Date | null;
+
+@Field(() => Date, { nullable: true })
+@Column('datetime', { name: 'offtimeenddate', nullable: true })
+offtimeenddate: Date | null;
   
  @Field(() => PanelSpeeds, { nullable: true }) // <- This is now just for GraphQL
   panelSpeed?: PanelSpeeds | null;
