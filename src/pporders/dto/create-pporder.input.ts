@@ -59,4 +59,14 @@ export class CreatePpordersInput {
   @Field(() => Date, { nullable: true })
   offtimeenddate: Date | null;
 
+   @Field(() => Int, { nullable: true })
+  pauseduration: number | null;
+
+  @Field(() => Date, { nullable: true })
+  pausestartdate: Date | null;
+
+  @Field(() => Date, { nullable: true })
+  pauseenddate: Date | null;
+
+
 }

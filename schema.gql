@@ -355,6 +355,16 @@ type PpackagesSummary {
   totalProductionTime: Float!
 }
 
+type PanelMachinePauses {
+  id: ID!
+  pporderid: Int!
+  pausestartdate: Date!
+  pauseenddate: Date
+  pauseduration: Int
+  pausecomment: String
+  order: Pporders!
+}
+
 type Pporders {
   id: Int!
   pporderno: String
@@ -373,6 +383,10 @@ type Pporders {
   offtimeduration: Int
   offtimestartdate: Date
   offtimeenddate: Date
+  pauseduration: Int
+  pausestartdate: Date
+  pauseenddate: Date
+  pauses: [PanelMachinePauses!]
   pporderlines: [Pporderlines2!]!
   totalTime: Float
   totalTtm: Float
@@ -429,8 +443,20 @@ type Masterlength {
   offtimeduration: Float
   offtimestartdate: Date
   offtimeenddate: Date
+  pauseduration: Float
+  pausestartdate: Date
+  pauseenddate: Date
   panelSpeed: PanelSpeeds
   time: Float
+}
+
+type WorkingHours {
+  date: String!
+  startHour: Int!
+  startMinute: Int!
+  endHour: Int!
+  endMinute: Int!
+  isWorkingDay: Boolean!
 }
 
 """Date custom scalar type"""
@@ -471,10 +497,15 @@ type Query {
   pporders(filter: PpordersFilterInput): [Pporders!]!
   prodOrdersViews: [ProdOrdersView!]!
   prodOrdersView(prodOrder: String!): ProdOrdersView
-  panelProductionOrdersExt2s(filter: PanelProductionOrdersExt2FilterInput, sorting: [PanelProductionOrdersExt2SortInput!], paging: OffsetPaging): PanelProductionOrdersExt2Response!
+  workingHoursAll: [WorkingHours!]!
+  workingHours(date: String!): WorkingHours
+  panelProduction(filter: PanelProductionOrdersExt2FilterInput, sorting: [PanelProductionOrdersExt2SortInput!], paging: OffsetPaging): PanelProductionOrdersExt2Response!
   panelProductionOrdersExt2(prodOrder: String!): PanelProductionOrdersExt2
   panelSpeeds: [PanelSpeeds!]!
   panelSpeed(code: String!): PanelSpeeds
+  allMachinePauses: [PanelMachinePauses!]!
+  machinePause(id: Int!): PanelMachinePauses!
+  machinePausesByOrder(orderId: Int!): [PanelMachinePauses!]!
   me: Users!
 }
 
@@ -589,6 +620,10 @@ type Mutation {
 
   """Delete a production order"""
   deletePporder(id: Int!): Boolean!
+  updateWorkingHours(date: String!, update: UpdateWorkingHoursInput!): WorkingHours!
+  createCompletePause(input: CreateCompletePauseInput!): PanelMachinePauses!
+  updatePauseDetails(input: UpdatePauseDetailsInput!): PanelMachinePauses!
+  deleteMachinePause(id: Int!): Boolean!
   login(loginInput: LoginInput!): LoginResponse!
 }
 
@@ -648,6 +683,9 @@ input CreatePpordersInput {
   offtimeduration: Int
   offtimestartdate: Date
   offtimeenddate: Date
+  pauseduration: Int
+  pausestartdate: Date
+  pauseenddate: Date
 }
 
 input UpdatePporderInput {
@@ -674,6 +712,34 @@ input UpdatePpordersInput {
   offtimeduration: Int
   offtimestartdate: Date
   offtimeenddate: Date
+  pauseduration: Int
+  pausestartdate: Date
+  pauseenddate: Date
+}
+
+input UpdateWorkingHoursInput {
+  date: String
+  startHour: Int
+  startMinute: Int
+  endHour: Int
+  endMinute: Int
+  isWorkingDay: Boolean
+}
+
+input CreateCompletePauseInput {
+  pporderid: Int!
+  pausestartdate: Date!
+  pauseenddate: Date!
+  pauseduration: Int!
+  pausecomment: String
+}
+
+input UpdatePauseDetailsInput {
+  id: Int!
+  pausestartdate: Date
+  pauseenddate: Date
+  pauseduration: Int
+  pausecomment: String
 }
 
 input LoginInput {

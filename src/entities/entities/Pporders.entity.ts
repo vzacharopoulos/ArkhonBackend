@@ -2,6 +2,7 @@
 import { Column, Entity, Index, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Field, ObjectType, Int, Float } from "@nestjs/graphql";
 import { Pporderlines2 } from "./Pporderlines2.entity";
+import { PanelMachinePauses } from "./PanelMachinePauses.entity";
 
 
 @ObjectType()
@@ -85,8 +86,23 @@ export class Pporders {
   @Column("datetime", { name: "offtimeenddate", nullable: true })
   offtimeenddate: Date | null;
 
+      @Field(() => Int, { nullable: true })
+  @Column("int", { name: "pauseduration", nullable: true })
+  pauseduration: number | null;
+
+    @Field(() => Date, { nullable: true })
+  @Column("datetime", { name: "pausestartdate", nullable: true })
+  pausestartdate: Date | null;
 
 
+    @Field(() => Date, { nullable: true })
+  @Column("datetime", { name: "pauseenddate", nullable: true })
+  pauseenddate: Date | null;
+
+
+@OneToMany(() => PanelMachinePauses, (pause) => pause.order)
+@Field(() => [PanelMachinePauses], { nullable: true })
+pauses?: PanelMachinePauses[];
 
 @Field(() => [Pporderlines2], { nullable: true })
   @OneToMany(() => Pporderlines2,pporderline => pporderline.pporderno)

@@ -59,6 +59,18 @@ offtimestartdate: Date | null;
 @Column('datetime', { name: 'offtimeenddate', nullable: true })
 offtimeenddate: Date | null;
   
+@Field(() => Float, { nullable: true })
+@Column('decimal', { name: 'pauseduration', nullable: true, precision: 10, scale: 2 })
+pauseduration: number | null;
+
+@Field(() => Date, { nullable: true })
+@Column('datetime', { name: 'pausestartdate', nullable: true })
+pausestartdate: Date | null;
+
+@Field(() => Date, { nullable: true })
+@Column('datetime', { name: 'pauseenddate', nullable: true })
+pauseenddate: Date | null;
+  
  @Field(() => PanelSpeeds, { nullable: true }) // <- This is now just for GraphQL
   panelSpeed?: PanelSpeeds | null;
 

@@ -13,7 +13,7 @@ export class Panelproductionordersext2Resolver {
 
   
   @Query(() => PanelProductionOrdersExt2Response)
-  async panelProductionOrdersExt2s(
+  async panelProduction(
     @Args('filter', { type: () => PanelProductionOrdersExt2FilterInput, nullable: true })
     filter?: PanelProductionOrdersExt2FilterInput,
     @Args('sorting', { type: () => [PanelProductionOrdersExt2SortInput], nullable: true })

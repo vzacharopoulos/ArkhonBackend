@@ -11,6 +11,7 @@ import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersview-with-iscanceled';
 import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
 import { getLocalTime } from 'src/common/utils/fixtimezone';
+import { PanelMachinePauses } from 'src/entities/entities/PanelMachinePauses.entity';
 
 @Injectable()
 export class PpordersService {
@@ -19,6 +20,8 @@ export class PpordersService {
     private readonly ppordersRepository: Repository<Pporders>,
     @InjectRepository(Pporderlines2)
     private readonly pporderlines2Repository: Repository<Pporderlines2>,
+    @InjectRepository(PanelMachinePauses)
+    private readonly panelMachinePausesRepository: Repository<PanelMachinePauses>,
   ) {}
 
   async findAll(filter?: PpordersFilterInput): Promise<Pporders[]> {
@@ -40,6 +43,7 @@ export class PpordersService {
         where.createDate = MoreThanOrEqual(fromDate);
       }
       return await this.ppordersRepository.find({
+        relations: ['pauses'],
         where,
         order: { createDate: 'DESC' },
       });
@@ -50,7 +54,8 @@ export class PpordersService {
 
   async findOne(id: number): Promise<Pporders> {
     try {
-      const order = await this.ppordersRepository.findOne({ where: { id } });
+      const order = await this.ppordersRepository.findOne({ where: { id }
+      , relations: [ 'pauses'] });
       
       if (!order) {
         throw new Error(`Order with ID ${id} not found`);
@@ -69,7 +74,8 @@ export class PpordersService {
   }
 
   async update(id: number, update: UpdatePpordersInput): Promise<Pporders> {
-    const order = await this.ppordersRepository.findOne({ where: { id } });
+    const order = await this.ppordersRepository.findOne({ where: { id },
+    relations: ['pauses'] });
     if (!order) {
       throw new Error(`Order with ID ${id} not found`);
     }
@@ -96,6 +102,13 @@ export class PpordersService {
     const result = await this.ppordersRepository.delete(id);
     return result.affected !== undefined && result.affected > 0;
   }
+
+  async getPausesForOrder(orderId: number): Promise<PanelMachinePauses[]> {
+  return this.panelMachinePausesRepository.find({
+    where: { pporderid: orderId },
+    order: { pausestartdate: 'ASC' }
+  });
+}
 
   async getPporderlines(pporderno: string): Promise<Pporderlines2[]> {
     return this.pporderlines2Repository

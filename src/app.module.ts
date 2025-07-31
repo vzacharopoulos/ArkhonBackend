@@ -23,6 +23,8 @@ import { Panelproductionordersext2Module } from './panelproductionordersext2/pan
 import { ProdordersviewModule } from './paneproductionordersviewwithiscanceled/paneproductionordersview-with-iscanceled.module';
 import { MasterlengthModule } from './Masterlength/Masterlength.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { PanelworkinghoursModule } from './panelworkinghours/panelworkinghours.module';
+import { PanelMachinePausesModule } from './panelmachinepauses/panel-machine-pauses.module';
 
 @Module({
   imports: [
@@ -40,8 +42,10 @@ import { ScheduleModule } from '@nestjs/schedule';
     Pporderlines2Module,
     PpordersModule,
     ProdordersviewModule,
+    PanelworkinghoursModule,
     Panelproductionordersext2Module,
     PanelspeedsModule,
+    PanelMachinePausesModule,
      AuthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -65,7 +69,7 @@ import { ScheduleModule } from '@nestjs/schedule';
   database: 'panelMESDB_testing',
   username: 'tseroki',
   password: 'ariskobo',
- entities: [__dirname + '/**/*.entity{.ts,.js}',__dirname + '/**/*.view{.ts,.js}'],
+ entities: [__dirname + '/**/**/*.entity{.ts,.js}',__dirname + '/**/**/*.view{.ts,.js}'],
   synchronize: false,  // true ONLY if you want to auto-create tables
   autoLoadEntities: true,
   options: {
@@ -74,6 +78,24 @@ import { ScheduleModule } from '@nestjs/schedule';
     
   },
 }),
+
+// TypeOrmModule.forRoot({
+//   name: 'atlantisdb', 
+//   type: 'mssql',
+//   host: '192.168.10.167',
+//   port: 1433,
+//   database: 'panel_aris_testing',
+//   username: 'sa',
+//   password: 'm@n@g3r',
+//  entities: [__dirname + 'src/entities/atlantisEntities/*.entity{.ts,.js}',__dirname + 'src/entities/atlantisViews/*.view{.ts,.js}'],
+//   synchronize: false,  // true ONLY if you want to auto-create tables
+//   autoLoadEntities: false,
+//   options: {
+//     encrypt: false,  // required for older SQL Server, or if no SSL
+//     trustServerCertificate: true,
+    
+//   },
+// }),
     // Add other modules here (AuthorModule, CompanyModule, etc.)
   ],
 })

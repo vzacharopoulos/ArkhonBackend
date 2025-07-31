@@ -7,6 +7,7 @@ import { UpdatePporderInput, UpdatePpordersInput } from './dto/update-pporder.in
 import { PpordersFilterInput } from './dto/pporders-filter-input';
 import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 import { pubSub } from '../common/pubsub';
+import { PanelMachinePauses } from 'src/entities/entities/PanelMachinePauses.entity';
 
 
 @Resolver(() => Pporders)
@@ -35,6 +36,7 @@ export class PpordersResolver {
     if (!order.pporderno) return [];
     return this.ppordersService.getPporderlines(order.pporderno);
   }
+
 
    @ResolveField('totalTime', () => Number, { nullable: true })
   async getTotalTime(@Parent() order: Pporders): Promise<number | null> {
