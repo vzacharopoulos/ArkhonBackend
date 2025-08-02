@@ -19,12 +19,11 @@ import { PanelspeedsModule } from './panelspeeds/panelspeeds.module';
 import { PpackagesModule } from './ppackages/ppackages.module';
 import { Pporderlines2Module } from './pporderlines2/pporderlines2.module';
 import { PpordersModule } from './pporders/pporders.module';
-import { Panelproductionordersext2Module } from './panelproductionordersext2/panelproductionordersext2.module';
-import { ProdordersviewModule } from './paneproductionordersviewwithiscanceled/paneproductionordersview-with-iscanceled.module';
 import { MasterlengthModule } from './Masterlength/Masterlength.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { PanelworkinghoursModule } from './panelworkinghours/panelworkinghours.module';
 import { PanelMachinePausesModule } from './panelmachinepauses/panel-machine-pauses.module';
+import { ProdOrdersViewModule } from './panelproductionordersext2/panelproductionordersext2.module';
 
 @Module({
   imports: [
@@ -41,9 +40,8 @@ import { PanelMachinePausesModule } from './panelmachinepauses/panel-machine-pau
              PpackagesModule,
     Pporderlines2Module,
     PpordersModule,
-    ProdordersviewModule,
     PanelworkinghoursModule,
-    Panelproductionordersext2Module,
+    ProdOrdersViewModule,
     PanelspeedsModule,
     PanelMachinePausesModule,
      AuthModule,
@@ -79,23 +77,23 @@ import { PanelMachinePausesModule } from './panelmachinepauses/panel-machine-pau
   },
 }),
 
-// TypeOrmModule.forRoot({
-//   name: 'atlantisdb', 
-//   type: 'mssql',
-//   host: '192.168.10.167',
-//   port: 1433,
-//   database: 'panel_aris_testing',
-//   username: 'sa',
-//   password: 'm@n@g3r',
-//  entities: [__dirname + 'src/entities/atlantisEntities/*.entity{.ts,.js}',__dirname + 'src/entities/atlantisViews/*.view{.ts,.js}'],
-//   synchronize: false,  // true ONLY if you want to auto-create tables
-//   autoLoadEntities: false,
-//   options: {
-//     encrypt: false,  // required for older SQL Server, or if no SSL
-//     trustServerCertificate: true,
+TypeOrmModule.forRoot({
+  name: 'atlantisdb', 
+  type: 'mssql',
+  host: '192.168.10.167',
+  port: 1433,
+  database: 'panel_aris_testing',
+  username: 'sa',
+  password: 'm@n@g3r',
+ entities: [__dirname + 'src/entities/atlantisEntities/*.entity{.ts,.js}',__dirname + 'src/entities/atlantisViews/*.view{.ts,.js}'],
+  synchronize: false,  // true ONLY if you want to auto-create tables
+  autoLoadEntities: false,
+  options: {
+    encrypt: false,  // required for older SQL Server, or if no SSL
+    trustServerCertificate: true,
     
-//   },
-// }),
+  },
+}),
     // Add other modules here (AuthorModule, CompanyModule, etc.)
   ],
 })

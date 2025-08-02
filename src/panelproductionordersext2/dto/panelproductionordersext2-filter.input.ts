@@ -1,7 +1,31 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
-export class PanelProductionOrdersExt2FilterInput {
+export class IntFilter {
+  @Field(() => Int, { nullable: true })
+  eq?: number;
+
+  @Field(() => Int, { nullable: true })
+  gt?: number;
+
+  @Field(() => Int, { nullable: true })
+  gte?: number;
+
+  @Field(() => Int, { nullable: true })
+  lt?: number;
+
+  @Field(() => Int, { nullable: true })
+  lte?: number;
+
+  @Field(() => [Int], { nullable: true })
+  in?: number[];
+
+  @Field({ nullable: true })
+  isNull?: boolean;
+}
+
+@InputType()
+export class ProdOrdersViewFilterInput {
   @Field({ nullable: true })
   prodOrder?: string;
 
@@ -9,5 +33,11 @@ export class PanelProductionOrdersExt2FilterInput {
   tradecode?: string;
 
   @Field({ nullable: true })
-  materialCode?: string;
+  code?: string;
+
+  @Field({ nullable: true })
+  isCanceled?: boolean;
+
+  @Field(() => IntFilter, { nullable: true })
+  count?: IntFilter;
 }

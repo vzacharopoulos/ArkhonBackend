@@ -4,10 +4,10 @@ import { Repository } from 'typeorm';
 import { createHash } from 'crypto';
 import { pubSub } from '../common/pubsub';
 import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
-import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersview-with-iscanceled';
 import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
 import { PubSub } from 'graphql-subscriptions';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersExt2';
 
 @Injectable()
 export class Pporderlines2WatcherService {
@@ -83,8 +83,8 @@ async checkForUpdates(): Promise<void> {
     return pubSub;
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
-  handleCron(): Promise<void> {
+  @Cron(CronExpression.EVERY_MINUTE)
+  async handleCron(): Promise<void> {
     this.logger.log('Running scheduled cron job...');
     return this.checkForUpdates();
   }

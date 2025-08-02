@@ -1,24 +1,36 @@
 import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { PanelSpeeds } from './PanelSpeeds';
+import { Pporderlines2 } from '../entities/Pporderlines2.entity';
 
 @ObjectType()
-@Entity('PanelProductionOrdersExt2_', { schema: 'dbo' })
-export class PanelProductionOrdersExt2 {
-  @Field()
-  @Column('nvarchar', { name: 'ProdOrder', primary: true, length: 100 })
-  prodOrder: string;
+@Entity('PanelProductionOrdersExt2', { schema: 'dbo' })
+export class ProdOrdersView {
+@Field()
+@Column('nvarchar',{
+  name: 'ProdOrder',
+  length: 100,
+  primary: true,
+})
+prodOrder: string;
 
-  @Field(() => Int)
-  @Column('int', { name: 'productionNo' })
-  productionNo: number;
+@Field({ nullable: true })
+@Column('nvarchar',{
+  name: 'tradecode',
+  length: 50,
+  nullable: true,
+})
+tradecode: string | null;
 
-  @Field({ nullable: true })
-  @Column('nvarchar', { name: 'tradecode', nullable: true, length: 50 })
-  tradecode: string | null;
+@Field(() => Int)
+@Column('int', { name: 'productionNo' })
+productionNo: number;
+
+
 
   @Field({ nullable: true })
   @Column('nvarchar', { name: 'code', nullable: true, length: 50 })
-  materialCode: string | null;
+ code: string | null;
 
   @Field({ nullable: true })
   @Column('nvarchar', { name: 'cin', nullable: true, length: 100 })
@@ -59,6 +71,32 @@ export class PanelProductionOrdersExt2 {
   @Field(() => Float, { nullable: true })
   @Column('decimal', { name: 'ttm', nullable: true, precision: 18, scale: 2 })
   ttm: number | null;
+
+  
+  @Field({ nullable: true })
+  @Column('bit', { name: 'isCanceled', nullable: true })
+  isCanceled: boolean | null;
+
+    @Field(() => PanelSpeeds, { nullable: true })
+   
+    panelSpeed?: PanelSpeeds | null;
+  
+    @Field(() => Pporderlines2, { nullable: true })
+@OneToOne(() => Pporderlines2)
+pporderline?: Pporderlines2 | null;
+  
+    @Field(() => Float, { nullable: true })
+    get speed(): number | null {
+      return this.panelSpeed ? this.panelSpeed.speed : null;
+    }
+  
+     @Field(() => Float, { nullable: true })
+    get time(): number | null {
+      const speed = this.panelSpeed?.speed;
+      return speed != null && this.ttm != null ?  this.ttm / speed: null;
+    }
+  
+  
  
    @Field(() => Int, { nullable: true })
   @Column('int', { name: 'count', nullable: true })

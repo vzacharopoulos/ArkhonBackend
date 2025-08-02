@@ -1,12 +1,12 @@
 import { InputType, Field, registerEnumType } from '@nestjs/graphql';
 import { SortOrder } from 'src/coils/dto/coils-sort-input';
 
-export enum PanelProductionOrdersExt2SortField {
+export enum ProdOrdersViewSortField {
   prodOrder = 'prodOrder',
   productionNo = 'productionNo',
   tradecode = 'tradecode',
 }
-registerEnumType(PanelProductionOrdersExt2SortField, {
+registerEnumType(ProdOrdersViewSortField, {
   name: 'PanelProductionOrdersExt2SortField',
 });
 
@@ -17,9 +17,9 @@ registerEnumType(SortOrder, {
 });
 
 @InputType()
-export class PanelProductionOrdersExt2SortInput {
-  @Field(() => PanelProductionOrdersExt2SortField)
-  field: PanelProductionOrdersExt2SortField;
+export class ProdOrdersViewSortInput {
+  @Field(() => ProdOrdersViewSortField)
+  field: ProdOrdersViewSortField;
 
   @Field(() => SortOrder)
   direction: SortOrder;

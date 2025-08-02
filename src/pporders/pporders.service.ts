@@ -8,10 +8,10 @@ import { UpdatePpordersInput } from './dto/update-pporder.input';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
 import { PpordersFilterInput } from './dto/pporders-filter-input';
 import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
-import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersview-with-iscanceled';
 import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
 import { getLocalTime } from 'src/common/utils/fixtimezone';
 import { PanelMachinePauses } from 'src/entities/entities/PanelMachinePauses.entity';
+import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersExt2';
 
 @Injectable()
 export class PpordersService {
@@ -55,6 +55,7 @@ export class PpordersService {
   async findOne(id: number): Promise<Pporders> {
     try {
       const order = await this.ppordersRepository.findOne({ where: { id }
+        
       , relations: [ 'pauses'] });
       
       if (!order) {
@@ -74,8 +75,8 @@ export class PpordersService {
   }
 
   async update(id: number, update: UpdatePpordersInput): Promise<Pporders> {
-    const order = await this.ppordersRepository.findOne({ where: { id },
-    relations: ['pauses'] });
+    const order = await this.ppordersRepository.findOne({ where: { id } , relations: ['pauses'] });
+    
     if (!order) {
       throw new Error(`Order with ID ${id} not found`);
     }

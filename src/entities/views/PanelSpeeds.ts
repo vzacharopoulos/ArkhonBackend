@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { ObjectType, Field, Float } from '@nestjs/graphql';
 import { PPackages } from '../entities/PPackages.entity';
-import { ProdOrdersView } from './PanelProductionOrdersview-with-iscanceled';
 import { Masterlength } from './Masterlength';
+import { ProdOrdersView } from './PanelProductionOrdersExt2';
 
 @ObjectType()
 @Entity('PANELSPEEDS', { schema: 'dbo' })

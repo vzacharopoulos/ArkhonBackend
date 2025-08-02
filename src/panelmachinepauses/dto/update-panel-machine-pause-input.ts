@@ -4,6 +4,9 @@ import { Field, InputType, Int } from "@nestjs/graphql";
 export class UpdatePauseDetailsInput {
   @Field(() => Int)
   id: number;
+  
+  @Field(() => Int)
+  pporderid: number;
 
     @Field(() => Date,{ nullable: true })
   pausestartdate?: Date;

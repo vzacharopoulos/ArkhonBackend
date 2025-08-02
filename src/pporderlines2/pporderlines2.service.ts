@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PPackages } from 'src/entities/entities/PPackages.entity';
 import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
-import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersview-with-iscanceled';
 import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
 import { Repository } from 'typeorm';
 import { Pporderlines2FilterInput } from './dto/pporderlines-filter-input';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
 import { UpdatePporderlineStatusInput } from './dto/update-pporderline-status-input';
 import { getLocalTime } from 'src/common/utils/fixtimezone';
+import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersExt2';
 
 
 @Injectable()
