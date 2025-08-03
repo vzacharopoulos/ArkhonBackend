@@ -16,6 +16,5 @@ export class Sysdiagrams {
   @Column("int", { name: "version", nullable: true })
   version: number | null;
 
-  @Column("varbinary", { name: "definition", nullable: true })
-  definition: Buffer | null;
+
 }
