@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import { Column, Entity, Index } from "typeorm";
 
@@ -5,15 +6,19 @@ import { Column, Entity, Index } from "typeorm";
 @ObjectType()
 @Entity("KEF_COMRATES", { schema: "dbo" })
 export class KefComrates {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "SMNID" })
   smnid: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "IQCID" })
   iqcid: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "SMNCODE", nullable: true, length: 25 })
   smncode: string | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "RATE01", nullable: true, precision: 53 })
   rate01: number | null;
 }

@@ -1,6 +1,8 @@
 import { ObjectType, Field, Int, Float } from "@nestjs/graphql";
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Customer } from "./Customer.entity";
+import { Salesman } from "./Salesman.entity";
+import { ProdOrdersView } from "../views/PanelProductionOrdersExt2.view";
 
 @ObjectType()
 @Index("PK_STORETRADELINES_SYNC", ["id"], { unique: true })
@@ -120,8 +122,23 @@ export class FintradeSync {
   @Column("int", { name: "nofcorrections", nullable: true, default: () => "(0)" })
   nofcorrections: number | null;
 
+  @Field(() => Customer, { nullable: true })  // <-- ADD THIS LINE!
    @ManyToOne(() => Customer, (customer) => customer.fintradeSyncs)
   @JoinColumn([{ name: "CUSID", referencedColumnName: "id" }])
   cus: Customer;
+
+    @Field({ nullable: true })
+    @ManyToOne(() => Salesman, (salesman) => salesman.fintradeSync)
+    @JoinColumn([{ name: "COLIDSALESMAN", referencedColumnName: "id" }])
+    salesman: Salesman;
+
+//     @Field(() => [ProdOrdersView], { nullable: true })
+// @OneToMany(
+//   () => ProdOrdersView,
+//   prodOrdersView => prodOrdersView.fintradeSync, // see next step!
+//   { nullable: true }
+// )
+// prodOrdersViews?: ProdOrdersView[];
+
 }
 

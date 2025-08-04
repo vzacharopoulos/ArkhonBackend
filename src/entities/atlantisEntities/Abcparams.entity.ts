@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 import { Company } from "./Company.entity";
 import { ObjectType } from "@nestjs/graphql";
@@ -7,42 +8,55 @@ import { ObjectType } from "@nestjs/graphql";
 @ObjectType()
 
 export class Abcparams {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "COMID" })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DIMSTR1", nullable: true, length: 25 })
   dimstr1: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DIMSTR2", nullable: true, length: 25 })
   dimstr2: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DIMSTR3", nullable: true, length: 25 })
   dimstr3: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DIMSTR4", nullable: true, length: 25 })
   dimstr4: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DIMSTR5", nullable: true, length: 25 })
   dimstr5: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DISTRSTR1", nullable: true, length: 25 })
   distrstr1: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DISTRSTR2", nullable: true, length: 25 })
   distrstr2: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DISTRSTR3", nullable: true, length: 25 })
   distrstr3: string | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "DISTRDIMS1", nullable: true })
   distrdims1: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "DISTRDIMS2", nullable: true })
   distrdims2: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "DISTRDIMS3", nullable: true })
   distrdims3: number | null;
 
+  @Field({ nullable: true })
   @OneToOne(() => Company, (company) => company.abcparams, {
     onDelete: "CASCADE",
   })

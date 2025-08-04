@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import { Column, Entity, Index, PrimaryColumn } from "typeorm";
 
@@ -9,42 +10,55 @@ export class Uniaudit {
   @PrimaryColumn("datetime", { name: "EVDATE" })
   evdate: Date | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "COMID", nullable: true })
   comid: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "BRAID", nullable: true })
   braid: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "USERID", nullable: true })
   userid: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "MODULEID", nullable: true })
   moduleid: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "KEYID", nullable: true })
   keyid: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "OPERID", nullable: true })
   operid: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "CODE", nullable: true, length: 25 })
   code: string | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "BATCHID", nullable: true })
   batchid: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "UPDATEDFIELDS", nullable: true, length: 255 })
   updatedfields: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "LUPDATEDFIELDS", nullable: true, length: 255 })
   lupdatedfields: string | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "WEBUSERID", nullable: true })
   webuserid: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "KEYVALUES", nullable: true, length: 255 })
   keyvalues: string | null;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "DOCDATE", nullable: true })
   docdate: Date | null;
 }

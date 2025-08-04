@@ -11,7 +11,7 @@ import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
 import { getLocalTime } from 'src/common/utils/fixtimezone';
 import { PanelMachinePauses } from 'src/entities/entities/PanelMachinePauses.entity';
-import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersExt2';
+import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersExt2.view';
 
 @Injectable()
 export class PpordersService {

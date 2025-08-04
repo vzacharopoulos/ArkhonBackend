@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import {
   Column,
@@ -16,15 +17,19 @@ export class Accdiffmodellines {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "FROMDATE" })
   fromdate: Date;
 
+  @Field({ nullable: true })
   @Column("float", { name: "COEF", precision: 53 })
   coef: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "COMMENTS", nullable: true, length: 255 })
   comments: string | null;
 
+  @Field({ nullable: true })
   @ManyToOne(
     () => Accdiffmodel,
     (accdiffmodel) => accdiffmodel.accdiffmodellines,

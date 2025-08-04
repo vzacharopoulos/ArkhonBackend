@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import {
   Column,
@@ -17,12 +18,15 @@ export class Varcomtemplines {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "LINENUM" })
   linenum: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "CALCFORMULA", nullable: true, length: 255 })
   calcformula: string | null;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Varcomtrades, (varcomtrades) => varcomtrades.varcomtemplines)
   @JoinColumn([
     { name: "COMID", referencedColumnName: "comid" },
@@ -30,6 +34,7 @@ export class Varcomtemplines {
   ])
   varcomtrades: Varcomtrades;
 
+  @Field({ nullable: true })
   @ManyToOne(
     () => Varcomtemplate,
     (varcomtemplate) => varcomtemplate.varcomtemplines,

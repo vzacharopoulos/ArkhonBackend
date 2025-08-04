@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import { Column, Entity, Index } from "typeorm";
 
@@ -5,9 +6,11 @@ import { Column, Entity, Index } from "typeorm";
 @ObjectType()
 @Entity("SXKADCONVERT", { schema: "dbo" })
 export class Sxkadconvert {
+  @Field({ nullable: true })
   @Column("varchar", { primary: true, name: "OLDCODE", length: 25 })
   oldcode: string;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "NEWCODE", length: 25 })
   newcode: string;
 }

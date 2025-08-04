@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import {
   Column,
@@ -16,22 +17,27 @@ import { Userjournallines } from "./Userjournallines.entity";
 @ObjectType()
 @Entity("USERJOURNAL", { schema: "dbo" })
 export class Userjournal {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "COMID" })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "CODEID" })
   codeid: number;
 
   @PrimaryGeneratedColumn({ type: "int", name: "ID"})
   id: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "TITLE", length: 255 })
   title: string;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Company, (company) => company.userjournals)
   @JoinColumn([{ name: "COMID", referencedColumnName: "codeid" }])
   com: Company;
 
+  @Field(() => [Userjournallines], { nullable: true })
   @OneToMany(
     () => Userjournallines,
     (userjournallines) => userjournallines.link

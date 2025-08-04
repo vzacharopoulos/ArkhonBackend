@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import {
   Column,
@@ -16,12 +17,15 @@ export class Docrel {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "DOMAINTYPE" })
   domaintype: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "MASTERID" })
   masterid: number;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Documents, (documents) => documents.docrels, {
     onDelete: "CASCADE",
   })

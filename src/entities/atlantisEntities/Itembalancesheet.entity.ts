@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Material } from "./Material.entity";
@@ -7,81 +8,107 @@ import { Material } from "./Material.entity";
 @ObjectType()
 @Entity("ITEMBALANCESHEET", { schema: "dbo" })
 export class Itembalancesheet {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "MASTERID" })
   masterid: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "FYEID" })
   fyeid: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "FIPID" })
   fipid: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "COMID" })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("float", { name: "IMPORTVALUE", nullable: true, precision: 53 })
   importvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "IMPORTPRQTY", nullable: true, precision: 53 })
   importprqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "IMPORTSECQTY", nullable: true, precision: 53 })
   importsecqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "EXPORTVALUE", nullable: true, precision: 53 })
   exportvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "EXPORTPRQTY", nullable: true, precision: 53 })
   exportprqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "EXPORTSECQTY", nullable: true, precision: 53 })
   exportsecqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "PURCHASESQTY", nullable: true, precision: 53 })
   purchasesqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "SALESQTY", nullable: true, precision: 53 })
   salesqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "PURCHASESVALUE", nullable: true, precision: 53 })
   purchasesvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "SALESVALUE", nullable: true, precision: 53 })
   salesvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "CONSUMPTIONQTY", nullable: true, precision: 53 })
   consumptionqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "CONSUMPTIONVALUE", nullable: true, precision: 53 })
   consumptionvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "PRODUCTIONQTY", nullable: true, precision: 53 })
   productionqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "PRODUCTIONVALUE", nullable: true, precision: 53 })
   productionvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "BILLEDINPQTY", nullable: true, precision: 53 })
   billedinpqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "BILLEDOUTQTY", nullable: true, precision: 53 })
   billedoutqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "FIFOVALUE", nullable: true, precision: 53 })
   fifovalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "LIFOVALUE", nullable: true, precision: 53 })
   lifovalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "KMTVALUE", nullable: true, precision: 53 })
   kmtvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "CALCDATE", nullable: true })
   calcdate: Date | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "COSTVALUE", nullable: true, precision: 53 })
   costvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE1",
     nullable: true,
@@ -90,6 +117,7 @@ export class Itembalancesheet {
   })
   value1: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE10",
     nullable: true,
@@ -98,6 +126,7 @@ export class Itembalancesheet {
   })
   value10: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE2",
     nullable: true,
@@ -106,6 +135,7 @@ export class Itembalancesheet {
   })
   value2: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE3",
     nullable: true,
@@ -114,6 +144,7 @@ export class Itembalancesheet {
   })
   value3: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE4",
     nullable: true,
@@ -122,6 +153,7 @@ export class Itembalancesheet {
   })
   value4: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE5",
     nullable: true,
@@ -130,6 +162,7 @@ export class Itembalancesheet {
   })
   value5: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE6",
     nullable: true,
@@ -138,6 +171,7 @@ export class Itembalancesheet {
   })
   value6: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE7",
     nullable: true,
@@ -146,6 +180,7 @@ export class Itembalancesheet {
   })
   value7: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE8",
     nullable: true,
@@ -154,6 +189,7 @@ export class Itembalancesheet {
   })
   value8: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE9",
     nullable: true,
@@ -162,6 +198,7 @@ export class Itembalancesheet {
   })
   value9: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE11",
     nullable: true,
@@ -170,6 +207,7 @@ export class Itembalancesheet {
   })
   value11: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE12",
     nullable: true,
@@ -178,6 +216,7 @@ export class Itembalancesheet {
   })
   value12: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE13",
     nullable: true,
@@ -186,6 +225,7 @@ export class Itembalancesheet {
   })
   value13: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE14",
     nullable: true,
@@ -194,6 +234,7 @@ export class Itembalancesheet {
   })
   value14: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE15",
     nullable: true,
@@ -202,6 +243,7 @@ export class Itembalancesheet {
   })
   value15: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE16",
     nullable: true,
@@ -210,6 +252,7 @@ export class Itembalancesheet {
   })
   value16: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "SALESCOST",
     nullable: true,
@@ -218,6 +261,7 @@ export class Itembalancesheet {
   })
   salescost: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "INGREDIENTVALUE",
     nullable: true,
@@ -226,6 +270,7 @@ export class Itembalancesheet {
   })
   ingredientvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "LABORVALUE",
     nullable: true,
@@ -234,6 +279,7 @@ export class Itembalancesheet {
   })
   laborvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "OVERHEADVALUE",
     nullable: true,
@@ -242,15 +288,19 @@ export class Itembalancesheet {
   })
   overheadvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "TAXFREEQTY", nullable: true, precision: 53 })
   taxfreeqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "THIRDQTY", nullable: true, precision: 53 })
   thirdqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "EXPORTTHIRDQTY", nullable: true, precision: 53 })
   exportthirdqty: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "COSTACCINGRVALUE",
     nullable: true,
@@ -259,6 +309,7 @@ export class Itembalancesheet {
   })
   costaccingrvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "COSTACCLBRVALUE",
     nullable: true,
@@ -267,6 +318,7 @@ export class Itembalancesheet {
   })
   costacclbrvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "COSTACCVHDVALUE",
     nullable: true,
@@ -275,18 +327,23 @@ export class Itembalancesheet {
   })
   costaccvhdvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "AVGREMAGE", nullable: true, precision: 53 })
   avgremage: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "AVGSTORETIME", nullable: true, precision: 53 })
   avgstoretime: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "TRSPEED", nullable: true, precision: 53 })
   trspeed: number | null;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "CALCDATE2", nullable: true })
   calcdate2: Date | null;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Material, (material) => material.itembalancesheets, {
     onDelete: "CASCADE",
   })

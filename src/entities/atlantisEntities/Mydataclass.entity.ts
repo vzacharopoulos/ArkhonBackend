@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import {
   Column,
@@ -17,12 +18,15 @@ export class Mydataclass {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "COMID" })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "MYDATALINESID" })
   mydatalinesid: number;
 
+  @Field({ nullable: true })
   @Column("varchar", {
     name: "CLASSIFICATIONRECEIPT",
     nullable: true,
@@ -30,9 +34,11 @@ export class Mydataclass {
   })
   classificationreceipt: string | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "LINENUMBER", nullable: true })
   linenumber: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", {
     name: "CLASSIFICATIONTYPE",
     nullable: true,
@@ -40,6 +46,7 @@ export class Mydataclass {
   })
   classificationtype: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", {
     name: "CLASSIFICATIONCATEGORY",
     nullable: true,
@@ -47,24 +54,31 @@ export class Mydataclass {
   })
   classificationcategory: string | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "AMOUNT", nullable: true, precision: 53 })
   amount: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "CLASSIFICATIONID", nullable: true })
   classificationid: number | null;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "UPLOADDATE", nullable: true })
   uploaddate: Date | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "VATAMOUNT", nullable: true, precision: 53 })
   vatamount: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "VATCATEGORY", nullable: true })
   vatcategory: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "VATEXEMPTION", nullable: true })
   vatexemption: number | null;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Mydatalines, (mydatalines) => mydatalines.mydataclasses, {
     onDelete: "CASCADE",
   })

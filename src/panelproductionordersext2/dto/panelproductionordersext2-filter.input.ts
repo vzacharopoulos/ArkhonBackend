@@ -1,43 +1,36 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
+import {  IntFilter, StringFilter } from 'src/common/filtering helpers/filter.input';
 
-@InputType()
-export class IntFilter {
-  @Field(() => Int, { nullable: true })
-  eq?: number;
-
-  @Field(() => Int, { nullable: true })
-  gt?: number;
-
-  @Field(() => Int, { nullable: true })
-  gte?: number;
-
-  @Field(() => Int, { nullable: true })
-  lt?: number;
-
-  @Field(() => Int, { nullable: true })
-  lte?: number;
-
-  @Field(() => [Int], { nullable: true })
-  in?: number[];
-
-  @Field({ nullable: true })
-  isNull?: boolean;
-}
 
 @InputType()
 export class ProdOrdersViewFilterInput {
-  @Field({ nullable: true })
-  prodOrder?: string;
+   @Field(() => StringFilter, { nullable: true })
+  prodOrder?: StringFilter;
 
-  @Field({ nullable: true })
-  tradecode?: string;
+  @Field(() => StringFilter, { nullable: true })
+  pporderno?: StringFilter;
 
-  @Field({ nullable: true })
-  code?: string;
+  @Field(() => StringFilter, { nullable: true })
+  tradecode?: StringFilter;
+
+  @Field(() => StringFilter, { nullable: true })
+  code?: StringFilter;
+
+  @Field(() => StringFilter, { nullable: true })
+  salesmanName?: StringFilter;
+
 
   @Field({ nullable: true })
   isCanceled?: boolean;
 
-  @Field(() => IntFilter, { nullable: true })
-  count?: IntFilter;
+    @Field(() => IntFilter, { nullable: true })
+  ttm?: IntFilter;
+  
+    @Field(() => StringFilter, { nullable: true })
+  cin?: StringFilter;
+
+
+
+  @Field( { nullable: true })
+  count?: number;
 }

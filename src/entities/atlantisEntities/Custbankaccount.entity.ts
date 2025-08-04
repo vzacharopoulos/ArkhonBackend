@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import {
   Column,
@@ -19,12 +20,15 @@ export class Custbankaccount {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "ACCOUNTNUM", nullable: true, length: 30 })
   accountnum: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "IBAN", nullable: true, length: 40 })
   iban: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "BENEFICIARY", nullable: true, length: 255 })
   beneficiary: string | null;
 

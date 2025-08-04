@@ -8,7 +8,7 @@ import { Pporderlines2FilterInput } from './dto/pporderlines-filter-input';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
 import { UpdatePporderlineStatusInput } from './dto/update-pporderline-status-input';
 import { getLocalTime } from 'src/common/utils/fixtimezone';
-import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersExt2';
+import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersExt2.view';
 
 
 @Injectable()

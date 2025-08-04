@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import {
   Column,
@@ -16,39 +17,47 @@ import { Vardocformslines } from "./Vardocformslines.entity";
 @ObjectType()
 @Entity("VARDOCFORMS", { schema: "dbo" })
 export class Vardocforms {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "CODEID" })
   codeid: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DESCR", length: 255 })
   descr: string;
 
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "DFMID" })
   dfmid: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "TEAMELPID", nullable: true })
   teamelpid: number | null;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Docforms, (docforms) => docforms.vardocforms, {
     onDelete: "CASCADE",
   })
   @JoinColumn([{ name: "LINKID", referencedColumnName: "id" }])
   link: Docforms;
 
+  @Field(() => [Vardocformslines], { nullable: true })
   @OneToMany(
     () => Vardocformslines,
     (vardocformslines) => vardocformslines.vardocformidtotals
   )
   vardocformslines: Vardocformslines[];
 
+  @Field(() => [Vardocformslines], { nullable: true })
   @OneToMany(
     () => Vardocformslines,
     (vardocformslines) => vardocformslines.vardocform
   )
   vardocformslines2: Vardocformslines[];
 
+  @Field(() => [Vardocformslines], { nullable: true })
   @OneToMany(
     () => Vardocformslines,
     (vardocformslines) => vardocformslines.link

@@ -2,7 +2,7 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { ObjectType, Field, Float } from '@nestjs/graphql';
 import { PPackages } from '../entities/PPackages.entity';
 import { Masterlength } from './Masterlength';
-import { ProdOrdersView } from './PanelProductionOrdersExt2';
+import { ProdOrdersView } from './PanelProductionOrdersExt2.view';
 
 @ObjectType()
 @Entity('PANELSPEEDS', { schema: 'dbo' })

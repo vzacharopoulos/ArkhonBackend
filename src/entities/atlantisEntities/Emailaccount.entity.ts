@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import {
   Column,
@@ -17,9 +18,11 @@ export class Emailaccount {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "INSERTDATE", nullable: true })
   insertdate: Date | null;
 
+  @Field({ nullable: true })
   @Column("varchar", {
     name: "EMAILADDRESS",
     nullable: true,
@@ -28,17 +31,21 @@ export class Emailaccount {
   })
   emailaddress: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "PASSWORD", nullable: true, length: 255 })
   password: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "INCOMINGFOLDERS", nullable: true })
   incomingfolders: string | null;
 
+  @Field(() => [Company], { nullable: true })
   @OneToMany(() => Company, (company) => company.emailaccount)
   companies: Company[];
 
 
 
+  @Field(() => [Puser], { nullable: true })
   @OneToMany(() => Puser, (puser) => puser.emailaccount)
   pusers: Puser[];
 }

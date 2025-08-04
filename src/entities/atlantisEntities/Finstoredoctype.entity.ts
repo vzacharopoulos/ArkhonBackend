@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import {
   Column,
@@ -16,42 +17,54 @@ import { Company } from "./Company.entity";
 @ObjectType()
 @Entity("FINSTOREDOCTYPE", { schema: "dbo" })
 export class Finstoredoctype {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "COMID" })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "CODEID" })
   codeid: number;
 
   @PrimaryGeneratedColumn({ type: "int", name: "ID"})
   id: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DESCR", length: 50 })
   descr: string;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "TNACODE", length: 30 })
   tnacode: string;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "ATYPE", default: () => "0" })
   atype: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "CREATEMULTIPLEFINTRANS", default: () => "0" })
   createmultiplefintrans: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "NEEDAUTHORITY", default: () => "0" })
   needauthority: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "INTRASTATCODE", nullable: true, length: 10 })
   intrastatcode: string | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "FOREIGNCURID", default: () => "1" })
   foreigncurid: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "DAYTOTALS", default: () => "0" })
   daytotals: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "GLUPDMODE", nullable: true, default: () => "0" })
   glupdmode: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", {
     name: "REVERSEVALUES",
     nullable: true,
@@ -59,18 +72,23 @@ export class Finstoredoctype {
   })
   reversevalues: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "OPENITEMTYPE", nullable: true })
   openitemtype: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "FULLREMAINMODE", nullable: true })
   fullremainmode: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "GUSID", nullable: true })
   gusid: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "GUSIDSTORE", nullable: true })
   gusidstore: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", {
     name: "STOCKCHECKACTION",
     nullable: true,
@@ -78,15 +96,19 @@ export class Finstoredoctype {
   })
   stockcheckaction: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "STOCKCHECKMODE", nullable: true })
   stockcheckmode: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "STOCKREMAINMODE", nullable: true })
   stockremainmode: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "DAYSRANGE", nullable: true, default: () => "0" })
   daysrange: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", {
     name: "KEPYOQTYUPD",
     nullable: true,
@@ -94,6 +116,7 @@ export class Finstoredoctype {
   })
   kepyoqtyupd: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", {
     name: "KEPYOVALUPD",
     nullable: true,
@@ -101,60 +124,79 @@ export class Finstoredoctype {
   })
   kepyovalupd: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "MAKELOT", nullable: true, default: () => "0" })
   makelot: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "STOREDLAID", nullable: true })
   storedlaid: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "ACCMASK", nullable: true, length: 25 })
   accmask: string | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "PRSTOID", nullable: true })
   prstoid: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "COSTOID", nullable: true })
   costoid: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "PRICEMODE", nullable: true, default: () => "0" })
   pricemode: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "MAKELOTLINES", default: () => "0" })
   makelotlines: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "BILLDEL", default: () => "0" })
   billdel: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "PARSELLMODE", default: () => "0" })
   parsellmode: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "PARSELLMODELINES", default: () => "0" })
   parsellmodelines: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "PARTITIONMODE", default: () => "0" })
   partitionmode: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "GUSIDCOMP", nullable: true })
   gusidcomp: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "TRANSCOMP", nullable: true, default: () => "0" })
   transcomp: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "SNQTYMODE", nullable: true })
   snqtymode: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "COLORREMAINMODE", default: () => "0" })
   colorremainmode: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "GUSIDASSET", nullable: true })
   gusidasset: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "STOREPROCNAME", nullable: true, length: 255 })
   storeprocname: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "ABCMASK", nullable: true, length: 25 })
   abcmask: string | null;
 
+  @Field({ nullable: true })
   @Column("smallint", {
     name: "TAXFREEMODE",
     nullable: true,
@@ -162,33 +204,43 @@ export class Finstoredoctype {
   })
   taxfreemode: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "THIRDMODE", nullable: true, default: () => "0" })
   thirdmode: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "SNAPOG", nullable: true, default: () => "0" })
   snapog: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "SERNUMMODE", default: () => "0" })
   sernummode: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "ABCMODE", nullable: true, default: () => "1" })
   abcmode: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "BUSTTID", nullable: true })
   busttid: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "BUSTTSECID", nullable: true })
   busttsecid: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "FBUSTTID", nullable: true })
   fbusttid: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "ISACTIVE", nullable: true, default: () => "1" })
   isactive: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "ASSETDLAID", nullable: true })
   assetdlaid: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", {
     name: "TRANSCOMPONLYAFTERPOST",
     nullable: true,
@@ -196,12 +248,15 @@ export class Finstoredoctype {
   })
   transcomponlyafterpost: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "EINVOICEKIND", nullable: true, length: 5 })
   einvoicekind: string | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "LOTTRANSCODE", nullable: true })
   lottranscode: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", {
     name: "PROOFOFMOVEMENTDOC",
     nullable: true,
@@ -209,9 +264,11 @@ export class Finstoredoctype {
   })
   proofofmovementdoc: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "MYDATACODE", nullable: true, length: 30 })
   mydatacode: string | null;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Mattrntype, (mattrntype) => mattrntype.finstoredoctypes)
   @JoinColumn([
     { name: "COMID", referencedColumnName: "comid" },
@@ -219,6 +276,7 @@ export class Finstoredoctype {
   ])
   mattrntype: Mattrntype;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Mattrntype, (mattrntype) => mattrntype.finstoredoctypes2)
   @JoinColumn([
     { name: "COMID", referencedColumnName: "comid" },
@@ -226,6 +284,7 @@ export class Finstoredoctype {
   ])
   mattrntype2: Mattrntype;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Mattrntype, (mattrntype) => mattrntype.finstoredoctypes3)
   @JoinColumn([
     { name: "COMID", referencedColumnName: "comid" },
@@ -233,6 +292,7 @@ export class Finstoredoctype {
   ])
   mattrntype3: Mattrntype;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Mattrntype, (mattrntype) => mattrntype.finstoredoctypes4)
   @JoinColumn([
     { name: "COMID", referencedColumnName: "comid" },
@@ -240,6 +300,7 @@ export class Finstoredoctype {
   ])
   mattrntype4: Mattrntype;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Mattrntype, (mattrntype) => mattrntype.finstoredoctypes5)
   @JoinColumn([
     { name: "COMID", referencedColumnName: "comid" },
@@ -247,6 +308,7 @@ export class Finstoredoctype {
   ])
   mattrntype5: Mattrntype;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Mattrntype, (mattrntype) => mattrntype.finstoredoctypes6)
   @JoinColumn([
     { name: "COMID", referencedColumnName: "comid" },
@@ -254,6 +316,7 @@ export class Finstoredoctype {
   ])
   mattrntype6: Mattrntype;
 
+  @Field({ nullable: true })
   @ManyToOne(
     () => Assettrntype,
     (assettrntype) => assettrntype.finstoredoctypes
@@ -264,6 +327,7 @@ export class Finstoredoctype {
   ])
   assettrntype: Assettrntype;
 
+  @Field({ nullable: true })
   @ManyToOne(
     () => Assettrntype,
     (assettrntype) => assettrntype.finstoredoctypes2
@@ -274,6 +338,7 @@ export class Finstoredoctype {
   ])
   assettrntype2: Assettrntype;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Company, (company) => company.finstoredoctypes)
   @JoinColumn([{ name: "COMID", referencedColumnName: "codeid" }])
   com: Company;

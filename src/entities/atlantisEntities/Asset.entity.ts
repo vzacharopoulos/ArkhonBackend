@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import {
   Column,
   Entity,
@@ -22,180 +23,239 @@ export class Asset {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "COMID", unique: true })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "CODE", unique: true, length: 25 })
   code: string;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DESCR", nullable: true, length: 100 })
   descr: string | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "DEPRMODE" })
   deprmode: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "REGNUM", nullable: true, length: 25 })
   regnum: string | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "DEPRCOEF1", nullable: true, precision: 53 })
   deprcoef1: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "DEPRCOEF2", nullable: true, precision: 53 })
   deprcoef2: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "DEPRCOEF3", nullable: true, precision: 53 })
   deprcoef3: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "DEPRCOEF4", nullable: true, precision: 53 })
   deprcoef4: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "DEPRCOEF5", nullable: true, precision: 53 })
   deprcoef5: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLASSET", nullable: true, length: 25 })
   glasset: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLFUND", nullable: true, length: 25 })
   glfund: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLPROFIT", nullable: true, length: 25 })
   glprofit: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLLOSS", nullable: true, length: 25 })
   glloss: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLEARNING", nullable: true, length: 25 })
   glearning: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLDIFFRECALC", nullable: true, length: 25 })
   gldiffrecalc: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLTAXFREEVALUE", nullable: true, length: 25 })
   gltaxfreevalue: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLDEPR1", nullable: true, length: 25 })
   gldepr1: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLDEPR2", nullable: true, length: 25 })
   gldepr2: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLDEPR3", nullable: true, length: 25 })
   gldepr3: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLDEPR4", nullable: true, length: 25 })
   gldepr4: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLDEPR5", nullable: true, length: 25 })
   gldepr5: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLDEPRED1", nullable: true, length: 25 })
   gldepred1: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLDEPRED2", nullable: true, length: 25 })
   gldepred2: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLDEPRED3", nullable: true, length: 25 })
   gldepred3: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLDEPRED4", nullable: true, length: 25 })
   gldepred4: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLDEPRED5", nullable: true, length: 25 })
   gldepred5: string | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "ISACTIVE", nullable: true, default: () => "1" })
   isactive: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "TFVID", nullable: true })
   tfvid: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "TFDID", nullable: true })
   tfdid: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "TFDPERC", nullable: true, precision: 53 })
   tfdperc: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "FNDID", nullable: true })
   fndid: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "FNDPERC", nullable: true, precision: 53 })
   fndperc: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "INUSE", nullable: true, default: () => "0" })
   inuse: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "OVERDEPR", nullable: true, default: () => "0" })
   overdepr: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "COMMENTS", nullable: true })
   comments: string | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "IMMEDDEPR", nullable: true, default: () => "0" })
   immeddepr: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "REMAINVALUE", nullable: true, precision: 53 })
   remainvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "ABCMASK", nullable: true, length: 25 })
   abcmask: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "FLDSTRING1", nullable: true, length: 50 })
   fldstring1: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "FLDSTRING2", nullable: true, length: 50 })
   fldstring2: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "FLDSTRING3", nullable: true, length: 50 })
   fldstring3: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "FLDSTRING4", nullable: true, length: 50 })
   fldstring4: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "FLDSTRING5", nullable: true, length: 50 })
   fldstring5: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "FLDSTRING6", nullable: true, length: 50 })
   fldstring6: string | null;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "FLDDATE1", nullable: true })
   flddate1: Date | null;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "FLDDATE2", nullable: true })
   flddate2: Date | null;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "FLDDATE3", nullable: true })
   flddate3: Date | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "FLDFLOAT1", nullable: true, precision: 53 })
   fldfloat1: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "FLDFLOAT2", nullable: true, precision: 53 })
   fldfloat2: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "FLDFLOAT3", nullable: true, precision: 53 })
   fldfloat3: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "FLDFLOAT4", nullable: true, precision: 53 })
   fldfloat4: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "FLDFLOAT5", nullable: true, precision: 53 })
   fldfloat5: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "FLDFLOAT6", nullable: true, precision: 53 })
   fldfloat6: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "FLTID1", nullable: true })
   fltid1: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "FLTID2", nullable: true })
   fltid2: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "FLTID3", nullable: true })
   fltid3: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "GLPRODUCTION", nullable: true, length: 25 })
   glproduction: string | null;
 
+  @Field({ nullable: true })
   @Column("smallint", {
     name: "MOVINGOUTSIDE",
     nullable: true,
@@ -203,21 +263,27 @@ export class Asset {
   })
   movingoutside: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "RELITEID", nullable: true })
   reliteid: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "ELPNETPOSITION", nullable: true, length: 25 })
   elpnetposition: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "ELPFAIRVALUELOSS", nullable: true, length: 25 })
   elpfairvalueloss: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "ELPIMPAIRMENT", nullable: true, length: 25 })
   elpimpairment: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "ELPUNIMPAIRED", nullable: true, length: 25 })
   elpunimpaired: string | null;
 
+  @Field({ nullable: true })
   @Column("varchar", {
     name: "ELPIMPAIRMENTINVERSION",
     nullable: true,
@@ -225,21 +291,27 @@ export class Asset {
   })
   elpimpairmentinversion: string | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "VATADDED", default: () => "(0)" })
   vatadded: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "SPECIALVATSTATUS", default: () => "(0)" })
   specialvatstatus: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "INTID", nullable: true })
   intid: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "BASEDEPRDESCR", nullable: true, length: 25 })
   basedeprdescr: string | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "TOTALUNITS", nullable: true })
   totalunits: number | null;
 
+  @Field({ nullable: true })
   @Column("smallint", {
     name: "NOTINCLUDEDINCOST",
     nullable: true,
@@ -247,16 +319,20 @@ export class Asset {
   })
   notincludedincost: number | null;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "LASTMODIFIED", nullable: true })
   lastmodified: Date | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "DISCOUNTOPTION", nullable: true })
   discountoption: number | null;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Vatcategory, (vatcategory) => vatcategory.assets)
   @JoinColumn([{ name: "VTCID", referencedColumnName: "codeid" }])
   vtc: Vatcategory;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Assetcategory, (assetcategory) => assetcategory.assets)
   @JoinColumn([
     { name: "COMID", referencedColumnName: "comid" },
@@ -264,6 +340,7 @@ export class Asset {
   ])
   assetcategory: Assetcategory;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Assetcategory, (assetcategory) => assetcategory.assets2)
   @JoinColumn([
     { name: "COMID", referencedColumnName: "comid" },
@@ -272,15 +349,19 @@ export class Asset {
   assetcategory2: Assetcategory;
 
 
+  @Field(() => [Assetorginfo], { nullable: true })
   @OneToMany(() => Assetorginfo, (assetorginfo) => assetorginfo.ast)
   assetorginfos: Assetorginfo[];
 
+  @Field(() => [Assettradelines], { nullable: true })
   @OneToMany(() => Assettradelines, (assettradelines) => assettradelines.ast)
   assettradelines: Assettradelines[];
 
+  @Field(() => [Depricedasset], { nullable: true })
   @OneToMany(() => Depricedasset, (depricedasset) => depricedasset.ast)
   depricedassets: Depricedasset[];
 
+  @Field(() => [Deprtrans], { nullable: true })
   @OneToMany(() => Deprtrans, (deprtrans) => deprtrans.ast)
   deprtrans: Deprtrans[];
 }

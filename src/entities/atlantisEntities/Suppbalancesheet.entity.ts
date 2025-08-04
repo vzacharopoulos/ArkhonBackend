@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Supplier } from "./Supplier.entity";
@@ -6,18 +7,23 @@ import { Supplier } from "./Supplier.entity";
 @ObjectType()
 @Entity("SUPPBALANCESHEET", { schema: "dbo" })
 export class Suppbalancesheet {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "MASTERID" })
   masterid: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "COMID" })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "FYEID" })
   fyeid: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "FIPID" })
   fipid: number;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "LPERIODCREDIT",
     nullable: true,
@@ -26,6 +32,7 @@ export class Suppbalancesheet {
   })
   lperiodcredit: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "LPERIODDEBIT",
     nullable: true,
@@ -34,6 +41,7 @@ export class Suppbalancesheet {
   })
   lperioddebit: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "MASTERPERIODCREDIT",
     nullable: true,
@@ -42,6 +50,7 @@ export class Suppbalancesheet {
   })
   masterperiodcredit: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "MASTERPERIODDEBIT",
     nullable: true,
@@ -50,6 +59,7 @@ export class Suppbalancesheet {
   })
   masterperioddebit: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "LPERIODTURNOVER",
     nullable: true,
@@ -58,6 +68,7 @@ export class Suppbalancesheet {
   })
   lperiodturnover: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "MASTERPERIODTURNOVER",
     nullable: true,
@@ -66,6 +77,7 @@ export class Suppbalancesheet {
   })
   masterperiodturnover: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE5",
     nullable: true,
@@ -74,6 +86,7 @@ export class Suppbalancesheet {
   })
   value5: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE6",
     nullable: true,
@@ -82,6 +95,7 @@ export class Suppbalancesheet {
   })
   value6: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE7",
     nullable: true,
@@ -90,6 +104,7 @@ export class Suppbalancesheet {
   })
   value7: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE8",
     nullable: true,
@@ -98,6 +113,7 @@ export class Suppbalancesheet {
   })
   value8: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE9",
     nullable: true,
@@ -106,6 +122,7 @@ export class Suppbalancesheet {
   })
   value9: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE10",
     nullable: true,
@@ -114,6 +131,7 @@ export class Suppbalancesheet {
   })
   value10: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE11",
     nullable: true,
@@ -122,6 +140,7 @@ export class Suppbalancesheet {
   })
   value11: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE12",
     nullable: true,
@@ -130,6 +149,7 @@ export class Suppbalancesheet {
   })
   value12: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE13",
     nullable: true,
@@ -138,6 +158,7 @@ export class Suppbalancesheet {
   })
   value13: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE14",
     nullable: true,
@@ -146,6 +167,7 @@ export class Suppbalancesheet {
   })
   value14: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE15",
     nullable: true,
@@ -154,6 +176,7 @@ export class Suppbalancesheet {
   })
   value15: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE16",
     nullable: true,
@@ -162,6 +185,7 @@ export class Suppbalancesheet {
   })
   value16: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE17",
     nullable: true,
@@ -170,6 +194,7 @@ export class Suppbalancesheet {
   })
   value17: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE18",
     nullable: true,
@@ -178,6 +203,7 @@ export class Suppbalancesheet {
   })
   value18: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE19",
     nullable: true,
@@ -186,6 +212,7 @@ export class Suppbalancesheet {
   })
   value19: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE20",
     nullable: true,
@@ -194,6 +221,7 @@ export class Suppbalancesheet {
   })
   value20: number | null;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Supplier, (supplier) => supplier.suppbalancesheets, {
     onDelete: "CASCADE",
   })

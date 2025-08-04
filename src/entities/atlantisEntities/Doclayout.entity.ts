@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
@@ -11,20 +12,25 @@ export class Doclayout {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "COMID", unique: true })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "CODEID", unique: true })
   codeid: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DESCR", nullable: true, length: 255 })
   descr: string | null;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "DOMAINTYPE", unique: true })
   domaintype: number;
 
 
 
+  @Field({ nullable: true })
   @Column("int", {
     name: "USRID",
     nullable: true,
@@ -33,6 +39,7 @@ export class Doclayout {
   })
   usrid: number | null;
 
+  @Field({ nullable: true })
   @Column("int", {
     name: "GRPID",
     nullable: true,
@@ -41,6 +48,7 @@ export class Doclayout {
   })
   grpid: number | null;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "ORDERFLD", nullable: true, length: 50 })
   orderfld: string | null;
 }

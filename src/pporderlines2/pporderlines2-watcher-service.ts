@@ -7,7 +7,7 @@ import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
 import { PubSub } from 'graphql-subscriptions';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersExt2';
+import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersExt2.view';
 
 @Injectable()
 export class Pporderlines2WatcherService {

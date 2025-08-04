@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import {
   Column,
@@ -14,21 +15,27 @@ import { Storetradelines } from "./Storetradelines.entity";
 @ObjectType()
 @Entity("STORAGEBIN", { schema: "dbo" })
 export class Storagebin {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "COMID" })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { primary: true, name: "CODE", length: 25 })
   code: string;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DESCR", nullable: true, length: 255 })
   descr: string | null;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "STOID" })
   stoid: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "ISACTIVE", default: () => "(1)" })
   isactive: number;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Store, (store) => store.storagebins)
   @JoinColumn([
     { name: "COMID", referencedColumnName: "comid" },
@@ -36,6 +43,7 @@ export class Storagebin {
   ])
   store: Store;
 
+  @Field(() => [Storetradelines], { nullable: true })
   @OneToMany(
     () => Storetradelines,
     (storetradelines) => storetradelines.storagebin

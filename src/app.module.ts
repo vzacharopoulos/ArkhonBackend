@@ -24,6 +24,9 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { PanelworkinghoursModule } from './panelworkinghours/panelworkinghours.module';
 import { PanelMachinePausesModule } from './panelmachinepauses/panel-machine-pauses.module';
 import { ProdOrdersViewModule } from './panelproductionordersext2/panelproductionordersext2.module';
+import { FintradeSyncModule } from './fintradesync/fintradesync.module';
+import { CustomerModule } from './customer/customer.module';
+import { Custfindata } from './entities/atlantisEntities/Custfindata.entity';
 
 @Module({
   imports: [
@@ -31,26 +34,30 @@ import { ProdOrdersViewModule } from './panelproductionordersext2/panelproductio
     RecipesModule,
     UsersModule,
     CoilsModule,
-     StatusModule,
-     CoilColorModule,
-     UsersLocationAccessModule,
-     LocationModule,
-     PpackagesModule,
-     MasterlengthModule,
-             PpackagesModule,
+    StatusModule,
+    CoilColorModule,
+    UsersLocationAccessModule,
+    LocationModule,
+    PpackagesModule,
+    MasterlengthModule,
+    PpackagesModule,
     Pporderlines2Module,
     PpordersModule,
     PanelworkinghoursModule,
     ProdOrdersViewModule,
     PanelspeedsModule,
     PanelMachinePausesModule,
-     AuthModule,
+    FintradeSyncModule,
+    CustomerModule,
+    AuthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
       transformSchema: schema => upperDirectiveTransformer(schema, 'upper'),
       // installSubscriptionHandlers: true, // legacy; harmless here
-     subscriptions: { 'graphql-ws': {path: '/graphql',},},
+      subscriptions: { 'graphql-ws': { path: '/graphql', }, },
+      playground: true,
+      
       buildSchemaOptions: {
         directives: [
           new GraphQLDirective({
@@ -60,41 +67,50 @@ import { ProdOrdersViewModule } from './panelproductionordersext2/panelproductio
         ],
       },
     }),
- TypeOrmModule.forRoot({
-  type: 'mssql',
-  host: '192.168.10.230',
-  port: 1433,
-  database: 'panelMESDB_testing',
-  username: 'tseroki',
-  password: 'ariskobo',
- entities: [__dirname + '/**/**/*.entity{.ts,.js}',__dirname + '/**/**/*.view{.ts,.js}'],
-  synchronize: false,  // true ONLY if you want to auto-create tables
-  autoLoadEntities: true,
-  options: {
-    encrypt: false,  // required for older SQL Server, or if no SSL
-    trustServerCertificate: true,
-    
-  },
-}),
+    TypeOrmModule.forRoot({
+      type: 'mssql',
+      host: '192.168.10.230',
+      port: 1433,
+      database: 'panelMESDB_testing',
+      username: 'tseroki',
+      password: 'ariskobo',
+ entities: [
+   __dirname + '/entities/entities/*.entity{.ts,.js}',
+   __dirname + '/entities/views/*.view{.ts,.js}',
+ ],      synchronize: false,  // true ONLY if you want to auto-create tables
+      autoLoadEntities: true,
+      options: {
+        encrypt: false,  // required for older SQL Server, or if no SSL
+        trustServerCertificate: true,
+        connectTimeout: 50000, // optional, adjust as needed
+        requestTimeout: 500000, // optional, adjust as needed
+      },
+    }),
 
-TypeOrmModule.forRoot({
-  name: 'atlantisdb', 
-  type: 'mssql',
-  host: '192.168.10.167',
-  port: 1433,
-  database: 'panel_aris_testing',
-  username: 'sa',
-  password: 'm@n@g3r',
- entities: [__dirname + 'src/entities/atlantisEntities/*.entity{.ts,.js}',__dirname + 'src/entities/atlantisViews/*.view{.ts,.js}'],
-  synchronize: false,  // true ONLY if you want to auto-create tables
-  autoLoadEntities: false,
-  options: {
-    encrypt: false,  // required for older SQL Server, or if no SSL
-    trustServerCertificate: true,
-    
-  },
-}),
+    TypeOrmModule.forRoot({
+      name: 'atlantisdb',
+      type: 'mssql',
+      host: '192.168.10.167',
+      port: 1433,
+      database: 'panel_aris_testing',
+      username: 'sa',
+      password: 'm@n@g3r',
+ entities: [
+   __dirname + '/entities/atlantisEntities/*.entity{.ts,.js}',
+   __dirname + '/entities/atlantisViews/*.view{.ts,.js}',
+      
+
+ ],      synchronize: false,  // true ONLY if you want to auto-create tables
+      autoLoadEntities: true,
+      options: {
+        encrypt: false,  // required for older SQL Server, or if no SSL
+        trustServerCertificate: true,
+      connectTimeout: 50000, // optional, adjust as needed
+              requestTimeout: 500000, // optional, adjust as needed
+
+      },
+    }),
     // Add other modules here (AuthorModule, CompanyModule, etc.)
   ],
 })
-export class AppModule {}
+export class AppModule { }

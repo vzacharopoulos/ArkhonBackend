@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import { Column, Entity, Index } from "typeorm";
 
@@ -5,9 +6,11 @@ import { Column, Entity, Index } from "typeorm";
 @ObjectType()
 @Entity("TBLAUTO", { schema: "dbo" })
 export class Tblauto {
+  @Field({ nullable: true })
   @Column("varchar", { primary: true, name: "TNAME", length: 50 })
   tname: string;
 
+  @Field({ nullable: true })
   @Column("int", { name: "TCOUNT", default: () => "0" })
   tcount: number;
 }

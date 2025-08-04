@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Fundstrntype } from "./Fundstrntype.entity";
@@ -8,21 +9,27 @@ import { Billtrntype } from "./Billtrntype.entity";
 @ObjectType()
 @Entity("VALFNDSUPTRN", { schema: "dbo" })
 export class Valfndsuptrn {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "COMID" })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "FDTID" })
   fdtid: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { primary: true, name: "LINENUM" })
   linenum: number;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "LINEDOMAIN" })
   linedomain: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "GUSID", nullable: true })
   gusid: number | null;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Fundstrntype, (fundstrntype) => fundstrntype.valfndsuptrns)
   @JoinColumn([
     { name: "COMID", referencedColumnName: "comid" },
@@ -30,6 +37,7 @@ export class Valfndsuptrn {
   ])
   fundstrntype: Fundstrntype;
 
+  @Field({ nullable: true })
   @ManyToOne(
     () => Finsupdoctype,
     (finsupdoctype) => finsupdoctype.valfndsuptrns,
@@ -38,6 +46,7 @@ export class Valfndsuptrn {
   @JoinColumn([{ name: "LINKID", referencedColumnName: "id" }])
   link: Finsupdoctype;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Billtrntype, (billtrntype) => billtrntype.valfndsuptrns)
   @JoinColumn([
     { name: "COMID", referencedColumnName: "comid" },

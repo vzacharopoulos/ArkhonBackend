@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { Column, Entity, Index, OneToMany } from "typeorm";
 import { Account } from "./Account.entity";
 import { ObjectType } from "@nestjs/graphql";
@@ -5,15 +6,19 @@ import { ObjectType } from "@nestjs/graphql";
 @Index("UNI_6488", ["codeid"], { unique: true })
 @Entity("LGTAXCATEGORY", { schema: "dbo" })
 export class Lgtaxcategory {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "CODEID" })
   codeid: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "DESCR", length: 100 })
   descr: string;
 
+  @Field({ nullable: true })
   @Column("smallint", { name: "GRPLEVEL", default: () => "0" })
   grplevel: number;
 
+  @Field(() => [Account], { nullable: true })
   @OneToMany(() => Account, (account) => account.lgtaxcategory)
   accounts: Account[];
 }

@@ -2,6 +2,7 @@ import { Field, ObjectType, Int, Float } from '@nestjs/graphql';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { PanelSpeeds } from './PanelSpeeds';
 import { Pporderlines2 } from '../entities/Pporderlines2.entity';
+import { FintradeSync } from '../atlantisEntities/FintradeSync.entity';
 
 @ObjectType()
 @Entity('PanelProductionOrdersExt2', { schema: 'dbo' })
@@ -55,6 +56,7 @@ productionNo: number;
   @Field({ nullable: true })
   @Column('nvarchar', { name: 'moldout', nullable: true, length: 50 })
   moldout: string | null;
+  
 
   @Field({ nullable: true })
   @Column('nvarchar', { name: 'widthin', nullable: true, length: 50 })
@@ -80,6 +82,12 @@ productionNo: number;
     @Field(() => PanelSpeeds, { nullable: true })
    
     panelSpeed?: PanelSpeeds | null;
+
+     
+   @Field(() => Int, { nullable: true })
+  @Column('int', { name: 'count', nullable: true })
+  count: number | null;
+
   
     @Field(() => Pporderlines2, { nullable: true })
 @OneToOne(() => Pporderlines2)
@@ -97,9 +105,8 @@ pporderline?: Pporderlines2 | null;
     }
   
   
- 
-   @Field(() => Int, { nullable: true })
-  @Column('int', { name: 'count', nullable: true })
-  count: number | null;
+
+@Field(() => FintradeSync, { nullable: true })
+fintradeSync?: FintradeSync;
 
 }

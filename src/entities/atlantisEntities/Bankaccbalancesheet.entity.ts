@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Bankaccount } from "./Bankaccount.entity";
 import { ObjectType } from "@nestjs/graphql";
@@ -5,18 +6,23 @@ import { ObjectType } from "@nestjs/graphql";
 @Index("UNI_2614", ["masterid", "fyeid", "fipid", "addid"], { unique: true })
 @Entity("BANKACCBALANCESHEET", { schema: "dbo" })
 export class Bankaccbalancesheet {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "MASTERID" })
   masterid: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "FYEID" })
   fyeid: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "FIPID" })
   fipid: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "COMID" })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "LPERIODCREDIT",
     nullable: true,
@@ -25,6 +31,7 @@ export class Bankaccbalancesheet {
   })
   lperiodcredit: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "LPERIODDEBIT",
     nullable: true,
@@ -33,6 +40,7 @@ export class Bankaccbalancesheet {
   })
   lperioddebit: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "MASTERPERIODCREDIT",
     nullable: true,
@@ -41,6 +49,7 @@ export class Bankaccbalancesheet {
   })
   masterperiodcredit: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "MASTERPERIODDEBIT",
     nullable: true,
@@ -49,12 +58,15 @@ export class Bankaccbalancesheet {
   })
   masterperioddebit: number | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "BNKID" })
   bnkid: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "ADDID" })
   addid: number;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "LPERIODTURNOVER",
     nullable: true,
@@ -63,6 +75,7 @@ export class Bankaccbalancesheet {
   })
   lperiodturnover: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "MASTERPERIODTURNOVER",
     nullable: true,
@@ -71,6 +84,7 @@ export class Bankaccbalancesheet {
   })
   masterperiodturnover: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE5",
     nullable: true,
@@ -79,6 +93,7 @@ export class Bankaccbalancesheet {
   })
   value5: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE6",
     nullable: true,
@@ -87,6 +102,7 @@ export class Bankaccbalancesheet {
   })
   value6: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE7",
     nullable: true,
@@ -95,6 +111,7 @@ export class Bankaccbalancesheet {
   })
   value7: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE8",
     nullable: true,
@@ -103,6 +120,7 @@ export class Bankaccbalancesheet {
   })
   value8: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE9",
     nullable: true,
@@ -111,6 +129,7 @@ export class Bankaccbalancesheet {
   })
   value9: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE10",
     nullable: true,
@@ -119,6 +138,7 @@ export class Bankaccbalancesheet {
   })
   value10: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE11",
     nullable: true,
@@ -127,6 +147,7 @@ export class Bankaccbalancesheet {
   })
   value11: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE12",
     nullable: true,
@@ -135,6 +156,7 @@ export class Bankaccbalancesheet {
   })
   value12: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE13",
     nullable: true,
@@ -143,6 +165,7 @@ export class Bankaccbalancesheet {
   })
   value13: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE14",
     nullable: true,
@@ -151,6 +174,7 @@ export class Bankaccbalancesheet {
   })
   value14: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE15",
     nullable: true,
@@ -159,6 +183,7 @@ export class Bankaccbalancesheet {
   })
   value15: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE16",
     nullable: true,
@@ -167,6 +192,7 @@ export class Bankaccbalancesheet {
   })
   value16: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE17",
     nullable: true,
@@ -175,6 +201,7 @@ export class Bankaccbalancesheet {
   })
   value17: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE18",
     nullable: true,
@@ -183,6 +210,7 @@ export class Bankaccbalancesheet {
   })
   value18: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE19",
     nullable: true,
@@ -191,6 +219,7 @@ export class Bankaccbalancesheet {
   })
   value19: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE20",
     nullable: true,
@@ -199,6 +228,7 @@ export class Bankaccbalancesheet {
   })
   value20: number | null;
 
+  @Field({ nullable: true })
   @ManyToOne(
     () => Bankaccount,
     (bankaccount) => bankaccount.bankaccbalancesheets,

@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Material } from "./Material.entity";
@@ -6,24 +7,31 @@ import { Material } from "./Material.entity";
 @ObjectType()
 @Entity("ITEMFINDATA", { schema: "dbo" })
 export class Itemfindata {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "MASTERID" })
   masterid: number;
 
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "COMID" })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("float", { name: "FIFOVALUE", nullable: true, precision: 53 })
   fifovalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "LIFOVALUE", nullable: true, precision: 53 })
   lifovalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "KMTVALUE", nullable: true, precision: 53 })
   kmtvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "CALCDATE", nullable: true })
   calcdate: Date | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE1",
     nullable: true,
@@ -32,6 +40,7 @@ export class Itemfindata {
   })
   value1: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE10",
     nullable: true,
@@ -40,6 +49,7 @@ export class Itemfindata {
   })
   value10: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE2",
     nullable: true,
@@ -48,6 +58,7 @@ export class Itemfindata {
   })
   value2: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE3",
     nullable: true,
@@ -56,6 +67,7 @@ export class Itemfindata {
   })
   value3: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE4",
     nullable: true,
@@ -64,6 +76,7 @@ export class Itemfindata {
   })
   value4: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE5",
     nullable: true,
@@ -72,6 +85,7 @@ export class Itemfindata {
   })
   value5: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE6",
     nullable: true,
@@ -80,6 +94,7 @@ export class Itemfindata {
   })
   value6: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE7",
     nullable: true,
@@ -88,6 +103,7 @@ export class Itemfindata {
   })
   value7: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE8",
     nullable: true,
@@ -96,6 +112,7 @@ export class Itemfindata {
   })
   value8: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE9",
     nullable: true,
@@ -104,6 +121,7 @@ export class Itemfindata {
   })
   value9: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE11",
     nullable: true,
@@ -112,6 +130,7 @@ export class Itemfindata {
   })
   value11: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE12",
     nullable: true,
@@ -120,6 +139,7 @@ export class Itemfindata {
   })
   value12: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE13",
     nullable: true,
@@ -128,6 +148,7 @@ export class Itemfindata {
   })
   value13: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE14",
     nullable: true,
@@ -136,6 +157,7 @@ export class Itemfindata {
   })
   value14: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE15",
     nullable: true,
@@ -144,6 +166,7 @@ export class Itemfindata {
   })
   value15: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE16",
     nullable: true,
@@ -152,18 +175,23 @@ export class Itemfindata {
   })
   value16: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "COSTVALUE", nullable: true, precision: 53 })
   costvalue: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "AVGREMAGE", nullable: true, precision: 53 })
   avgremage: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "AVGSTORETIME", nullable: true, precision: 53 })
   avgstoretime: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "TRSPEED", nullable: true, precision: 53 })
   trspeed: number | null;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Material, (material) => material.itemfindata, {
     onDelete: "CASCADE",
   })

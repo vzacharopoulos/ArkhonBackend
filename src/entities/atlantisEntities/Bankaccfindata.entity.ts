@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 import { Bankaccount } from "./Bankaccount.entity";
 import { ObjectType } from "@nestjs/graphql";
@@ -5,27 +6,35 @@ import { ObjectType } from "@nestjs/graphql";
 @Index("UNI_2618", ["masterid"], { unique: true })
 @Entity("BANKACCFINDATA", { schema: "dbo" })
 export class Bankaccfindata {
+  @Field({ nullable: true })
   @Column("int", { primary: true, name: "MASTERID" })
   masterid: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "COMID" })
   comid: number;
 
+  @Field({ nullable: true })
   @Column("float", { name: "MEANPAYMENTTIME", nullable: true, precision: 53 })
   meanpaymenttime: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "MEANDUETIME", nullable: true, precision: 53 })
   meanduetime: number | null;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "CALCDATE", nullable: true })
   calcdate: Date | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "LMASTERBALANCE", nullable: true, precision: 53 })
   lmasterbalance: number | null;
 
+  @Field({ nullable: true })
   @Column("float", { name: "MASTERBALANCE", nullable: true, precision: 53 })
   masterbalance: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "LGENINDEFINITEBALANCE",
     nullable: true,
@@ -33,6 +42,7 @@ export class Bankaccfindata {
   })
   lgenindefinitebalance: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "LSELFINDEFINITEBALANCE",
     nullable: true,
@@ -40,15 +50,19 @@ export class Bankaccfindata {
   })
   lselfindefinitebalance: number | null;
 
+  @Field({ nullable: true })
   @Column("datetime", { name: "UPDDATE", nullable: true })
   upddate: Date | null;
 
+  @Field({ nullable: true })
   @Column("int", { name: "BNKID" })
   bnkid: number;
 
+  @Field({ nullable: true })
   @Column("int", { name: "ADDID" })
   addid: number;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE5",
     nullable: true,
@@ -57,6 +71,7 @@ export class Bankaccfindata {
   })
   value5: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE6",
     nullable: true,
@@ -65,6 +80,7 @@ export class Bankaccfindata {
   })
   value6: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE7",
     nullable: true,
@@ -73,6 +89,7 @@ export class Bankaccfindata {
   })
   value7: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE8",
     nullable: true,
@@ -81,6 +98,7 @@ export class Bankaccfindata {
   })
   value8: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE9",
     nullable: true,
@@ -89,6 +107,7 @@ export class Bankaccfindata {
   })
   value9: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE10",
     nullable: true,
@@ -97,6 +116,7 @@ export class Bankaccfindata {
   })
   value10: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE11",
     nullable: true,
@@ -105,6 +125,7 @@ export class Bankaccfindata {
   })
   value11: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE12",
     nullable: true,
@@ -113,6 +134,7 @@ export class Bankaccfindata {
   })
   value12: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE13",
     nullable: true,
@@ -121,6 +143,7 @@ export class Bankaccfindata {
   })
   value13: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE14",
     nullable: true,
@@ -129,6 +152,7 @@ export class Bankaccfindata {
   })
   value14: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE15",
     nullable: true,
@@ -137,6 +161,7 @@ export class Bankaccfindata {
   })
   value15: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE16",
     nullable: true,
@@ -145,6 +170,7 @@ export class Bankaccfindata {
   })
   value16: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE17",
     nullable: true,
@@ -153,6 +179,7 @@ export class Bankaccfindata {
   })
   value17: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE18",
     nullable: true,
@@ -161,6 +188,7 @@ export class Bankaccfindata {
   })
   value18: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE19",
     nullable: true,
@@ -169,6 +197,7 @@ export class Bankaccfindata {
   })
   value19: number | null;
 
+  @Field({ nullable: true })
   @Column("float", {
     name: "VALUE20",
     nullable: true,
@@ -177,6 +206,7 @@ export class Bankaccfindata {
   })
   value20: number | null;
 
+  @Field({ nullable: true })
   @OneToOne(() => Bankaccount, (bankaccount) => bankaccount.bankaccfindata, {
     onDelete: "CASCADE",
   })

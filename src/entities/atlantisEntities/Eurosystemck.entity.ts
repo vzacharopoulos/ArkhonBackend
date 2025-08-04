@@ -1,3 +1,4 @@
+import { Field } from "@nestjs/graphql";
 import { ObjectType } from "@nestjs/graphql";
 import {
   Column,
@@ -16,9 +17,11 @@ export class Eurosystemck {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
+  @Field({ nullable: true })
   @Column("varchar", { name: "EXPRESSION" })
   expression: string;
 
+  @Field({ nullable: true })
   @ManyToOne(() => Eurosystemhd, (eurosystemhd) => eurosystemhd.eurosystemcks, {
     onDelete: "CASCADE",
   })

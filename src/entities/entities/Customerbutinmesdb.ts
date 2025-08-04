@@ -1,7 +1,7 @@
 import { Column, Entity } from "typeorm";
 
 @Entity("Customer", { schema: "dbo" })
-export class Customer {
+export class CustomerMes {
   @Column("smallint", { name: "id", nullable: true })
   id: number | null;
 
