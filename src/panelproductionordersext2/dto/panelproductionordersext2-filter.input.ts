@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import {  IntFilter, StringFilter } from 'src/common/filtering helpers/filter.input';
+import {  DateFilter, IntFilter, StringFilter } from 'src/common/filtering helpers/filter.input';
 
 
 @InputType()
@@ -33,4 +33,10 @@ export class ProdOrdersViewFilterInput {
 
   @Field( { nullable: true })
   count?: number;
+@Field(() => IntFilter, { nullable: true })
+    fintradeSyncStatus?: number[]; // e.g., [0, 1]
+
+  @Field(() => DateFilter, { nullable: true })
+  fintradeSyncDate?: DateFilter;  // Single date filter object
+  
 }

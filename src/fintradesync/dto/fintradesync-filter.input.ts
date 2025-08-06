@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { IntFilter } from 'src/common/filtering helpers/filter.input';
+import { DateFilter, IntFilter } from 'src/common/filtering helpers/filter.input';
 
 
 
@@ -16,4 +16,7 @@ export class FintradeSyncFilterInput {
 
   @Field(() => IntFilter, { nullable: true })
   comid?: IntFilter;
+
+    @Field(() => DateFilter, { nullable: true })
+  ftrdate?: DateFilter;
 }

@@ -83,7 +83,7 @@ async checkForUpdates(): Promise<void> {
     return pubSub;
   }
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_10_SECONDS)
   async handleCron(): Promise<void> {
     this.logger.log('Running scheduled cron job...');
     return this.checkForUpdates();

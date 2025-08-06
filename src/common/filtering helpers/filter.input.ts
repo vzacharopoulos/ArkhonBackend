@@ -67,6 +67,50 @@ export function applyIntFilter(
   }
 }
 
+@InputType()
+export class DateFilter {
+  @Field(() => Date, { nullable: true })
+  eq?: Date;
+
+  @Field(() => Date, { nullable: true })
+  gte?: Date;
+
+  @Field(() => Date, { nullable: true })
+  lte?: Date;
+
+  @Field(() => Date, { nullable: true })
+  gt?: Date;
+
+  @Field(() => Date, { nullable: true })
+  lt?: Date;
+}
+export function applyDateFilter(
+  queryBuilder: any,
+  fieldPath: string,
+  filterValue: DateFilter,
+  alias?: string,
+) {
+  if (!filterValue) return;
+
+  const prefix = alias || fieldPath.replace('.', '');
+
+  if (filterValue.eq !== undefined) {
+    queryBuilder.andWhere(`${fieldPath} = :${prefix}Eq`, { [`${prefix}Eq`]: filterValue.eq });
+  }
+  if (filterValue.gte !== undefined) {
+    queryBuilder.andWhere(`${fieldPath} >= :${prefix}Gte`, { [`${prefix}Gte`]: filterValue.gte });
+  }
+  if (filterValue.lte !== undefined) {
+    queryBuilder.andWhere(`${fieldPath} <= :${prefix}Lte`, { [`${prefix}Lte`]: filterValue.lte });
+  }
+  if (filterValue.gt !== undefined) {
+    queryBuilder.andWhere(`${fieldPath} > :${prefix}Gt`, { [`${prefix}Gt`]: filterValue.gt });
+  }
+  if (filterValue.lt !== undefined) {
+    queryBuilder.andWhere(`${fieldPath} < :${prefix}Lt`, { [`${prefix}Lt`]: filterValue.lt });
+  }
+}
+
 
 
 
@@ -108,6 +152,12 @@ export function applyStringFilter(
   }
   if (filter.contains !== undefined) {
     qb.andWhere(`${fieldPath} LIKE :${prefix}Contains`, { [`${prefix}Contains`]: `%${filter.contains}%` });
+  }
+    if (filter.iLike !== undefined) {
+    // Case-insensitive "LIKE" using LOWER (works on SQL Server, MySQL, etc)
+    qb.andWhere(`LOWER(${fieldPath}) LIKE LOWER(:${prefix}ILike)`, {
+      [`${prefix}ILike`]: `%${filter.iLike}%`,
+    });
   }
   if (filter.startsWith !== undefined) {
     qb.andWhere(`${fieldPath} LIKE :${prefix}StartsWith`, { [`${prefix}StartsWith`]: `${filter.startsWith}%` });

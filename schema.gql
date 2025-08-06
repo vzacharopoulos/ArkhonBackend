@@ -6540,38 +6540,6 @@ type Uservardocformsmessages {
   dfm: Docforms
 }
 
-type Vardocforms {
-  codeid: Float
-  descr: String
-  dfmid: Float
-  teamelpid: Float
-  link: Docforms
-  vardocformslines: [Vardocformslines!]
-  vardocformslines2: [Vardocformslines!]
-  vardocformslines3: [Vardocformslines!]
-  id: Float!
-}
-
-type Docforms {
-  codeid: Float
-  descr: String
-  prtid: Float
-  frmtype: Float
-  domaintype: Float
-  prevfyeid: Float
-  accdatasource: Float
-  closeddocid: Float
-  internalstr: String
-  prtid2: Float
-  isbalance: Float
-  calcdocforms: [Calcdocforms!]
-  uservardocforms: [Uservardocforms!]
-  uservardocformsmessages: [Uservardocformsmessages!]
-  vardocforms: [Vardocforms!]
-  vardocformslines: [Vardocformslines!]
-  id: Float!
-}
-
 type Vardocformslines {
   acccode: String
   linenum: Float
@@ -6594,6 +6562,38 @@ type Vardocformslines {
   vardocformidtotals: Vardocforms
   vardocform: Vardocforms
   link: Vardocforms
+}
+
+type Docforms {
+  codeid: Float
+  descr: String
+  prtid: Float
+  frmtype: Float
+  domaintype: Float
+  prevfyeid: Float
+  accdatasource: Float
+  closeddocid: Float
+  internalstr: String
+  prtid2: Float
+  isbalance: Float
+  calcdocforms: [Calcdocforms!]
+  uservardocforms: [Uservardocforms!]
+  uservardocformsmessages: [Uservardocformsmessages!]
+  vardocforms: [Vardocforms!]
+  vardocformslines: [Vardocformslines!]
+  id: Float!
+}
+
+type Vardocforms {
+  codeid: Float
+  descr: String
+  dfmid: Float
+  teamelpid: Float
+  link: Docforms
+  vardocformslines: [Vardocformslines!]
+  vardocformslines2: [Vardocformslines!]
+  vardocformslines3: [Vardocformslines!]
+  id: Float!
 }
 
 type Tasktrn {
@@ -6728,15 +6728,6 @@ type Utask {
   tasktrns: [Tasktrn!]
 }
 
-type Taxfeehist {
-  code: Float
-  domaintype: Float
-  fyeid: Float
-  coef: Float
-  comments: String
-  taxfee: Taxfee
-}
-
 type Taxfee {
   descr: String
   code: Float
@@ -6747,6 +6738,15 @@ type Taxfee {
   domaintype: Float
   taxfeehists: [Taxfeehist!]
   id: Float!
+}
+
+type Taxfeehist {
+  code: Float
+  domaintype: Float
+  fyeid: Float
+  coef: Float
+  comments: String
+  taxfee: Taxfee
 }
 
 type Printtemplate {
@@ -6857,29 +6857,40 @@ type RssNews {
   id: Float!
 }
 
-type Prdata {
+type Centercost {
+  codeid: Float
   comid: Float
-  prpid: Float
-  domainid1: Float
-  domainid2: Float
-  linenum: Float
-  qty: Float
-  fld1: Float
-  fld2: Float
-  fld3: Float
-  fld4: Float
-  fld5: Float
-  fld6: Float
-  fdate: Date
-  ldate: Date
-  iteid: Float
-  giftqty: Float
-  domaintype: Float
-  lastmodifieddate: Date
-  usrid: Float
-  fromtime: String
-  totime: String
-  prdef: Prdef
+  descr: String
+  accmask: String
+  abcmask: String
+  presources: [Presource!]
+}
+
+type Groupresource {
+  comid: Float
+  codeid: Float
+  descr: String
+  presources: [Presource!]
+}
+
+type Presource {
+  comid: Float
+  codeid: Float
+  descr: String
+  mesunit: String
+  accmask: String
+  calctype: Float
+  modifiable: Float
+  reskind: Float
+  formexpvalue: String
+  distrno: Float
+  abcid1: Float
+  abcid2: Float
+  abcid3: Float
+  abcid4: Float
+  abcid5: Float
+  centercost: Centercost
+  groupresource: Groupresource
 }
 
 type Prdef {
@@ -6918,40 +6929,47 @@ type Prdef {
   prdata: [Prdata!]
 }
 
-type Centercost {
-  codeid: Float
+type Prdata {
   comid: Float
-  descr: String
-  accmask: String
-  abcmask: String
-  presources: [Presource!]
+  prpid: Float
+  domainid1: Float
+  domainid2: Float
+  linenum: Float
+  qty: Float
+  fld1: Float
+  fld2: Float
+  fld3: Float
+  fld4: Float
+  fld5: Float
+  fld6: Float
+  fdate: Date
+  ldate: Date
+  iteid: Float
+  giftqty: Float
+  domaintype: Float
+  lastmodifieddate: Date
+  usrid: Float
+  fromtime: String
+  totime: String
+  prdef: Prdef
 }
 
-type Groupresource {
+type Natinistore {
   comid: Float
-  codeid: Float
-  descr: String
-  presources: [Presource!]
-}
-
-type Presource {
-  comid: Float
-  codeid: Float
-  descr: String
-  mesunit: String
-  accmask: String
-  calctype: Float
-  modifiable: Float
-  reskind: Float
-  formexpvalue: String
-  distrno: Float
-  abcid1: Float
-  abcid2: Float
-  abcid3: Float
-  abcid4: Float
-  abcid5: Float
-  centercost: Centercost
-  groupresource: Groupresource
+  stoid: Float
+  fyeid: Float
+  fipid: Float
+  iteid: Float
+  bincode: String
+  remprqty: Float
+  remsecqty: Float
+  newprqty: Float
+  newsecqty: Float
+  consumptionqty: Float
+  insdate: Date
+  parid: Float
+  expdate: Date
+  natinistorecolorsizes: [Natinistorecolorsize!]
 }
 
 type Natinistorecolorsize {
@@ -7004,24 +7022,6 @@ type Natinistorecolorsize {
   remsize20: Float
   parid: Float
   natinistore: Natinistore
-}
-
-type Natinistore {
-  comid: Float
-  stoid: Float
-  fyeid: Float
-  fipid: Float
-  iteid: Float
-  bincode: String
-  remprqty: Float
-  remsecqty: Float
-  newprqty: Float
-  newsecqty: Float
-  consumptionqty: Float
-  insdate: Date
-  parid: Float
-  expdate: Date
-  natinistorecolorsizes: [Natinistorecolorsize!]
 }
 
 type Myf {
@@ -7249,14 +7249,6 @@ type Lbshapes {
   lbdata: [Lbdata!]
 }
 
-type Eurosystemlistshd {
-  code: String
-  descr: String
-  timestamp: Date
-  eurosystemlistsdts: [Eurosystemlistsdt!]
-  id: Float!
-}
-
 type Eurosystemlistsdt {
   eslihdid: Float
   code: String
@@ -7264,6 +7256,14 @@ type Eurosystemlistsdt {
   timestamp: Date
   deinstructions: String
   eslihd: Eurosystemlistshd
+  id: Float!
+}
+
+type Eurosystemlistshd {
+  code: String
+  descr: String
+  timestamp: Date
+  eurosystemlistsdts: [Eurosystemlistsdt!]
   id: Float!
 }
 
@@ -7311,6 +7311,14 @@ type Colorlistlines {
   link: Colorlist
 }
 
+type Accdiffmodellines {
+  fromdate: Date
+  coef: Float
+  comments: String
+  accdiffmodel: Accdiffmodel
+  id: Float!
+}
+
 type Accdiffmodel {
   code: String
   description: String
@@ -7319,14 +7327,6 @@ type Accdiffmodel {
   mobilenum: Float
   akind: Float
   accdiffmodellines: [Accdiffmodellines!]
-  id: Float!
-}
-
-type Accdiffmodellines {
-  fromdate: Date
-  coef: Float
-  comments: String
-  accdiffmodel: Accdiffmodel
   id: Float!
 }
 
@@ -7468,6 +7468,8 @@ input ProdOrdersViewFilterInput {
   ttm: IntFilter
   cin: StringFilter
   count: Float
+  fintradeSyncStatus: IntFilter
+  fintradeSyncDate: DateFilter
 }
 
 input StringFilter {
@@ -7488,6 +7490,14 @@ input IntFilter {
   lte: Int
   in: [Int!]
   isNull: Boolean
+}
+
+input DateFilter {
+  eq: Date
+  gte: Date
+  lte: Date
+  gt: Date
+  lt: Date
 }
 
 input ProdOrdersViewSortInput {
@@ -7512,6 +7522,7 @@ input FintradeSyncFilterInput {
   dsrnumber: String
   iscanceled: Boolean
   comid: IntFilter
+  ftrdate: DateFilter
 }
 
 input FintradeSyncSortInput {

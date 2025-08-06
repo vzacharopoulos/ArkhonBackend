@@ -27,6 +27,7 @@ import { ProdOrdersViewModule } from './panelproductionordersext2/panelproductio
 import { FintradeSyncModule } from './fintradesync/fintradesync.module';
 import { CustomerModule } from './customer/customer.module';
 import { Custfindata } from './entities/atlantisEntities/Custfindata.entity';
+import { LoggingPlugin } from './common/plugins/logging.plugin';
 
 @Module({
   imports: [
@@ -57,7 +58,7 @@ import { Custfindata } from './entities/atlantisEntities/Custfindata.entity';
       // installSubscriptionHandlers: true, // legacy; harmless here
       subscriptions: { 'graphql-ws': { path: '/graphql', }, },
       playground: true,
-      
+      // plugins: [new LoggingPlugin()],
       buildSchemaOptions: {
         directives: [
           new GraphQLDirective({
@@ -79,11 +80,11 @@ import { Custfindata } from './entities/atlantisEntities/Custfindata.entity';
    __dirname + '/entities/views/*.view{.ts,.js}',
  ],      synchronize: false,  // true ONLY if you want to auto-create tables
       autoLoadEntities: true,
+       connectionTimeout: 50000, // adjust as needed
+      requestTimeout: 500000,   // extend default 15s timeout
       options: {
         encrypt: false,  // required for older SQL Server, or if no SSL
         trustServerCertificate: true,
-        connectTimeout: 50000, // optional, adjust as needed
-        requestTimeout: 500000, // optional, adjust as needed
       },
     }),
 
@@ -102,11 +103,11 @@ import { Custfindata } from './entities/atlantisEntities/Custfindata.entity';
 
  ],      synchronize: false,  // true ONLY if you want to auto-create tables
       autoLoadEntities: true,
+       connectionTimeout: 50000, // adjust as needed
+      requestTimeout: 500000,   // extend default 15s timeout
       options: {
         encrypt: false,  // required for older SQL Server, or if no SSL
         trustServerCertificate: true,
-      connectTimeout: 50000, // optional, adjust as needed
-              requestTimeout: 500000, // optional, adjust as needed
 
       },
     }),
