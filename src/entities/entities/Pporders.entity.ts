@@ -3,7 +3,7 @@ import { Column, Entity, Index, JoinColumn, OneToMany, PrimaryGeneratedColumn } 
 import { Field, ObjectType, Int, Float } from "@nestjs/graphql";
 import { Pporderlines2 } from "./Pporderlines2.entity";
 import { PanelMachinePauses } from "./PanelMachinePauses.entity";
-
+import { PporderGroupIn} from "../../pporders/dto/pporder-group.output";
 
 @ObjectType()
 @Index("PK_PPORDERS", ["id"], { unique: true })
@@ -113,4 +113,11 @@ pauses?: PanelMachinePauses[];
 
        @Field(() => Number, { nullable: true })
   totalTtm?: number | null;
+
+    @Field(() => [PporderGroupIn], { nullable: true })
+  groupIn?: PporderGroupIn[];
+
+
+
+   
 }

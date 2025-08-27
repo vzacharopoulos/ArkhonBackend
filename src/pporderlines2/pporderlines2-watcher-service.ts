@@ -8,6 +8,7 @@ import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
 import { PubSub } from 'graphql-subscriptions';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersExt2.view';
+import { TradecodeCustomer } from 'src/entities/views/TradecodeCustomer.view';
 
 @Injectable()
 export class Pporderlines2WatcherService {
@@ -37,6 +38,12 @@ async checkForUpdates(): Promise<void> {
       PanelSpeeds,
       'panelSpeed',
       'prodOrdersView.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code',
+    )
+    .leftJoinAndMapOne(
+      'line.tradecodeCustomer',
+      TradecodeCustomer,
+      'tradecodeCustomer',
+      'line.tradecode COLLATE SQL_Latin1_General_CP1_CI_AS = tradecodeCustomer.tradecode',
     )
     .where('line.isCanceled = :isCanceled', { isCanceled: 0 })
     .getMany();

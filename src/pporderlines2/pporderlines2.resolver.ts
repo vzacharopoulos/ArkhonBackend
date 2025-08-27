@@ -6,18 +6,25 @@ import { fileURLToPath } from 'url';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
 import { pubSub } from '../common/pubsub';
 import { UpdatePporderlineStatusInput } from './dto/update-pporderline-status-input';
+import { Pporderlines2Response } from './dto/pporderlines2-response.type';
+import { Pporderlines2SortInput } from './dto/pporderlines-sort-input';
+import { OffsetPaging } from 'src/panelproductionordersext2/dto/paging.input';
 
 @Resolver(() => Pporderlines2)
 export class Pporderlines2Resolver {
   constructor(private readonly pporderlines2Service: Pporderlines2Service) {}
 
-  @Query(() => [Pporderlines2])
+  @Query(() => Pporderlines2Response)
   async pporderlines2(
-    @Args('filter', { type: () => Pporderlines2FilterInput, nullable: true }) filter?: Pporderlines2FilterInput,
-  ): Promise<Pporderlines2[]> {
-    return this.pporderlines2Service.findAll(filter);
+    @Args('filter', { type: () => Pporderlines2FilterInput, nullable: true })
+    filter?: Pporderlines2FilterInput,
+    @Args('sorting', { type: () => [Pporderlines2SortInput], nullable: true })
+    sorting?: Pporderlines2SortInput[],
+    @Args('paging', { type: () => OffsetPaging, nullable: true })
+    paging?: OffsetPaging,
+  ): Promise<Pporderlines2Response> {
+    return this.pporderlines2Service.findAll(filter, sorting, paging);
   }
-
   @Query(() => Pporderlines2, { nullable: true })
   async pporderline2(@Args('id', { type: () => Int }) id: number): Promise<Pporderlines2 | null> {
     return this.pporderlines2Service.findOne(id);

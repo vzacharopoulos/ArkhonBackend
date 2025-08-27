@@ -4,6 +4,7 @@ import { Status } from "./Status.entity";
 import { UsersLocationAccess } from "./UserLocationAccess.entity";
 import { Location } from "./Location.entity";
 import {openstatus} from "../../coils/dto/coils-enum-types"
+import { CoilColor } from "./CoilColor.entity";
 
 @ObjectType()
 @Index("PK_COILS", ["id"], { unique: true })
@@ -403,6 +404,18 @@ initWeight: number | null;
   @Field({ nullable: true })
   @Column("nvarchar", { name: "company", nullable: true, length: 50 })
   company: string | null;
+
+  // @Field(() => CoilColor, { nullable: true })
+  // @ManyToOne(() => CoilColor, (color) => color.coils)
+  // @JoinColumn({ name: 'color'})
+  // colorRef: CoilColor | null;
+
+  // Expose name directly to GraphQL (optional convenience field)
+  // @Field(() => String, { nullable: true })
+  // get colorName(): string | null {
+  //   return this.colorRef?.name ?? null;
+  // }
+
 
  
 

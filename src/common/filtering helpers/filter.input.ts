@@ -147,28 +147,40 @@ export function applyStringFilter(
   if (!filter) return;
   const prefix = alias || fieldPath.replace('.', '');
 
+  // Handle eq as array or single value
   if (filter.eq !== undefined) {
-    qb.andWhere(`${fieldPath} = :${prefix}Eq`, { [`${prefix}Eq`]: filter.eq });
+    if (Array.isArray(filter.eq)) {
+      qb.andWhere(`${fieldPath} IN (:...${prefix}Eq)`, { [`${prefix}Eq`]: filter.eq });
+    } else {
+      qb.andWhere(`${fieldPath} = :${prefix}Eq`, { [`${prefix}Eq`]: filter.eq });
+    }
   }
+
   if (filter.contains !== undefined) {
     qb.andWhere(`${fieldPath} LIKE :${prefix}Contains`, { [`${prefix}Contains`]: `%${filter.contains}%` });
   }
-    if (filter.iLike !== undefined) {
-    // Case-insensitive "LIKE" using LOWER (works on SQL Server, MySQL, etc)
+
+  if (filter.iLike !== undefined) {
     qb.andWhere(`LOWER(${fieldPath}) LIKE LOWER(:${prefix}ILike)`, {
       [`${prefix}ILike`]: `%${filter.iLike}%`,
     });
   }
+
   if (filter.startsWith !== undefined) {
     qb.andWhere(`${fieldPath} LIKE :${prefix}StartsWith`, { [`${prefix}StartsWith`]: `${filter.startsWith}%` });
   }
+
   if (filter.endsWith !== undefined) {
     qb.andWhere(`${fieldPath} LIKE :${prefix}EndsWith`, { [`${prefix}EndsWith`]: `%${filter.endsWith}` });
   }
+
+  // This remains, and still handles explicit filter.in as before
   if (filter.in && filter.in.length > 0) {
     qb.andWhere(`${fieldPath} IN (:...${prefix}In)`, { [`${prefix}In`]: filter.in });
   }
+
   if (filter.isNull !== undefined) {
     qb.andWhere(filter.isNull ? `${fieldPath} IS NULL` : `${fieldPath} IS NOT NULL`);
   }
 }
+

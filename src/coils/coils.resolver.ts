@@ -11,6 +11,7 @@ import { UsersLocationAccessService } from 'src/userslocationaccess/userslocatio
 import { openstatus } from './dto/coils-enum-types';
 import { LocationType } from 'src/location/location.resolver';
 import {  UpdateCoilInput, UpdateOneCoilInput } from './dto/update-coil-input';
+import { CoilColor } from 'src/entities/entities/CoilColor.entity';
 @ObjectType('Coil')
 export class CoilType {
   // Previous fields (already added)
@@ -275,7 +276,9 @@ export class CoilType {
    @Field(() => [UsersLocationAccess], { description: 'User access permissions for this coil location' })
   locationAccess: UsersLocationAccess[];
 
-
+//  @Field(() => CoilColor, { nullable: true })
+//   colorRef?: CoilColor ;
+// 
 }
 
 @Resolver(() => CoilType)

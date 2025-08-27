@@ -2,6 +2,7 @@ import { Column, Entity, Index, JoinColumn, ManyToOne, OneToOne, PrimaryGenerate
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { Pporders } from './Pporders.entity';
 import { ProdOrdersView } from '../views/PanelProductionOrdersExt2.view';
+import { TradecodeCustomer } from '../views/TradecodeCustomer.view';
 
 @ObjectType()
 @Index('PK_PPORDERLINES2', ['id'], { unique: true })
@@ -48,6 +49,11 @@ export class Pporderlines2 {
 })
 tradecode: string | null;
 
+@Field(() => TradecodeCustomer, { nullable: true })
+  @ManyToOne(() => TradecodeCustomer, { eager: true })
+  @JoinColumn([{ name: 'tradecode', referencedColumnName: 'tradecode' }])
+  tradecodeCustomer?: TradecodeCustomer | null;
+
   @Field(() => ProdOrdersView, { nullable: true })
   @OneToOne(() => ProdOrdersView,{ eager: true })
   @JoinColumn([
@@ -61,7 +67,7 @@ tradecode: string | null;
   @JoinColumn([{ name: 'PPORDERNO', referencedColumnName: 'pporderno' }])
    pporders?: Pporders | null;
 
-   
+  
 
 }
 

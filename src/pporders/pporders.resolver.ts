@@ -8,6 +8,7 @@ import { PpordersFilterInput } from './dto/pporders-filter-input';
 import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 import { pubSub } from '../common/pubsub';
 import { PanelMachinePauses } from 'src/entities/entities/PanelMachinePauses.entity';
+import { PporderGroupIn } from './dto/pporder-group.output';
 
 
 @Resolver(() => Pporders)
@@ -49,6 +50,13 @@ export class PpordersResolver {
     if (!order.pporderno) return null;
     return this.ppordersService.getTotalTtm(order.pporderno);
   }
+
+  @ResolveField('groupIn', () => [PporderGroupIn])
+  async groupIn(@Parent() order: Pporders): Promise<PporderGroupIn[]> {
+    if (!order.pporderno) return [];
+    return this.ppordersService.getGroupIn(order.pporderno);
+  }
+
 
 
   // Create new order

@@ -28,9 +28,14 @@ import { FintradeSyncModule } from './fintradesync/fintradesync.module';
 import { CustomerModule } from './customer/customer.module';
 import { Custfindata } from './entities/atlantisEntities/Custfindata.entity';
 import { LoggingPlugin } from './common/plugins/logging.plugin';
+import { ConfigModule } from '@nestjs/config';
+import { TradecodeCustomer } from './entities/views/TradecodeCustomer.view';
 
 @Module({
   imports: [
+      ConfigModule.forRoot({
+      isGlobal: true, // <-- makes env vars available everywhere
+    }),
     ScheduleModule.forRoot(),
     RecipesModule,
     UsersModule,
@@ -50,6 +55,7 @@ import { LoggingPlugin } from './common/plugins/logging.plugin';
     PanelMachinePausesModule,
     FintradeSyncModule,
     CustomerModule,
+    TradecodeCustomer,
     AuthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -68,46 +74,49 @@ import { LoggingPlugin } from './common/plugins/logging.plugin';
         ],
       },
     }),
-    TypeOrmModule.forRoot({
+     TypeOrmModule.forRoot({
       type: 'mssql',
-      host: '192.168.10.230',
-      port: 1433,
-      database: 'panelMESDB_testing',
-      username: 'tseroki',
-      password: 'ariskobo',
- entities: [
-   __dirname + '/entities/entities/*.entity{.ts,.js}',
-   __dirname + '/entities/views/*.view{.ts,.js}',
- ],      synchronize: false,  // true ONLY if you want to auto-create tables
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT ?? '1433', 10),
+      database: process.env.DB_DATABASE,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      entities: [
+        __dirname + '/entities/entities/*.entity{.ts,.js}',
+        __dirname + '/entities/views/*.view{.ts,.js}',
+      ],
+      synchronize: false, // true ONLY if you want to auto-create tables
       autoLoadEntities: true,
-       connectionTimeout: 50000, // adjust as needed
-      requestTimeout: 500000,   // extend default 15s timeout
+            connectionTimeout: 50000, // optional, adjust as needed
+
       options: {
-        encrypt: false,  // required for older SQL Server, or if no SSL
+        encrypt: false, // required for older SQL Server, or if no SSL
         trustServerCertificate: true,
+          connectTimeout: 50000, // optional, adjust as needed
+          cancelTimeout: 50000, // optional, adjust as needed 
       },
     }),
 
     TypeOrmModule.forRoot({
       name: 'atlantisdb',
       type: 'mssql',
-      host: '192.168.10.167',
-      port: 1433,
-      database: 'panel_aris_testing',
-      username: 'sa',
-      password: 'm@n@g3r',
- entities: [
-   __dirname + '/entities/atlantisEntities/*.entity{.ts,.js}',
-   __dirname + '/entities/atlantisViews/*.view{.ts,.js}',
-      
-
- ],      synchronize: false,  // true ONLY if you want to auto-create tables
+      host: process.env.ATLANTIS_DB_HOST,
+      port: parseInt(process.env.ATLANTIS_DB_PORT ?? '1433', 10),
+      database: process.env.ATLANTIS_DB_DATABASE,
+      username: process.env.ATLANTIS_DB_USERNAME,
+      password: process.env.ATLANTIS_DB_PASSWORD,
+      entities: [
+        __dirname + '/entities/atlantisEntities/*.entity{.ts,.js}',
+        __dirname + '/entities/atlantisViews/*.view{.ts,.js}',
+      ],
+      synchronize: false, // true ONLY if you want to auto-create tables
       autoLoadEntities: true,
-       connectionTimeout: 50000, // adjust as needed
-      requestTimeout: 500000,   // extend default 15s timeout
+      connectionTimeout: 50000, // optional, adjust as needed
       options: {
-        encrypt: false,  // required for older SQL Server, or if no SSL
+        encrypt: false, // required for older SQL Server, or if no SSL
         trustServerCertificate: true,
+        connectTimeout: 50000, // optional, adjust as needed
+        cancelTimeout: 50000, // optional, adjust as needed
 
       },
     }),

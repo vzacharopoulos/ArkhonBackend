@@ -102,7 +102,7 @@ async findAll(
         PanelSpeeds,
         'panelSpeed',
         'prodOrdersView.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code'
-      )
+          )
       .leftJoinAndMapOne(
         'prodOrdersView.pporderline',
         Pporderlines2,

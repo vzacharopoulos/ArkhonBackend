@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { CoilColor } from "src/entities/entities/CoilColor";
+import { CoilColor } from "src/entities/entities/CoilColor.entity";
 import { Repository } from "typeorm";
 
 

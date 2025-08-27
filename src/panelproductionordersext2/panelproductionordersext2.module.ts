@@ -11,9 +11,11 @@ import { FintradeSync } from 'src/entities/atlantisEntities/FintradeSync.entity'
   imports: [
     // Main DB
     TypeOrmModule.forFeature([
+      
       ProdOrdersView,
       PanelSpeeds,
       Pporderlines2,
+      
     ]),
     // Atlantis DB
     TypeOrmModule.forFeature(

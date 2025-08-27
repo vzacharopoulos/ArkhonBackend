@@ -39,4 +39,6 @@ export class ProdOrdersViewFilterInput {
   @Field(() => DateFilter, { nullable: true })
   fintradeSyncDate?: DateFilter;  // Single date filter object
   
+  
+  
 }

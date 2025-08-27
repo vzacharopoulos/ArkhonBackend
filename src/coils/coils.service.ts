@@ -109,7 +109,8 @@ if (filter.currWeightTo?.eq !== undefined && filter.currWeightTo.eq !== null) {
 
       if (filter.widthCoil) {
     if (filter.widthCoil.eq) {
-      qb.andWhere('coil.widthCoil = :widthCoil', { widthCoil: filter.widthCoil.eq });
+      qb.andWhere('coil.widthCoil = :widthCoil', { widthCoil: Number((Number(filter.widthCoil.eq) / 1000).toFixed(4)) // convert mm → meters
+      });
     }}
 
      if (filter.color) {
@@ -134,7 +135,10 @@ private applySorting(
 
 
 async findAll(filter?: CoilsFilterInput, limit?: number, offset?: number): Promise<{ nodes: Coils[], totalCount: number }> {
-  const qb = this.coilsRepository.createQueryBuilder('coil');
+  const qb = this.coilsRepository.createQueryBuilder('coil')
+    // .leftJoinAndSelect('coil.colorRef', 'color'); // <-- important
+
+
 /*                                        allowed status based on location                   userstatuscontrol
  async findAll(filter?: CoilsFilterInput, limit?: number, offset?: number, currentUser?: User): Promise<...> {
   const qb = this.coilsRepository.createQueryBuilder('coil');
@@ -178,9 +182,11 @@ async findAvailableCoils(filter?: CoilsFilterInput,
       userId?: any): Promise<{ nodes: Coils[]; totalCount: number }> {
     const qb = this.coilsRepository
         .createQueryBuilder('coil')
-        .leftJoinAndSelect('coil.status', 'status')
         
+        .leftJoinAndSelect('coil.status', 'status')
         .where('RTRIM(status.nameGrp) = :nameGrp', { nameGrp: 'ΔΙΑΘΕΣΙΜΟ' })
+                // .leftJoinAndSelect('coil.colorRef', 'color'); // <-- important  
+
         
 
        this.applyFilters(qb, filter);
@@ -216,7 +222,9 @@ async findExpectedCoils(filter?: CoilsFilterInput,
         .leftJoinAndSelect('coil.status', 'status')
         
         .where('RTRIM(status.nameGrp) = :nameGrp', { nameGrp: 'ΑΝΑΜΕΝΟΜΕΝΟ' })
-        
+         //       .leftJoinAndSelect('coil.colorRef', 'coilColor'); // <-- important  
+
+
 
        this.applyFilters(qb, filter);
         this.applySorting(qb,  sorting);

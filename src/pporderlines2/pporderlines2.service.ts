@@ -5,10 +5,15 @@ import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
 import { Repository } from 'typeorm';
 import { Pporderlines2FilterInput } from './dto/pporderlines-filter-input';
+import { Pporderlines2Response } from './dto/pporderlines2-response.type';
+import { OffsetPaging } from 'src/panelproductionordersext2/dto/paging.input';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
 import { UpdatePporderlineStatusInput } from './dto/update-pporderline-status-input';
 import { getLocalTime } from 'src/common/utils/fixtimezone';
 import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersExt2.view';
+import { applyDateFilter, applyIntFilter, applyStringFilter } from 'src/common/filtering helpers/filter.input';
+import { Pporderlines2SortInput } from './dto/pporderlines-sort-input';
+import { TradecodeCustomer } from 'src/entities/views/TradecodeCustomer.view';
 
 
 @Injectable()
@@ -26,29 +31,59 @@ export class Pporderlines2Service {
     private readonly ppordersRepository: Repository<Pporders>,
   ) {}
 
-   async findAll(filter?: Pporderlines2FilterInput): Promise<Pporderlines2[]> {
+  async findAll(
+    filter?: Pporderlines2FilterInput,
+    sorting?: Pporderlines2SortInput[],
+    paging?: OffsetPaging,
+  ): Promise<Pporderlines2Response> {
     const qb = this.pporderlines2Repository
       .createQueryBuilder('line')
       .leftJoinAndMapOne(
         'line.prodOrdersView',
         ProdOrdersView,
         'prodOrdersView',
-        'line.custporderno COLLATE SQL_Latin1_General_CP1_CI_AS = prodOrdersView.prodOrder'
+        'line.custporderno COLLATE SQL_Latin1_General_CP1_CI_AS = prodOrdersView.prodOrder',
       )
-       .leftJoinAndMapOne(
+      .leftJoinAndMapOne(
         'prodOrdersView.panelSpeed',
         PanelSpeeds,
         'panelSpeed',
-        'prodOrdersView.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code'
+        'prodOrdersView.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code',
       )
-        .andWhere('line.isCanceled = :isCanceled', { isCanceled: 0 })
+        .leftJoinAndMapOne(
+        'line.tradecodeCustomer',
+        TradecodeCustomer,
+        'tradecodeCustomer',
+        'line.tradecode COLLATE SQL_Latin1_General_CP1_CI_AS = tradecodeCustomer.tradecode '
+      )
+      .andWhere('line.isCanceled = :isCanceled', {
+        isCanceled: filter?.isCanceled ? 1 : 0,
+      });
 
-    if (filter?.ppordernos && filter.ppordernos.length > 0) {
-      qb.where('line.pporderno IN (:...ppordernos)', { ppordernos: filter.ppordernos });
+ 
+    applyStringFilter(qb, 'line.pporderno', filter?.ppordernos);
+    applyStringFilter(qb, 'line.custporderno', filter?.custporderno);
+    applyStringFilter(qb, 'line.tradecode', filter?.tradecode);
+    applyIntFilter(qb, 'line.status', filter?.status);
+    applyDateFilter(qb, 'line.prodDate', filter?.prodDate);
+
+    sorting?.forEach(({ field, direction }, index) => {
+      if (index === 0) {
+        qb.orderBy(`line.${field}`, direction);
+      } else {
+        qb.addOrderBy(`line.${field}`, direction);
+      }
+    });
+
+    if (paging?.offset) {
+      qb.skip(paging.offset);
     }
-   
-    return qb.getMany();
+    if (paging?.limit) {
+      qb.take(paging.limit);
+    }
 
+    const [nodes, totalCount] = await qb.getManyAndCount();
+    return { nodes, totalCount };
   }
 
   async findOne(id: number): Promise<Pporderlines2 | null> {
@@ -66,7 +101,13 @@ export class Pporderlines2Service {
         PanelSpeeds,
         'panelSpeed',
 'prodOrdersView.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code'      )
- .andWhere('line.isCanceled = :isCanceled', { isCanceled: 0 })
+  .leftJoinAndMapOne(
+        'line.tradecodeCustomer',
+        TradecodeCustomer,
+        'tradecodeCustomer',
+        'line.tradecode COLLATE SQL_Latin1_General_CP1_CI_AS = tradecodeCustomer.tradecode '
+      )
+      .andWhere('line.isCanceled = :isCanceled', { isCanceled: 0 })
       .where('line.id = :id', { id })
       .getOne();
 
@@ -92,6 +133,12 @@ async updateStatus(input: UpdatePporderlineStatusInput): Promise<Pporderlines2> 
         PanelSpeeds,
         'panelSpeed',
         'prodOrdersView.code COLLATE SQL_Latin1_General_CP1_CI_AS = panelSpeed.code '
+      )
+        .leftJoinAndMapOne(
+        'line.tradecodeCustomer',
+        TradecodeCustomer,
+        'tradecodeCustomer',
+        'line.tradecode COLLATE SQL_Latin1_General_CP1_CI_AS = tradecodeCustomer.tradecode'
       )
       .where('line.id = :id', { id })
       .andWhere('line.isCanceled = :isCanceled', { isCanceled: 0 })

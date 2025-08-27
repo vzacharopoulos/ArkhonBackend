@@ -6,6 +6,7 @@ export enum ProdOrdersViewSortField {
   productionNo = 'productionNo',
   tradecode = 'tradecode',
   ftrdate = 'ftrdate',
+  
 }
 registerEnumType(ProdOrdersViewSortField, {
   name: 'PanelProductionOrdersExt2SortField',
