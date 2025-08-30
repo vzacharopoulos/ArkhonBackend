@@ -87,14 +87,15 @@ import { TradecodeCustomer } from './entities/views/TradecodeCustomer.view';
       ],
       synchronize: false, // true ONLY if you want to auto-create tables
       autoLoadEntities: true,
-            connectionTimeout: 50000, // optional, adjust as needed
-
+            connectionTimeout: 20000, // optional, adjust as needed
+requestTimeout: 60000,              // ← 60s
       options: {
         encrypt: false, // required for older SQL Server, or if no SSL
         trustServerCertificate: true,
-          connectTimeout: 50000, // optional, adjust as needed
-          cancelTimeout: 50000, // optional, adjust as needed 
+          connectTimeout: 20000, // optional, adjust as needed
+          cancelTimeout: 20000, // optional, adjust as needed 
       },
+      
     }),
 
     TypeOrmModule.forRoot({
@@ -112,6 +113,8 @@ import { TradecodeCustomer } from './entities/views/TradecodeCustomer.view';
       synchronize: false, // true ONLY if you want to auto-create tables
       autoLoadEntities: true,
       connectionTimeout: 50000, // optional, adjust as needed
+          requestTimeout: 60000,              // ← 60s
+
       options: {
         encrypt: false, // required for older SQL Server, or if no SSL
         trustServerCertificate: true,
@@ -119,6 +122,7 @@ import { TradecodeCustomer } from './entities/views/TradecodeCustomer.view';
         cancelTimeout: 50000, // optional, adjust as needed
 
       },
+  
     }),
     // Add other modules here (AuthorModule, CompanyModule, etc.)
   ],

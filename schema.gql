@@ -6566,28 +6566,16 @@ type Uservardocformsmessages {
   dfm: Docforms
 }
 
-type Vardocformslines {
-  acccode: String
-  linenum: Float
-  linkid: Float
-  signmode: Float
-  updmode: Float
-  coef: Float
-  fromacccode: String
-  toacccode: String
-  grade: Float
-  calcdatasource: Float
-  percentage: String
-  nolastfip: Float
-  withownsign: Float
-  ordernum: Float
-  taxcategory: String
-  concategory: String
-  varcomcategory: String
-  docform: Docforms
-  vardocformidtotals: Vardocforms
-  vardocform: Vardocforms
-  link: Vardocforms
+type Vardocforms {
+  codeid: Float
+  descr: String
+  dfmid: Float
+  teamelpid: Float
+  link: Docforms
+  vardocformslines: [Vardocformslines!]
+  vardocformslines2: [Vardocformslines!]
+  vardocformslines3: [Vardocformslines!]
+  id: Float!
 }
 
 type Docforms {
@@ -6610,16 +6598,28 @@ type Docforms {
   id: Float!
 }
 
-type Vardocforms {
-  codeid: Float
-  descr: String
-  dfmid: Float
-  teamelpid: Float
-  link: Docforms
-  vardocformslines: [Vardocformslines!]
-  vardocformslines2: [Vardocformslines!]
-  vardocformslines3: [Vardocformslines!]
-  id: Float!
+type Vardocformslines {
+  acccode: String
+  linenum: Float
+  linkid: Float
+  signmode: Float
+  updmode: Float
+  coef: Float
+  fromacccode: String
+  toacccode: String
+  grade: Float
+  calcdatasource: Float
+  percentage: String
+  nolastfip: Float
+  withownsign: Float
+  ordernum: Float
+  taxcategory: String
+  concategory: String
+  varcomcategory: String
+  docform: Docforms
+  vardocformidtotals: Vardocforms
+  vardocform: Vardocforms
+  link: Vardocforms
 }
 
 type Tasktrn {
@@ -6754,6 +6754,15 @@ type Utask {
   tasktrns: [Tasktrn!]
 }
 
+type Taxfeehist {
+  code: Float
+  domaintype: Float
+  fyeid: Float
+  coef: Float
+  comments: String
+  taxfee: Taxfee
+}
+
 type Taxfee {
   descr: String
   code: Float
@@ -6764,15 +6773,6 @@ type Taxfee {
   domaintype: Float
   taxfeehists: [Taxfeehist!]
   id: Float!
-}
-
-type Taxfeehist {
-  code: Float
-  domaintype: Float
-  fyeid: Float
-  coef: Float
-  comments: String
-  taxfee: Taxfee
 }
 
 type Printtemplate {
@@ -6980,24 +6980,6 @@ type Prdata {
   prdef: Prdef
 }
 
-type Natinistore {
-  comid: Float
-  stoid: Float
-  fyeid: Float
-  fipid: Float
-  iteid: Float
-  bincode: String
-  remprqty: Float
-  remsecqty: Float
-  newprqty: Float
-  newsecqty: Float
-  consumptionqty: Float
-  insdate: Date
-  parid: Float
-  expdate: Date
-  natinistorecolorsizes: [Natinistorecolorsize!]
-}
-
 type Natinistorecolorsize {
   comid: Float
   stoid: Float
@@ -7050,25 +7032,22 @@ type Natinistorecolorsize {
   natinistore: Natinistore
 }
 
-type MyfData {
+type Natinistore {
   comid: Float
-  linenum: Float
-  valtype: Float
-  afm: String
-  myfval: Float
-  myftaxval: Float
-  myfqty: Float
-  myfnotobject: Float
-  myfnote: Float
-  myfdate: Date
-  myfcashregid: String
-  curid: Float
-  perid: Float
-  perdomain: Float
-  fromcomid: Float
-  comments: String
-  myf: Myf
-  id: Float!
+  stoid: Float
+  fyeid: Float
+  fipid: Float
+  iteid: Float
+  bincode: String
+  remprqty: Float
+  remsecqty: Float
+  newprqty: Float
+  newsecqty: Float
+  consumptionqty: Float
+  insdate: Date
+  parid: Float
+  expdate: Date
+  natinistorecolorsizes: [Natinistorecolorsize!]
 }
 
 type Myf {
@@ -7092,6 +7071,27 @@ type Myf {
   id: Float!
 }
 
+type MyfData {
+  comid: Float
+  linenum: Float
+  valtype: Float
+  afm: String
+  myfval: Float
+  myftaxval: Float
+  myfqty: Float
+  myfnotobject: Float
+  myfnote: Float
+  myfdate: Date
+  myfcashregid: String
+  curid: Float
+  perid: Float
+  perdomain: Float
+  fromcomid: Float
+  comments: String
+  myf: Myf
+  id: Float!
+}
+
 type Mydataexplines {
   comid: Float
   mydataheaderid: Float
@@ -7101,6 +7101,56 @@ type Mydataexplines {
   expvalue: Float
   deductionspercentage: Float
   linecomments: String
+  mydataheader: Mydataheader
+  id: Float!
+}
+
+type Mydataclass {
+  comid: Float
+  mydatalinesid: Float
+  classificationreceipt: String
+  linenumber: Float
+  classificationtype: String
+  classificationcategory: String
+  amount: Float
+  classificationid: Float
+  uploaddate: Date
+  vatamount: Float
+  vatcategory: Float
+  vatexemption: Float
+  mydatalines: Mydatalines
+  id: Float!
+}
+
+type Mydatalines {
+  comid: Float
+  mydataheaderid: Float
+  linenumber: Float
+  quantity: Float
+  measurementunit: Float
+  invoicedetailtype: Float
+  vatcategory: Float
+  netvalue: Float
+  vatexemption: Float
+  applicationid: String
+  applicationdate: Date
+  doy: String
+  shipid: String
+  discountoption: Float
+  linecomments: String
+  vatamount: Float
+  rectype: Float
+  exptype: Float
+  mydatavprc: Float
+  fuelcode: Float
+  itemdescr: String
+  quantity15: Float
+  taricno: String
+  itemcode: String
+  othermeasurementunitquantity: Float
+  othermeasurementunittitle: String
+  notvat195: Float
+  mydataclasses: [Mydataclass!]
   mydataheader: Mydataheader
   id: Float!
 }
@@ -7196,54 +7246,16 @@ type Mydataheader {
   id: Float!
 }
 
-type Mydataclass {
+type Lbdata {
   comid: Float
-  mydatalinesid: Float
-  classificationreceipt: String
-  linenumber: Float
-  classificationtype: String
-  classificationcategory: String
-  amount: Float
-  classificationid: Float
-  uploaddate: Date
-  vatamount: Float
-  vatcategory: Float
-  vatexemption: Float
-  mydatalines: Mydatalines
-  id: Float!
-}
-
-type Mydatalines {
-  comid: Float
-  mydataheaderid: Float
-  linenumber: Float
-  quantity: Float
-  measurementunit: Float
-  invoicedetailtype: Float
-  vatcategory: Float
-  netvalue: Float
-  vatexemption: Float
-  applicationid: String
-  applicationdate: Date
-  doy: String
-  shipid: String
-  discountoption: Float
-  linecomments: String
-  vatamount: Float
-  rectype: Float
-  exptype: Float
-  mydatavprc: Float
-  fuelcode: Float
-  itemdescr: String
-  quantity15: Float
-  taricno: String
-  itemcode: String
-  othermeasurementunitquantity: Float
-  othermeasurementunittitle: String
-  notvat195: Float
-  mydataclasses: [Mydataclass!]
-  mydataheader: Mydataheader
-  id: Float!
+  lbtype: Float
+  codeid: Float
+  descr: String
+  type: Float
+  countf: String
+  lbprinter: String
+  prtcharset: Float
+  lbshapes: Lbshapes
 }
 
 type Lbshapes {
@@ -7261,18 +7273,6 @@ type Lbshapes {
   munit: Float
   orientation: Float
   lbdata: [Lbdata!]
-}
-
-type Lbdata {
-  comid: Float
-  lbtype: Float
-  codeid: Float
-  descr: String
-  type: Float
-  countf: String
-  lbprinter: String
-  prtcharset: Float
-  lbshapes: Lbshapes
 }
 
 type Eurosystemlistsdt {

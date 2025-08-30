@@ -1,0 +1,41 @@
+# Dependencies (don’t send your host deps)
+node_modules
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build output from host (we build inside the container anyway)
+dist
+build
+.cache
+.tmp
+
+# Tests & coverage (not needed in image)
+coverage
+*.test.*
+*.spec.*
+jest.config.*
+.vitest/
+
+# Env & secrets (VERY important)
+.env
+.env.*
+!.env.example
+
+# VCS & metadata
+.git
+.gitignore
+.gitattributes
+
+# Docker & compose files (not needed inside image)
+Dockerfile*
+docker-compose*.yml
+
+# Editors/OS cruft
+.vscode
+.idea
+*.swp
+.DS_Store
+Thumbs.db
