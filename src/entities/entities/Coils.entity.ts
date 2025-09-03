@@ -415,8 +415,13 @@ initWeight: number | null;
   // get colorName(): string | null {
   //   return this.colorRef?.name ?? null;
   // }
+ // ✅ New boolean column (BIT in MSSQL)
 
+  @Field(() => Boolean, { nullable: true })
+  @Column({ type: "bit", default: false })
+  isUnloaded: boolean;
 
+ 
  
 
   @Field(() => [UsersLocationAccess])

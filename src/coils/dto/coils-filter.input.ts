@@ -2,13 +2,15 @@ import { InputType, Field, Int } from '@nestjs/graphql';
 import { GraphQLISODateTime } from '@nestjs/graphql';
 import { openstatus } from './coils-enum-types';
 
+import { Float } from '@nestjs/graphql';
+import { BooleanFilter, DateFilter, IntFilter, StringFilter } from 'src/common/filtering helpers/filter.input';
+
+
 @InputType()
 export class IntInInput {
   @Field(() => [Int], { nullable: true })
   in?: number[];
 }
-
-import { Float } from '@nestjs/graphql';
 
 @InputType()
 export class FloatEqInput {
@@ -34,6 +36,7 @@ export class StringFilterInput {
 
   @Field(() => String, { nullable: true })
   contains?: string;
+
 }
 
 @InputType()
@@ -48,8 +51,17 @@ export class openstatusFilterInput {
 
 @InputType()
 export class CoilsFilterInput {
-  @Field(() => Int, { nullable: true })
-  status?: number;
+
+
+    @Field(() => BooleanFilter, { nullable: true })
+  isLoaded?: BooleanFilter;
+
+     @Field(() => BooleanFilter, { nullable: true })
+  isUnloaded?: BooleanFilter;
+
+
+  @Field(() => DateFilter, { nullable: true })
+  loadDate?: DateFilter;
 
   @Field(() => StringFilterInput, { nullable: true })
   coilno?: StringFilterInput;
@@ -63,21 +75,35 @@ export class CoilsFilterInput {
   @Field(() => StringFilterInput, { nullable: true })
   color?: StringFilterInput;
 
+  @Field(() => DateFilter, { nullable: true })
+  upDate?: DateFilter;
 
-  @Field(() => GraphQLISODateTime, { nullable: true })
-  upDateFrom?: Date;
+    @Field(() => StringFilter, { nullable: true })
+  documents?: StringFilter;
 
-  @Field(() => GraphQLISODateTime, { nullable: true })
-  upDateTo?: Date;
+  @Field(() => DateFilter, { nullable: true })
+  upDateFrom?: DateFilter;
+
+  @Field(() => DateFilter, { nullable: true })
+  upDateTo?: DateFilter;
+
+  @Field(() => DateFilter, { nullable: true })
+  loadDateFrom?: DateFilter;
+
+  @Field(() => DateFilter, { nullable: true })
+  loadDateTo?: DateFilter;
 
   @Field(() => StringFilterInput, { nullable: true })
-currWeightFrom?: StringFilterInput;
+  supcoilId?: StringFilterInput;
 
-@Field(() => StringFilterInput, { nullable: true })
-currWeight?: StringFilterInput;
+  @Field(() => IntFilter, { nullable: true })
+  currWeightFrom?: IntFilter;
 
-@Field(() => StringFilterInput, { nullable: true })
-currWeightTo?: StringFilterInput;
+  @Field(() => IntFilter, { nullable: true })
+  currWeight?: IntFilter;
+
+@Field(() => IntFilter, { nullable: true })
+currWeightTo?: IntFilter;
 
   @Field(() => openstatusFilterInput, { nullable: true })
   openstatus?: openstatusFilterInput;

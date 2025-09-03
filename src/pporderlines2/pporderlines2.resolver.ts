@@ -49,6 +49,16 @@ export class Pporderlines2Resolver {
   pporderlineStatusChanged() {
     return pubSub.asyncIterableIterator('pporderlineStatusChanged');
   }
+
+  @Subscription(() => Pporderlines2)
+  pporderlineCreated() {
+    return pubSub.asyncIterableIterator('pporderlineCreated');
+  }
+
+  @Subscription(() => Pporderlines2)
+  pporderlineDeleted() {
+    return pubSub.asyncIterableIterator('pporderlineDeleted');
+  }
 }
 
 

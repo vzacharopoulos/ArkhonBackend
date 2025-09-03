@@ -12,6 +12,7 @@ import { openstatus } from './dto/coils-enum-types';
 import { LocationType } from 'src/location/location.resolver';
 import {  UpdateCoilInput, UpdateOneCoilInput } from './dto/update-coil-input';
 import { CoilColor } from 'src/entities/entities/CoilColor.entity';
+import { CoilCoating } from 'src/entities/entities/CoilCoating.entity';
 @ObjectType('Coil')
 export class CoilType {
   // Previous fields (already added)
@@ -29,6 +30,9 @@ export class CoilType {
 
   @Field({ nullable: true })
   coating: string;
+  
+  @Field(() => CoilCoating, { nullable: true })
+  coatingRef?: CoilCoating;
 
   @Field({ nullable: true })
   coathick: string;
@@ -47,6 +51,12 @@ export class CoilType {
 
   @Field({ nullable: true })
   upDate: Date;
+
+    @Field({ nullable: true })
+  loadDate: Date;
+  
+  @Field({ nullable: true })
+  isUnloaded: Boolean;
 
   @Field({ nullable: true })
   gaugeThickness: string;
@@ -111,8 +121,7 @@ export class CoilType {
   @Field({ nullable: true })
   corderid: string;
 
-  @Field({ nullable: true })
-  loadDate: Date;
+ 
 
   @Field({ nullable: true })
   tporderId: string;
@@ -299,6 +308,7 @@ async getAllCoils(
   @Args('filter', { nullable: true }) filter?: CoilsFilterInput,
   @Args('limit', { type: () => Int, nullable: true }) limit?: number,
   @Args('offset', { type: () => Int, nullable: true }) offset?: number,
+  @Args('sorting', { type: () => [CoilsSortInput], nullable: true }) sorting?: CoilsSortInput[],
 ): Promise<CoilsResponse> {
   return this.coilsService.findAll(filter, limit, offset);
 }
@@ -338,6 +348,15 @@ async updateOneCoil(
 ): Promise<Coils | null> {
   return this.coilsService.updateOne(input);
 }
+
+
+  @Mutation(() => CoilType, { name: 'updateCoilStatus' })
+  async updateCoilStatus(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('statusId', { type: () => Int }) statusId: number,
+  ): Promise<Coils> {
+    return this.coilsService.updateIsUnloadedById(id, statusId);
+  }
 
 
 

@@ -5,6 +5,8 @@ import { InputType, Field, registerEnumType } from '@nestjs/graphql';
  * Ascending / Descending enum
  */
 export enum SortOrder {
+  //I WANT TO SAY IF IT IS asc make it ASC ELSE KEEP IT as is GITHUB
+  
   ASC = 'ASC',
   DESC = 'DESC',
 }
@@ -23,10 +25,10 @@ export enum CoilSortField {
   currWeight = 'currWeight',
   upDate    = 'upDate',
   thickness  = 'thickness',
-  WIDTH      = 'widthCoil',
-  widthCoil      = 'color',
+  supcoilId  = 'supcoilId',
+  widthCoil  = 'widthCoil',
+  color      = 'color',
   openstatus = 'openstatus',
-  color = 'color',
   // …etc
 }
 registerEnumType(CoilSortField, {
@@ -43,6 +45,13 @@ export class CoilsSortInput {
   @Field(() => CoilSortField)
   field: CoilSortField;
 
-  @Field(() => SortOrder)
-  direction: SortOrder;
+  // Preferred field: keep when provided
+  @Field(() => SortOrder, { nullable: true })
+  direction?: SortOrder;
+
+  // Alias from some frontends; map to direction
+  @Field(() => SortOrder, { nullable: true })
+  order?: SortOrder;
+
+ 
 }

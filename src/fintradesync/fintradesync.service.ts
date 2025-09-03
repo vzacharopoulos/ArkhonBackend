@@ -62,11 +62,23 @@ console.log("MSSQL options:", this.fintradeSyncRepo.manager.connection.options);
       }
     }
 
-    sorting?.forEach(({ field, direction }, index) => {
+    sorting?.forEach((s: any, index: number) => {
+      const normalize = (v: any): 'ASC' | 'DESC' | undefined => {
+        if (v === undefined || v === null) return undefined;
+        const val = String(v).toUpperCase();
+        return val === 'ASC' || val === 'DESC' ? (val as 'ASC' | 'DESC') : undefined;
+      };
+      const dir =
+        normalize(s?.direction) ??
+        normalize(s?.order) ??
+        normalize(s?.directionStr) ??
+        normalize(s?.orderStr);
+      const field = s?.field;
+      if (!field || !dir) return;
       if (index === 0) {
-        queryBuilder.orderBy(`fintradeSync.${field}`, direction);
+        queryBuilder.orderBy(`fintradeSync.${field}`, dir);
       } else {
-        queryBuilder.addOrderBy(`fintradeSync.${field}`, direction);
+        queryBuilder.addOrderBy(`fintradeSync.${field}`, dir);
       }
     });
 

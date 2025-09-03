@@ -142,15 +142,18 @@ export class PpordersService {
       .getMany();
   }
 
-   async getTotalTime(pporderno: string): Promise<number> {
-    const lines = await this.getPporderlines(pporderno);
-    return lines.reduce((sum, l) => sum + (l.prodOrdersView?.time ?? 0), 0);
-  }
- async getTotalTtm(pporderno: string): Promise<number> {
-    const lines = await this.getPporderlines(pporderno);
-    return lines.reduce((sum, l) => sum + (l.prodOrdersView?.ttm ?? 0), 0);
-  }
+ async getTotals(pporderno: string): Promise<{ totalTime: number; totalTtm: number }> {
+  const lines = await this.getPporderlines(pporderno);
 
+  return lines.reduce(
+    (totals, l) => {
+      totals.totalTime += l.prodOrdersView?.time ?? 0;
+      totals.totalTtm  += l.prodOrdersView?.ttm  ?? 0;
+      return totals;
+    },
+    { totalTime: 0, totalTtm: 0 }
+  );
+}
 async getGroupIn(pporderno: string): Promise<PporderGroupIn[]> {
   // Get all lines for the master order in one query
   const lines = await this.pporderlines2Repository

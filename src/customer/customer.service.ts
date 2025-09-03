@@ -43,12 +43,24 @@ export class CustomerService {
     }
 
 
-    sorting?.forEach(({ field, direction }, index) => {
+    sorting?.forEach((s: any, index: number) => {
+      const normalize = (v: any): 'ASC' | 'DESC' | undefined => {
+        if (v === undefined || v === null) return undefined;
+        const val = String(v).toUpperCase();
+        return val === 'ASC' || val === 'DESC' ? (val as 'ASC' | 'DESC') : undefined;
+      };
+      const dir =
+        normalize(s?.direction) ??
+        normalize(s?.order) ??
+        normalize(s?.directionStr) ??
+        normalize(s?.orderStr);
+      const field = s?.field;
+      if (!field || !dir) return;
       const orderField = `customer.${field}`;
       if (index === 0) {
-        queryBuilder.orderBy(orderField, direction);
+        queryBuilder.orderBy(orderField, dir);
       } else {
-        queryBuilder.addOrderBy(orderField, direction);
+        queryBuilder.addOrderBy(orderField, dir);
       }
     });
 

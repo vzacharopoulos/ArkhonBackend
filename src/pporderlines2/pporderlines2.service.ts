@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+﻿import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PPackages } from 'src/entities/entities/PPackages.entity';
 import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
@@ -67,11 +67,23 @@ export class Pporderlines2Service {
     applyIntFilter(qb, 'line.status', filter?.status);
     applyDateFilter(qb, 'line.prodDate', filter?.prodDate);
 
-    sorting?.forEach(({ field, direction }, index) => {
+    sorting?.forEach((s: any, index: number) => {
+      const normalize = (v: any): 'ASC' | 'DESC' | undefined => {
+        if (v === undefined || v === null) return undefined;
+        const val = String(v).toUpperCase();
+        return val === 'ASC' || val === 'DESC' ? (val as 'ASC' | 'DESC') : undefined;
+      };
+      const dir =
+        normalize(s?.direction) ??
+        normalize(s?.order) ??
+        normalize(s?.directionStr) ??
+        normalize(s?.orderStr);
+      const field = s?.field;
+      if (!field || !dir) return;
       if (index === 0) {
-        qb.orderBy(`line.${field}`, direction);
+        qb.orderBy(`line.${field}`, dir);
       } else {
-        qb.addOrderBy(`line.${field}`, direction);
+        qb.addOrderBy(`line.${field}`, dir);
       }
     });
 

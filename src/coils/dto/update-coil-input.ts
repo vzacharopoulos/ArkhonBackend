@@ -10,6 +10,12 @@ export class UpdateCoilInput extends PartialType(CreateCoilInput) {
   @Field({ nullable: true })
   comments?: string;
 
+   @Field(() => Boolean, { nullable: true })
+  isLoaded?: boolean;
+
+  @Field(() => Date, { nullable: true })
+  loadDate?: Date;
+
   @Field({ nullable: true })
   color?: string;
 

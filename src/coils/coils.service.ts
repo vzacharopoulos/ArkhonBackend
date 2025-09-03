@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CoilsFilterInput } from './dto/coils-filter.input';
 import { Repository, SelectQueryBuilder } from 'typeorm';
@@ -6,12 +6,17 @@ import { Coils } from '../entities/entities/Coils.entity';
 import { CoilsSortInput } from './dto/coils-sort-input';
 import { CreateCoilInput } from './dto/create-coil-input';
 import { UpdateOneCoilInput } from './dto/update-coil-input';
+import { applyBooleanFilter, applyDateFilter, applyIntFilter, applyStringFilter } from 'src/common/filtering helpers/filter.input';
+import { Status } from 'src/entities/entities/Status.entity';
+import { CoilCoating } from 'src/entities/entities/CoilCoating.entity';
 
 @Injectable()
 export class CoilsService {
   constructor(
     @InjectRepository(Coils)
     private coilsRepository: Repository<Coils>,
+    @InjectRepository(Status)
+    private statusRepository: Repository<Status>,
   ) {}
 
   private applyFilters(qb: SelectQueryBuilder<Coils>,
@@ -24,9 +29,7 @@ export class CoilsService {
       qb.andWhere('access.userId = :userId', { userId });
     }
 
-    if (filter.status !== undefined && filter.status !== null) {
-        qb.andWhere('coil.status = :status', { status: filter.status });
-    }
+
 
     if (filter.coilno) {
     if (filter.coilno.eq) {
@@ -58,7 +61,7 @@ export class CoilsService {
     });
   }
 
-}
+ }
 
 
    if (filter.loc?.in) {
@@ -83,24 +86,14 @@ export class CoilsService {
         qb.andWhere('coil.loc IN (:...loc_in)', { loc_in: locInNumbers });
     }
 }
-    if (filter.upDateFrom) {
-        qb.andWhere('coil.up_date >= :upDateFrom', { upDateFrom: filter.upDateFrom });
-    }
 
-    if (filter.upDateTo) {
-        qb.andWhere('coil.up_date <= :upDateTo', { upDateTo: filter.upDateTo });
-    }
-if (filter.currWeightFrom?.eq !== undefined && filter.currWeightFrom.eq !== null) {
-  qb.andWhere('coil.curr_weight >= :currWeightFrom', { 
-    currWeightFrom: filter.currWeightFrom.eq 
-  });
-}
+applyStringFilter(qb, 'coil.documents', filter?.documents);
+applyStringFilter(qb, 'coil.supcoilId', filter?.supcoilId);
+applyDateFilter(qb, 'coil.upDate', filter?.upDate);
+applyDateFilter(qb, 'coil.loadDate', filter?.loadDate);
+applyBooleanFilter(qb, 'coil.isUnloaded', filter?.isUnloaded);
+applyIntFilter(qb, 'coil.currWeight', filter?.currWeight);
 
-if (filter.currWeightTo?.eq !== undefined && filter.currWeightTo.eq !== null) {
-  qb.andWhere('coil.curr_weight <= :currWeightTo', { 
-    currWeightTo: filter.currWeightTo.eq 
-  });
-}
 
     if (filter.thickness) {
     if (filter.thickness.eq) {
@@ -134,7 +127,7 @@ private applySorting(
   }
 
 
-async findAll(filter?: CoilsFilterInput, limit?: number, offset?: number): Promise<{ nodes: Coils[], totalCount: number }> {
+async findAll(filter?: CoilsFilterInput, limit?: number, offset?: number): Promise<{ nodes: Coils[], totalCount: number, totalWeight: number }> {
   const qb = this.coilsRepository.createQueryBuilder('coil')
     // .leftJoinAndSelect('coil.colorRef', 'color'); // <-- important
 
@@ -159,6 +152,17 @@ async findAll(filter?: CoilsFilterInput, limit?: number, offset?: number): Promi
 
 const totalCount = await qb.getCount();
 
+// compute total weight across full filtered set (ignoring pagination)
+let totalWeight = 0;
+try {
+  const qbTotal = qb.clone();
+  const raw = await qbTotal.select('SUM(coil.curr_weight)', 'totalWeight').getRawOne<{ totalWeight: string | number | null }>();
+  const value = (raw && (raw as any).totalWeight) ?? 0;
+  totalWeight = typeof value === 'string' ? parseFloat(value) : (value ?? 0);
+} catch {
+  // Fallback: will compute from paged nodes later if needed
+}
+
 
 // ✅ Pagination
   if (limit !== undefined && limit !== null) {
@@ -170,16 +174,21 @@ const totalCount = await qb.getCount();
   }
 
    const nodes = await qb.getMany();
+  // If aggregation failed above, fall back to summing current page
+  if (!totalWeight && Array.isArray(nodes)) {
+    totalWeight = nodes.reduce((sum, c) => sum + (c.currWeight ?? 0), 0);
+  }
   return {
     nodes,
     totalCount,
+    totalWeight,
   };
 }
 async findAvailableCoils(filter?: CoilsFilterInput,
    sorting?: CoilsSortInput[],
     limit?: number,
      offset?: number,
-      userId?: any): Promise<{ nodes: Coils[]; totalCount: number }> {
+      userId?: any): Promise<{ nodes: Coils[]; totalCount: number, totalWeight: number }> {
     const qb = this.coilsRepository
         .createQueryBuilder('coil')
         
@@ -196,6 +205,15 @@ async findAvailableCoils(filter?: CoilsFilterInput,
 
     const totalCount = await qb.getCount();
 
+    // compute totalWeight for full filtered set
+    let totalWeight = 0;
+    try {
+      const qbTotal = qb.clone();
+      const raw = await qbTotal.select('SUM(coil.curr_weight)', 'totalWeight').getRawOne<{ totalWeight: string | number | null }>();
+      const value = (raw && (raw as any).totalWeight) ?? 0;
+      totalWeight = typeof value === 'string' ? parseFloat(value) : (value ?? 0);
+    } catch {}
+
     if (limit !== undefined && limit !== null) {
         qb.take(limit);
     }
@@ -206,9 +224,13 @@ async findAvailableCoils(filter?: CoilsFilterInput,
 
     const nodes = await qb.getMany();
 
+    if (!totalWeight && Array.isArray(nodes)) {
+      totalWeight = nodes.reduce((sum, c) => sum + (c.currWeight ?? 0), 0);
+    }
     return {
         nodes,
         totalCount,
+        totalWeight,
     };
 }
 
@@ -216,12 +238,13 @@ async findExpectedCoils(filter?: CoilsFilterInput,
    sorting?: CoilsSortInput[],
     limit?: number,
      offset?: number,
-      userId?: any): Promise<{ nodes: Coils[]; totalCount: number }> {
+      userId?: any): Promise<{ nodes: Coils[]; totalCount: number, totalWeight: number }> {
     const qb = this.coilsRepository
         .createQueryBuilder('coil')
         .leftJoinAndSelect('coil.status', 'status')
-        
-        .where('RTRIM(status.nameGrp) = :nameGrp', { nameGrp: 'ΑΝΑΜΕΝΟΜΕΝΟ' })
+                .leftJoinAndMapOne('coil.coatingRef', CoilCoating, 'coating', 'RTRIM(coil.coating) = RTRIM(coating.code)')
+
+        .where('status.id = :id', { id: 7 })
          //       .leftJoinAndSelect('coil.colorRef', 'coilColor'); // <-- important  
 
 
@@ -233,6 +256,15 @@ async findExpectedCoils(filter?: CoilsFilterInput,
 
     const totalCount = await qb.getCount();
 
+    // compute totalWeight for full filtered set
+    let totalWeight = 0;
+    try {
+      const qbTotal = qb.clone();
+      const raw = await qbTotal.select('SUM(coil.curr_weight)', 'totalWeight').getRawOne<{ totalWeight: string | number | null }>();
+      const value = (raw && (raw as any).totalWeight) ?? 0;
+      totalWeight = typeof value === 'string' ? parseFloat(value) : (value ?? 0);
+    } catch {}
+
     if (limit !== undefined && limit !== null) {
         qb.take(limit);
     }
@@ -243,9 +275,13 @@ async findExpectedCoils(filter?: CoilsFilterInput,
 
     const nodes = await qb.getMany();
 
+    if (!totalWeight && Array.isArray(nodes)) {
+      totalWeight = nodes.reduce((sum, c) => sum + (c.currWeight ?? 0), 0);
+    }
     return {
         nodes,
         totalCount,
+        totalWeight,
     };
 }
 
@@ -273,6 +309,21 @@ async updateOne(input: UpdateOneCoilInput): Promise<Coils> {
 
   Object.assign(coil, update);
   return this.coilsRepository.save(coil);
+}
+
+  async updateIsUnloadedById(id: number, statusId: number): Promise<Coils> {
+  const coil = await this.coilsRepository.findOne({ where: { id }, relations: ['status'] });
+  if (!coil) throw new NotFoundException(`Coil with id ${id} not found`);
+
+  if (coil.status?.id !== statusId) {
+    throw new BadRequestException(`Coil status ${coil.status?.id ?? 'null'} != ${statusId}`);
+  }
+
+  coil.isUnloaded = true;
+  coil.loadDate = new Date();
+  await this.coilsRepository.save(coil);
+
+  return this.findOne(coil.id);
 }
 
 }

@@ -15,7 +15,7 @@ describe('Pporderlines2WatcherService', () => {
     qb = {
       leftJoinAndMapOne: jest.fn().mockReturnThis(),
       where: jest.fn().mockReturnThis(),
-      getMany: jest.fn().mockResolvedValue([{ id: 1 }]),
+      getMany: jest.fn(),
     };
     repo = {
       createQueryBuilder: jest.fn().mockReturnValue(qb),
@@ -32,6 +32,7 @@ describe('Pporderlines2WatcherService', () => {
   });
 
   it('queries with joins and publishes on change', async () => {
+    qb.getMany.mockResolvedValue([{ id: 1 }]);
     const publishSpy = jest
       .spyOn(service.getPubSub(), 'publish')
       .mockResolvedValue();
@@ -63,6 +64,7 @@ describe('Pporderlines2WatcherService', () => {
   });
 
   it('does not publish when data hash is unchanged', async () => {
+    qb.getMany.mockResolvedValue([{ id: 1 }]);
     jest
       .spyOn(service.getPubSub(), 'publish')
       .mockResolvedValue();
@@ -74,6 +76,20 @@ describe('Pporderlines2WatcherService', () => {
     await service.checkForUpdates();
 
     expect(publishSpy).not.toHaveBeenCalled();
+    publishSpy.mockRestore();
+  });
+
+  it('publishes when a line is deleted', async () => {
+    qb.getMany
+      .mockResolvedValueOnce([{ id: 1 }])
+      .mockResolvedValueOnce([]);
+    const publishSpy = jest
+      .spyOn(service.getPubSub(), 'publish')
+      .mockResolvedValue();
+    await service.checkForUpdates();
+    publishSpy.mockReset();
+    await service.checkForUpdates();
+    expect(publishSpy).toHaveBeenCalledTimes(1);
     publishSpy.mockRestore();
   });
 });

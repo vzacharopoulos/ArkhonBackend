@@ -1,4 +1,4 @@
-import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql';
+import { Args, Context, Float, Int, Mutation, Parent, Query, ResolveField, Resolver, Subscription } from '@nestjs/graphql';
 
 import { PpordersService } from './pporders.service';
 import { Pporders } from 'src/entities/entities/Pporders.entity';
@@ -9,12 +9,31 @@ import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 import { pubSub } from '../common/pubsub';
 import { PanelMachinePauses } from 'src/entities/entities/PanelMachinePauses.entity';
 import { PporderGroupIn } from './dto/pporder-group.output';
-
+type Totals = { totalTime: number; totalTtm: number };
 
 @Resolver(() => Pporders)
 export class PpordersResolver {
   constructor(private readonly ppordersService: PpordersService) {}
+// --- helpers --------------------------------------------------------------
 
+  /**
+   * Per-request cache helper. Stores totals on the GraphQL context so that
+   * totalTime and totalTtm are computed with a single fetch per pporderno.
+   */
+  private async getTotalsCached(pporderno: string, ctx: any): Promise<Totals> {
+    // ensure a per-request cache map exists on the context
+    if (!ctx.__totalsCache) ctx.__totalsCache = new Map<string, Totals>();
+
+    const cache: Map<string, Totals> = ctx.__totalsCache;
+
+    if (cache.has(pporderno)) {
+      return cache.get(pporderno)!;
+    }
+
+    const totals = await this.ppordersService.getTotals(pporderno);
+    cache.set(pporderno, totals);
+    return totals;
+  }
   // Get single order by ID
   @Query(() => Pporders, { name: 'pporder', description: 'Get a single production order by ID' })
   async getPporder(
@@ -38,19 +57,20 @@ export class PpordersResolver {
     return this.ppordersService.getPporderlines(order.pporderno);
   }
 
-
-   @ResolveField('totalTime', () => Number, { nullable: true })
-  async getTotalTime(@Parent() order: Pporders): Promise<number | null> {
+ // Use Float (or Int) instead of Number for GraphQL type safety
+  @ResolveField('totalOrderTime', () => Float, { nullable: true })
+  async getTotalTime(@Parent() order: Pporders, @Context() ctx: any): Promise<number | null> {
     if (!order.pporderno) return null;
-    return this.ppordersService.getTotalTime(order.pporderno);
+    const { totalTime } = await this.getTotalsCached(order.pporderno, ctx);
+    return totalTime;
   }
 
-     @ResolveField('totalTtm', () => Number, { nullable: true })
-  async getTotalTtm(@Parent() order: Pporders): Promise<number | null> {
+  @ResolveField('totalTtm', () => Float, { nullable: true })
+  async getTotalTtm(@Parent() order: Pporders, @Context() ctx: any): Promise<number | null> {
     if (!order.pporderno) return null;
-    return this.ppordersService.getTotalTtm(order.pporderno);
+    const { totalTtm } = await this.getTotalsCached(order.pporderno, ctx);
+    return totalTtm;
   }
-
   @ResolveField('groupIn', () => [PporderGroupIn])
   async groupIn(@Parent() order: Pporders): Promise<PporderGroupIn[]> {
     if (!order.pporderno) return [];

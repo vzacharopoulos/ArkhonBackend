@@ -10,15 +10,22 @@ registerEnumType(CustomerSortField, {
   name: 'CustomerSortField',
 });
 
-registerEnumType(SortOrder, {
-  name: 'SortOrder',
-});
+// SortOrder is registered in coils-sort-input; avoid duplicate registration here
 
 @InputType()
 export class CustomerSortInput {
   @Field(() => CustomerSortField)
   field: CustomerSortField;
 
-  @Field(() => SortOrder)
-  direction: SortOrder;
+  @Field(() => SortOrder, { nullable: true })
+  direction?: SortOrder;
+
+  @Field(() => SortOrder, { nullable: true })
+  order?: SortOrder;
+
+  @Field({ nullable: true })
+  directionStr?: string;
+
+  @Field({ nullable: true })
+  orderStr?: string;
 }

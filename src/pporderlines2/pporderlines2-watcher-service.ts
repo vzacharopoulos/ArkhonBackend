@@ -12,11 +12,9 @@ import { TradecodeCustomer } from 'src/entities/views/TradecodeCustomer.view';
 
 @Injectable()
 export class Pporderlines2WatcherService {
-  private previousHash = '';
   private readonly logger = new Logger(Pporderlines2WatcherService.name);
-      private previousLineHashes: Record<number, string> = {};
-
-
+  private previousLineHashes: Record<number, string> = {};
+  private previousLines: Record<number, Pporderlines2> = {};
   constructor(
     @InjectRepository(Pporderlines2)
     private readonly linesRepository: Repository<Pporderlines2>,
@@ -51,6 +49,9 @@ async checkForUpdates(): Promise<void> {
   this.logger.debug(`Fetched ${lines.length} lines from database.`);
 
   const changedLines: Pporderlines2[] = [];
+  const createdLines: Pporderlines2[] = [];
+  const currentLines: Record<number, Pporderlines2> = {};
+  const oldIds = new Set<number>(Object.keys(this.previousLineHashes).map(Number));
 
   for (const line of lines) {
     const cleanLine = {
@@ -68,20 +69,51 @@ async checkForUpdates(): Promise<void> {
     const hash = createHash('md5').update(JSON.stringify(cleanLine)).digest('hex');
     const prevHash = this.previousLineHashes[line.id];
 
-    if (hash !== prevHash) {
+    currentLines[line.id] = line;
+
+    if (!prevHash) {
+      createdLines.push(line);
+    } else if (hash !== prevHash) {
       changedLines.push(line);
-      this.previousLineHashes[line.id] = hash;
     }
+
+    this.previousLineHashes[line.id] = hash;
+    oldIds.delete(line.id);
   }
 
-  if (changedLines.length > 0) {
-    for (const updatedLine of changedLines) {
-      await pubSub.publish('pporderlineStatusChanged', {
-        pporderlineStatusChanged: updatedLine,
-      });
-      this.logger.log(`Published update for line ID: ${updatedLine.id}`);
+  const deletedLines: Pporderlines2[] = [];
+  for (const id of oldIds) {
+    const prevLine = this.previousLines[id];
+    if (prevLine) {
+      deletedLines.push(prevLine);
     }
-  } else {
+    delete this.previousLineHashes[id];
+  }
+
+  this.previousLines = currentLines;
+
+  for (const line of createdLines) {
+    await pubSub.publish('pporderlineCreated', {
+      pporderlineCreated: line,
+    });
+    this.logger.log(`Published create for line ID: ${line.id}`);
+  }
+
+  for (const line of changedLines) {
+    await pubSub.publish('pporderlineStatusChanged', {
+      pporderlineStatusChanged: line,
+    });
+    this.logger.log(`Published update for line ID: ${line.id}`);
+  }
+
+  for (const line of deletedLines) {
+    await pubSub.publish('pporderlineDeleted', {
+      pporderlineDeleted: line,
+    });
+    this.logger.log(`Published delete for line ID: ${line.id}`);
+  }
+
+  if (createdLines.length === 0 && changedLines.length === 0 && deletedLines.length === 0) {
     this.logger.log('No changes detected.');
   }
 }

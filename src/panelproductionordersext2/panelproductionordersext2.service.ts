@@ -1,4 +1,4 @@
-
+﻿
 
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,7 +20,7 @@ export class ProdOrdersViewService {
     private readonly prodOrdersRepo: Repository<ProdOrdersView>,
     @InjectRepository(Pporderlines2)
     private readonly pporderlines2Repository: Repository<Pporderlines2>,
-    @InjectRepository(FintradeSync, 'atlantisdb') // 👈 this line!
+    @InjectRepository(FintradeSync, 'atlantisdb') // π‘ this line!
     private readonly fintradeSyncRepo: Repository<FintradeSync>,
   ) { }
 
@@ -119,12 +119,24 @@ async findAll(
     applyStringFilter(batchQueryBuilder, 'prodOrdersView.code', filter?.code, 'code');
     applyIntFilter(batchQueryBuilder, 'prodOrdersView.ttm', filter?.ttm, 'ttm');
 
-    // Apply sorting
-    sorting?.forEach(({ field, direction }, index) => {
+    // Apply sorting (normalize direction/order and accept lowercase)
+    sorting?.forEach((s: any, index: number) => {
+      const normalize = (v: any): 'ASC' | 'DESC' | undefined => {
+        if (v === undefined || v === null) return undefined;
+        const val = String(v).toUpperCase();
+        return val === 'ASC' || val === 'DESC' ? (val as 'ASC' | 'DESC') : undefined;
+      };
+      const dir =
+        normalize(s?.direction) ??
+        normalize(s?.order) ??
+        normalize(s?.directionStr) ??
+        normalize(s?.orderStr);
+      const field = s?.field;
+      if (!field || !dir) return;
       if (index === 0) {
-        batchQueryBuilder.orderBy(`prodOrdersView.${field}`, direction);
+        batchQueryBuilder.orderBy(`prodOrdersView.${field}`, dir);
       } else {
-        batchQueryBuilder.addOrderBy(`prodOrdersView.${field}`, direction);
+        batchQueryBuilder.addOrderBy(`prodOrdersView.${field}`, dir);
       }
     });
 
@@ -166,3 +178,4 @@ async findAll(
 
 
 }
+

@@ -113,6 +113,7 @@ type Coils {
   dateDiffDelSales: Int
   dateDiffDelCut: Int
   company: String
+  isUnloaded: Boolean
   locationAccess: [UsersLocationAccess!]!
   status: Status
 }
@@ -157,9 +158,17 @@ type Users {
   usersLocationAccess: [UsersLocationAccess!]!
 }
 
+type CoilCoating {
+  id: Int!
+  code: String!
+  name: String
+  description: String
+}
+
 type CoilsResponse {
   nodes: [Coil!]!
   totalCount: Int!
+  totalWeight: Float!
 }
 
 type StatusType {
@@ -181,12 +190,15 @@ type Coil {
   color: String
   sheetType: String
   coating: String
+  coatingRef: CoilCoating
   coathick: String
   paintType: String
   steelGrade: String
   createDate: Date
   delDate: Date
   upDate: Date
+  loadDate: Date
+  isUnloaded: Boolean
   gaugeThickness: String
   thickness: Float
   widthCoil: Float
@@ -208,7 +220,6 @@ type Coil {
   customer: String
   orderDate: Date
   corderid: String
-  loadDate: Date
   tporderId: String
   tporderSort: Float
   classification: String
@@ -362,6 +373,7 @@ type Pporders {
   totalTime: Float
   totalTtm: Float
   groupIn: [PporderGroupIn!]
+  totalOrderTime: Float
 }
 
 type TradecodeCustomer {
@@ -6566,38 +6578,6 @@ type Uservardocformsmessages {
   dfm: Docforms
 }
 
-type Vardocforms {
-  codeid: Float
-  descr: String
-  dfmid: Float
-  teamelpid: Float
-  link: Docforms
-  vardocformslines: [Vardocformslines!]
-  vardocformslines2: [Vardocformslines!]
-  vardocformslines3: [Vardocformslines!]
-  id: Float!
-}
-
-type Docforms {
-  codeid: Float
-  descr: String
-  prtid: Float
-  frmtype: Float
-  domaintype: Float
-  prevfyeid: Float
-  accdatasource: Float
-  closeddocid: Float
-  internalstr: String
-  prtid2: Float
-  isbalance: Float
-  calcdocforms: [Calcdocforms!]
-  uservardocforms: [Uservardocforms!]
-  uservardocformsmessages: [Uservardocformsmessages!]
-  vardocforms: [Vardocforms!]
-  vardocformslines: [Vardocformslines!]
-  id: Float!
-}
-
 type Vardocformslines {
   acccode: String
   linenum: Float
@@ -6620,6 +6600,38 @@ type Vardocformslines {
   vardocformidtotals: Vardocforms
   vardocform: Vardocforms
   link: Vardocforms
+}
+
+type Docforms {
+  codeid: Float
+  descr: String
+  prtid: Float
+  frmtype: Float
+  domaintype: Float
+  prevfyeid: Float
+  accdatasource: Float
+  closeddocid: Float
+  internalstr: String
+  prtid2: Float
+  isbalance: Float
+  calcdocforms: [Calcdocforms!]
+  uservardocforms: [Uservardocforms!]
+  uservardocformsmessages: [Uservardocformsmessages!]
+  vardocforms: [Vardocforms!]
+  vardocformslines: [Vardocformslines!]
+  id: Float!
+}
+
+type Vardocforms {
+  codeid: Float
+  descr: String
+  dfmid: Float
+  teamelpid: Float
+  link: Docforms
+  vardocformslines: [Vardocformslines!]
+  vardocformslines2: [Vardocformslines!]
+  vardocformslines3: [Vardocformslines!]
+  id: Float!
 }
 
 type Tasktrn {
@@ -6919,6 +6931,31 @@ type Presource {
   groupresource: Groupresource
 }
 
+type Prdata {
+  comid: Float
+  prpid: Float
+  domainid1: Float
+  domainid2: Float
+  linenum: Float
+  qty: Float
+  fld1: Float
+  fld2: Float
+  fld3: Float
+  fld4: Float
+  fld5: Float
+  fld6: Float
+  fdate: Date
+  ldate: Date
+  iteid: Float
+  giftqty: Float
+  domaintype: Float
+  lastmodifieddate: Date
+  usrid: Float
+  fromtime: String
+  totime: String
+  prdef: Prdef
+}
+
 type Prdef {
   comid: Float
   codeid: Float
@@ -6953,31 +6990,6 @@ type Prdef {
   scriptfunction: String
   scriptparams: String
   prdata: [Prdata!]
-}
-
-type Prdata {
-  comid: Float
-  prpid: Float
-  domainid1: Float
-  domainid2: Float
-  linenum: Float
-  qty: Float
-  fld1: Float
-  fld2: Float
-  fld3: Float
-  fld4: Float
-  fld5: Float
-  fld6: Float
-  fdate: Date
-  ldate: Date
-  iteid: Float
-  giftqty: Float
-  domaintype: Float
-  lastmodifieddate: Date
-  usrid: Float
-  fromtime: String
-  totime: String
-  prdef: Prdef
 }
 
 type Natinistorecolorsize {
@@ -7050,27 +7062,6 @@ type Natinistore {
   natinistorecolorsizes: [Natinistorecolorsize!]
 }
 
-type Myf {
-  comid: Float
-  fyear: Float
-  fmonth: Float
-  descr: String
-  afm: String
-  branhno: String
-  valtype: Float
-  akind: Float
-  islocked: Float
-  fromdate: Date
-  todate: Date
-  givedate: Date
-  comments: String
-  gsisresponse: String
-  gsisresponseid: Float
-  aa: Float
-  myfData: [MyfData!]
-  id: Float!
-}
-
 type MyfData {
   comid: Float
   linenum: Float
@@ -7089,6 +7080,27 @@ type MyfData {
   fromcomid: Float
   comments: String
   myf: Myf
+  id: Float!
+}
+
+type Myf {
+  comid: Float
+  fyear: Float
+  fmonth: Float
+  descr: String
+  afm: String
+  branhno: String
+  valtype: Float
+  akind: Float
+  islocked: Float
+  fromdate: Date
+  todate: Date
+  givedate: Date
+  comments: String
+  gsisresponse: String
+  gsisresponseid: Float
+  aa: Float
+  myfData: [MyfData!]
   id: Float!
 }
 
@@ -7246,18 +7258,6 @@ type Mydataheader {
   id: Float!
 }
 
-type Lbdata {
-  comid: Float
-  lbtype: Float
-  codeid: Float
-  descr: String
-  type: Float
-  countf: String
-  lbprinter: String
-  prtcharset: Float
-  lbshapes: Lbshapes
-}
-
 type Lbshapes {
   comid: Float
   codeid: Float
@@ -7273,6 +7273,18 @@ type Lbshapes {
   munit: Float
   orientation: Float
   lbdata: [Lbdata!]
+}
+
+type Lbdata {
+  comid: Float
+  lbtype: Float
+  codeid: Float
+  descr: String
+  type: Float
+  countf: String
+  lbprinter: String
+  prtcharset: Float
+  lbshapes: Lbshapes
 }
 
 type Eurosystemlistsdt {
@@ -7364,7 +7376,7 @@ type Query {
   recipes(skip: Int! = 0, take: Int! = 25): [Recipe!]!
   users: [Users!]!
   user(userId: String!): Users
-  coils(filter: CoilsFilterInput, limit: Int, offset: Int): CoilsResponse!
+  coils(filter: CoilsFilterInput, limit: Int, offset: Int, sorting: [CoilsSortInput!]): CoilsResponse!
   availableCoils(filter: CoilsFilterInput, sorting: [CoilsSortInput!], limit: Int, offset: Int): CoilsResponse!
   expectedCoils(filter: CoilsFilterInput, sorting: [CoilsSortInput!], limit: Int, offset: Int): CoilsResponse!
   coil(id: Int!): Coil
@@ -7410,19 +7422,39 @@ type Query {
 }
 
 input CoilsFilterInput {
-  status: Int
+  isLoaded: BooleanFilter
+  isUnloaded: BooleanFilter
+  loadDate: DateFilter
   coilno: StringFilterInput
   loc: IntInInput
   loc_in: IntInInput
   color: StringFilterInput
-  upDateFrom: DateTime
-  upDateTo: DateTime
-  currWeightFrom: StringFilterInput
-  currWeight: StringFilterInput
-  currWeightTo: StringFilterInput
+  upDate: DateFilter
+  documents: StringFilter
+  upDateFrom: DateFilter
+  upDateTo: DateFilter
+  loadDateFrom: DateFilter
+  loadDateTo: DateFilter
+  supcoilId: StringFilterInput
+  currWeightFrom: IntFilter
+  currWeight: IntFilter
+  currWeightTo: IntFilter
   openstatus: openstatusFilterInput
   thickness: StringFilterInput
   widthCoil: StringFilterInput
+}
+
+input BooleanFilter {
+  eq: Boolean
+}
+
+input DateFilter {
+  eq: Date
+  gte: Date
+  lte: Date
+  gt: Date
+  lt: Date
+  in: [Date!]
 }
 
 input StringFilterInput {
@@ -7433,54 +7465,6 @@ input StringFilterInput {
 
 input IntInInput {
   in: [Int!]
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-input openstatusFilterInput {
-  eq: openstatus
-  in: [openstatus!]
-}
-
-input CoilsSortInput {
-  field: CoilSortField!
-  direction: SortOrder!
-}
-
-"""Fields by which coils can be sorted"""
-enum CoilSortField {
-  id
-  coilno
-  currWeight
-  upDate
-  thickness
-  WIDTH
-  widthCoil
-  openstatus
-  color
-}
-
-enum SortOrder {
-  ASC
-  DESC
-}
-
-input MasterlengthFilterInput {
-  pporderno: String
-  status: [Int!]
-  lastDays: Int
-}
-
-input Pporderlines2FilterInput {
-  ppordernos: StringFilter
-  custporderno: StringFilter
-  tradecode: StringFilter
-  status: IntFilter
-  prodDate: DateFilter
-  isCanceled: Boolean
 }
 
 input StringFilter {
@@ -7503,17 +7487,57 @@ input IntFilter {
   isNull: Boolean
 }
 
-input DateFilter {
-  eq: Date
-  gte: Date
-  lte: Date
-  gt: Date
-  lt: Date
+input openstatusFilterInput {
+  eq: openstatus
+  in: [openstatus!]
+}
+
+input CoilsSortInput {
+  field: CoilSortField!
+  direction: SortOrder
+  order: SortOrder
+}
+
+"""Fields by which coils can be sorted"""
+enum CoilSortField {
+  id
+  coilno
+  currWeight
+  upDate
+  thickness
+  supcoilId
+  widthCoil
+  color
+  openstatus
+}
+
+"""Specify ascending or descending order"""
+enum SortOrder {
+  ASC
+  DESC
+}
+
+input MasterlengthFilterInput {
+  pporderno: String
+  status: [Int!]
+  lastDays: Int
+}
+
+input Pporderlines2FilterInput {
+  ppordernos: StringFilter
+  custporderno: StringFilter
+  tradecode: StringFilter
+  status: IntFilter
+  prodDate: DateFilter
+  isCanceled: Boolean
 }
 
 input Pporderlines2SortInput {
   field: Pporderlines2SortField!
-  direction: SortOrder!
+  direction: SortOrder
+  order: SortOrder
+  directionStr: String
+  orderStr: String
 }
 
 enum Pporderlines2SortField {
@@ -7549,7 +7573,10 @@ input ProdOrdersViewFilterInput {
 
 input ProdOrdersViewSortInput {
   field: PanelProductionOrdersExt2SortField!
-  direction: SortOrder!
+  direction: SortOrder
+  order: SortOrder
+  directionStr: String
+  orderStr: String
 }
 
 enum PanelProductionOrdersExt2SortField {
@@ -7569,7 +7596,10 @@ input FintradeSyncFilterInput {
 
 input FintradeSyncSortInput {
   field: FintradeSyncSortField!
-  direction: SortOrder!
+  direction: SortOrder
+  order: SortOrder
+  directionStr: String
+  orderStr: String
 }
 
 enum FintradeSyncSortField {
@@ -7588,7 +7618,10 @@ input CustomerFilterInput {
 
 input CustomerSortInput {
   field: CustomerSortField!
-  direction: SortOrder!
+  direction: SortOrder
+  order: SortOrder
+  directionStr: String
+  orderStr: String
 }
 
 enum CustomerSortField {
@@ -7600,6 +7633,7 @@ type Mutation {
   addRecipe(newRecipeData: NewRecipeInput!): Recipe!
   removeRecipe(id: String!): Boolean!
   updateOneCoil(input: UpdateOneCoilInput!): Coil!
+  updateCoilStatus(id: Int!, statusId: Int!): Coil!
   updatePporderlineStatus(input: UpdatePporderlineStatusInput!): Pporderlines2!
 
   """Create a new production order"""
@@ -7647,6 +7681,8 @@ input UpdateCoilInput {
   commentsPanel: String
   cutComment: String
   prodComment: String
+  isLoaded: Boolean
+  loadDate: Date
 }
 
 input UpdatePporderlineStatusInput {
@@ -7741,5 +7777,7 @@ input LoginInput {
 type Subscription {
   recipeAdded: Recipe!
   pporderlineStatusChanged: Pporderlines2!
+  pporderlineCreated: Pporderlines2!
+  pporderlineDeleted: Pporderlines2!
   pporderUpdated: Pporders!
 }

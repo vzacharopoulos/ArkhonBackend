@@ -6,12 +6,16 @@ import { CoilsResolver } from './coils.resolver';
 import { UsersLocationAccessService } from 'src/userslocationaccess/userslocationaccess.service';
 import { UsersLocationAccess } from 'src/entities/entities/UserLocationAccess.entity';
 import { Location } from 'src/entities/entities/Location.entity';
+import { Status } from 'src/entities/entities/Status.entity';
 
 @Module({
   imports: [
-TypeOrmModule.forFeature([UsersLocationAccess,Coils,
-      
-      Location,]) ,// Add this],
+TypeOrmModule.forFeature([
+  UsersLocationAccess,
+  Coils,
+  Location,
+  Status,
+]) ,// Add this],
 ],
   providers: [CoilsService, CoilsResolver,UsersLocationAccessService],
 })

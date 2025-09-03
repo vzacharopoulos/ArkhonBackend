@@ -1,6 +1,12 @@
 import { Field, InputType, Int } from "@nestjs/graphql";
 
 @InputType()
+export class BooleanFilter {
+  @Field(() => Boolean, { nullable: true })
+  eq?: boolean;
+}
+
+@InputType()
 export class IntFilter {
   @Field(() => Int, { nullable: true })
   eq?: number;
@@ -83,6 +89,9 @@ export class DateFilter {
 
   @Field(() => Date, { nullable: true })
   lt?: Date;
+
+  @Field(() => [Date], { nullable: true })
+  in?: Date[];
 }
 export function applyDateFilter(
   queryBuilder: any,
@@ -93,6 +102,31 @@ export function applyDateFilter(
   if (!filterValue) return;
 
   const prefix = alias || fieldPath.replace('.', '');
+
+   // Handle Refine "between" -> { in: [start, end] }
+  if (Array.isArray(filterValue.in) && filterValue.in.length > 0) {
+    const arr = filterValue.in
+      .filter(Boolean)
+      .map((d) => (d instanceof Date ? d : new Date(d)));
+
+    if (arr.length === 2) {
+      const [a, b] = arr;
+      const start = a <= b ? a : b;
+      const end   = a <= b ? b : a;
+
+      queryBuilder.andWhere(`${fieldPath} >= :${prefix}BetweenStart`, {
+        [`${prefix}BetweenStart`]: start,
+      });
+      queryBuilder.andWhere(`${fieldPath} <= :${prefix}BetweenEnd`, {
+        [`${prefix}BetweenEnd`]: end,
+      });
+    } else if (arr.length > 2) {
+      // Exact timestamp matches for multiple values
+      queryBuilder.andWhere(`${fieldPath} IN (:...${prefix}In)`, {
+        [`${prefix}In`]: arr,
+      });
+    }
+  }
 
   if (filterValue.eq !== undefined) {
     queryBuilder.andWhere(`${fieldPath} = :${prefix}Eq`, { [`${prefix}Eq`]: filterValue.eq });
@@ -182,5 +216,17 @@ export function applyStringFilter(
   if (filter.isNull !== undefined) {
     qb.andWhere(filter.isNull ? `${fieldPath} IS NULL` : `${fieldPath} IS NOT NULL`);
   }
+}
+
+// Boolean helpers -----------------------------------------------------------
+export function applyBooleanFilter(
+  qb: any,
+  fieldPath: string,
+  filter?: BooleanFilter,
+  alias?: string,
+) {
+  if (!filter || filter.eq === undefined) return;
+  const prefix = alias || fieldPath.replace('.', '');
+  qb.andWhere(`${fieldPath} = :${prefix}BoolEq`, { [`${prefix}BoolEq`]: !!filter.eq });
 }
 

@@ -20,6 +20,8 @@ export class UsersLocationAccessService {
     );
   }
 
+  //get allowelocationfor every user
+  
   // Existing method - keep as is
   async getAllowedLocationsForUser(userId: string): Promise<Location[]> {
     const accesses = await this.usersLocationAccessRepository.find({

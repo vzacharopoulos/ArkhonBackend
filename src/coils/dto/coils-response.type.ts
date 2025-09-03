@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { CoilType } from '../coils.resolver';
 
 @ObjectType()
@@ -8,4 +8,7 @@ export class CoilsResponse {
 
   @Field(() => Int)
   totalCount: number;
+
+  @Field(() => Float)
+  totalWeight: number;
 }
