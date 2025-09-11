@@ -39,6 +39,9 @@ export class UpdateCoilInput extends PartialType(CreateCoilInput) {
 
         @Field({ nullable: true })
       prodComment: string | null;
+
+        @Field(() => Int, { nullable: true })
+  shipBayNo?: number;
     
 
   // Add more fields from CreateCoilInput as needed...

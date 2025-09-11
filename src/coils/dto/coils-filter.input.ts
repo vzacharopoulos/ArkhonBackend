@@ -114,4 +114,7 @@ currWeightTo?: IntFilter;
 
   @Field(() => StringFilterInput, { nullable: true })
   widthCoil?: StringFilterInput;
+
+@Field(() => IntFilter, { nullable: true })
+  shipBayNo: IntFilter;
 }

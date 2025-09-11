@@ -114,6 +114,7 @@ type Coils {
   dateDiffDelCut: Int
   company: String
   isUnloaded: Boolean
+  shipBayNo: Int
   locationAccess: [UsersLocationAccess!]!
   status: Status
 }
@@ -274,6 +275,7 @@ type Coil {
   dateDiffDelCut: Float
   company: String
   locationAccess: [UsersLocationAccess!]!
+  shipBayNo: Float
 }
 
 type LoginResponse {
@@ -7117,56 +7119,6 @@ type Mydataexplines {
   id: Float!
 }
 
-type Mydataclass {
-  comid: Float
-  mydatalinesid: Float
-  classificationreceipt: String
-  linenumber: Float
-  classificationtype: String
-  classificationcategory: String
-  amount: Float
-  classificationid: Float
-  uploaddate: Date
-  vatamount: Float
-  vatcategory: Float
-  vatexemption: Float
-  mydatalines: Mydatalines
-  id: Float!
-}
-
-type Mydatalines {
-  comid: Float
-  mydataheaderid: Float
-  linenumber: Float
-  quantity: Float
-  measurementunit: Float
-  invoicedetailtype: Float
-  vatcategory: Float
-  netvalue: Float
-  vatexemption: Float
-  applicationid: String
-  applicationdate: Date
-  doy: String
-  shipid: String
-  discountoption: Float
-  linecomments: String
-  vatamount: Float
-  rectype: Float
-  exptype: Float
-  mydatavprc: Float
-  fuelcode: Float
-  itemdescr: String
-  quantity15: Float
-  taricno: String
-  itemcode: String
-  othermeasurementunitquantity: Float
-  othermeasurementunittitle: String
-  notvat195: Float
-  mydataclasses: [Mydataclass!]
-  mydataheader: Mydataheader
-  id: Float!
-}
-
 type Mydataheader {
   comid: Float
   source: Float
@@ -7258,6 +7210,68 @@ type Mydataheader {
   id: Float!
 }
 
+type Mydataclass {
+  comid: Float
+  mydatalinesid: Float
+  classificationreceipt: String
+  linenumber: Float
+  classificationtype: String
+  classificationcategory: String
+  amount: Float
+  classificationid: Float
+  uploaddate: Date
+  vatamount: Float
+  vatcategory: Float
+  vatexemption: Float
+  mydatalines: Mydatalines
+  id: Float!
+}
+
+type Mydatalines {
+  comid: Float
+  mydataheaderid: Float
+  linenumber: Float
+  quantity: Float
+  measurementunit: Float
+  invoicedetailtype: Float
+  vatcategory: Float
+  netvalue: Float
+  vatexemption: Float
+  applicationid: String
+  applicationdate: Date
+  doy: String
+  shipid: String
+  discountoption: Float
+  linecomments: String
+  vatamount: Float
+  rectype: Float
+  exptype: Float
+  mydatavprc: Float
+  fuelcode: Float
+  itemdescr: String
+  quantity15: Float
+  taricno: String
+  itemcode: String
+  othermeasurementunitquantity: Float
+  othermeasurementunittitle: String
+  notvat195: Float
+  mydataclasses: [Mydataclass!]
+  mydataheader: Mydataheader
+  id: Float!
+}
+
+type Lbdata {
+  comid: Float
+  lbtype: Float
+  codeid: Float
+  descr: String
+  type: Float
+  countf: String
+  lbprinter: String
+  prtcharset: Float
+  lbshapes: Lbshapes
+}
+
 type Lbshapes {
   comid: Float
   codeid: Float
@@ -7273,18 +7287,6 @@ type Lbshapes {
   munit: Float
   orientation: Float
   lbdata: [Lbdata!]
-}
-
-type Lbdata {
-  comid: Float
-  lbtype: Float
-  codeid: Float
-  descr: String
-  type: Float
-  countf: String
-  lbprinter: String
-  prtcharset: Float
-  lbshapes: Lbshapes
 }
 
 type Eurosystemlistsdt {
@@ -7329,16 +7331,6 @@ type Documents {
   id: Float!
 }
 
-type Colorlist {
-  comid: Float
-  codeid: Float
-  descr: String
-  isactive: Float
-  ismain: Float
-  colorlistlines: [Colorlistlines!]
-  id: Float!
-}
-
 type Colorlistlines {
   linkid: Float
   colorcode: String
@@ -7347,6 +7339,16 @@ type Colorlistlines {
   optcolordescr: String
   clgid: Float
   link: Colorlist
+}
+
+type Colorlist {
+  comid: Float
+  codeid: Float
+  descr: String
+  isactive: Float
+  ismain: Float
+  colorlistlines: [Colorlistlines!]
+  id: Float!
 }
 
 type Accdiffmodel {
@@ -7442,6 +7444,7 @@ input CoilsFilterInput {
   openstatus: openstatusFilterInput
   thickness: StringFilterInput
   widthCoil: StringFilterInput
+  shipBayNo: IntFilter
 }
 
 input BooleanFilter {
@@ -7504,11 +7507,13 @@ enum CoilSortField {
   coilno
   currWeight
   upDate
+  loadDate
   thickness
   supcoilId
   widthCoil
   color
   openstatus
+  shipBayNo
 }
 
 """Specify ascending or descending order"""
@@ -7633,7 +7638,7 @@ type Mutation {
   addRecipe(newRecipeData: NewRecipeInput!): Recipe!
   removeRecipe(id: String!): Boolean!
   updateOneCoil(input: UpdateOneCoilInput!): Coil!
-  updateCoilStatus(id: Int!, statusId: Int!): Coil!
+  updateCoilStatus(id: Int!, statusIds: [Int!]!, shipBayNo: Int!): Coil!
   updatePporderlineStatus(input: UpdatePporderlineStatusInput!): Pporderlines2!
 
   """Create a new production order"""
@@ -7683,6 +7688,7 @@ input UpdateCoilInput {
   prodComment: String
   isLoaded: Boolean
   loadDate: Date
+  shipBayNo: Int
 }
 
 input UpdatePporderlineStatusInput {

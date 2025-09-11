@@ -421,8 +421,11 @@ initWeight: number | null;
   @Column({ type: "bit", default: false })
   isUnloaded: boolean;
 
- 
- 
+   @Field(() => Int, { nullable: true })
+  @Column("int", { name: "shipBayNo", nullable: true })
+  shipBayNo: number | null;
+
+
 
   @Field(() => [UsersLocationAccess])
   @OneToMany(() => UsersLocationAccess, (access) => access.location)

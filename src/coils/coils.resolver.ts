@@ -285,6 +285,10 @@ export class CoilType {
    @Field(() => [UsersLocationAccess], { description: 'User access permissions for this coil location' })
   locationAccess: UsersLocationAccess[];
 
+    @Field({ nullable: true })
+  shipBayNo: number;
+
+
 //  @Field(() => CoilColor, { nullable: true })
 //   colorRef?: CoilColor ;
 // 
@@ -353,9 +357,10 @@ async updateOneCoil(
   @Mutation(() => CoilType, { name: 'updateCoilStatus' })
   async updateCoilStatus(
     @Args('id', { type: () => Int }) id: number,
-    @Args('statusId', { type: () => Int }) statusId: number,
+    @Args('statusIds', { type: () => [Int] }) statusIds: number[],
+    @Args('shipBayNo', { type: () => Int }) shipBayNo: number,
   ): Promise<Coils> {
-    return this.coilsService.updateIsUnloadedById(id, statusId);
+    return this.coilsService.updateIsUnloadedById(id, statusIds, shipBayNo);
   }
 
 

@@ -24,11 +24,13 @@ export enum CoilSortField {
   coilno     = 'coilno',
   currWeight = 'currWeight',
   upDate    = 'upDate',
+  loadDate = 'loadDate',
   thickness  = 'thickness',
   supcoilId  = 'supcoilId',
   widthCoil  = 'widthCoil',
   color      = 'color',
   openstatus = 'openstatus',
+  shipBayNo= 'shipBayNo'
   // …etc
 }
 registerEnumType(CoilSortField, {
