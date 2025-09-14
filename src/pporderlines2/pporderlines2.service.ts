@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PPackages } from 'src/entities/entities/PPackages.entity';
 import { Pporderlines2 } from 'src/entities/entities/Pporderlines2.entity';
 import { PanelSpeeds } from 'src/entities/views/PanelSpeeds';
-import { Repository } from 'typeorm';
+import { Repository, Not, IsNull } from 'typeorm';
 import { Pporderlines2FilterInput } from './dto/pporderlines-filter-input';
 import { Pporderlines2Response } from './dto/pporderlines2-response.type';
 import { OffsetPaging } from 'src/panelproductionordersext2/dto/paging.input';
@@ -98,6 +98,15 @@ export class Pporderlines2Service {
     return { nodes, totalCount };
   }
 
+  // Simple repository-based query using relations (no query builder)
+  async findAllWithOrderRelation(): Promise<Pporderlines2[]> {
+    return this.pporderlines2Repository.find({
+      where: { pporderno: Not(IsNull()) },
+      relations: { pporders: true },
+      order: { id: 'ASC' },
+    });
+  }
+
   async findOne(id: number): Promise<Pporderlines2 | null> {
     return this.pporderlines2Repository
       .createQueryBuilder('line')
@@ -165,20 +174,7 @@ async updateStatus(input: UpdatePporderlineStatusInput): Promise<Pporderlines2> 
     line.upDate = getLocalTime()
     await this.pporderlines2Repository.save(line);
 
-    if (line.pporderno) {
-        // Fix collation issue by using query builder with explicit collation
-        const order = await this.ppordersRepository
-            .createQueryBuilder('order')
-            .where('order.pporderno  = :pporderno', {
-                pporderno: line.pporderno
-            })
-            .getOne();
-
-        if (order) {
-            order.startDateDatetime = getLocalTime();
-            await this.ppordersRepository.save(order);
-        }
-    }
+    // Order start/finish and rescheduling are handled by the planning service (watcher)
 
     return line;
   }

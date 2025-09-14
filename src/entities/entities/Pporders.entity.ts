@@ -105,7 +105,7 @@ export class Pporders {
 pauses?: PanelMachinePauses[];
 
 @Field(() => [Pporderlines2], { nullable: true })
-  @OneToMany(() => Pporderlines2,pporderline => pporderline.pporderno)
+  @OneToMany(() => Pporderlines2, pporderline => pporderline.pporders)
    pporderlines?: Pporderlines2[];
 
      @Field(() => Number, { nullable: true })

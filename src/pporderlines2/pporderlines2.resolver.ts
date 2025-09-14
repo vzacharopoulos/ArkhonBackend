@@ -30,6 +30,12 @@ export class Pporderlines2Resolver {
     return this.pporderlines2Service.findOne(id);
   }
 
+  // Testing query using TypeORM relations (no custom query builder)
+  @Query(() => [Pporderlines2])
+  async pporderlines2WithOrder(): Promise<Pporderlines2[]> {
+    return this.pporderlines2Service.findAllWithOrderRelation();
+  }
+
    @ResolveField('pporders', () => Pporders, { nullable: true })
   async getPporder(@Parent() line: Pporderlines2): Promise<Pporders | null> {
     if (!line.pporderno) return null;

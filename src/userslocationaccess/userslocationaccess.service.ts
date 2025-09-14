@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
-import * as DataLoader from 'dataloader';
+import  DataLoader from 'dataloader';
 import { UsersLocationAccess } from '../entities/entities/UserLocationAccess.entity';
 import { Location } from '../entities/entities/Location.entity';
 

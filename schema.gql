@@ -6449,6 +6449,27 @@ type Pporderlines2Response {
   totalCount: Int!
 }
 
+type WorkingHours {
+  date: String!
+  startHour: Int!
+  startMinute: Int!
+  endHour: Int!
+  endMinute: Int!
+  isWorkingDay: Boolean!
+}
+
+type OrderLineCompletion {
+  id: Int!
+  pporderno: String
+  custporderno: String
+  status: Int
+  upDate: Date
+  time: Float
+  ttm: Float
+  updatedAt: Date
+  isFinished: Boolean!
+}
+
 type Masterlength {
   id: Int!
   pporderno: String!
@@ -6468,15 +6489,6 @@ type Masterlength {
   pauseenddate: Date
   panelSpeed: PanelSpeeds
   time: Float
-}
-
-type WorkingHours {
-  date: String!
-  startHour: Int!
-  startMinute: Int!
-  endHour: Int!
-  endMinute: Int!
-  isWorkingDay: Boolean!
 }
 
 type ProdOrdersViewResponse {
@@ -6768,15 +6780,6 @@ type Utask {
   tasktrns: [Tasktrn!]
 }
 
-type Taxfeehist {
-  code: Float
-  domaintype: Float
-  fyeid: Float
-  coef: Float
-  comments: String
-  taxfee: Taxfee
-}
-
 type Taxfee {
   descr: String
   code: Float
@@ -6787,6 +6790,15 @@ type Taxfee {
   domaintype: Float
   taxfeehists: [Taxfeehist!]
   id: Float!
+}
+
+type Taxfeehist {
+  code: Float
+  domaintype: Float
+  fyeid: Float
+  coef: Float
+  comments: String
+  taxfee: Taxfee
 }
 
 type Printtemplate {
@@ -6870,6 +6882,16 @@ type Sxprofitcoef {
   id: Float!
 }
 
+type RssNews {
+  title: String
+  link: String
+  description: String
+  pubdate: Date
+  isread: Float
+  rssl: RssLinks
+  id: Float!
+}
+
 type RssLinks {
   parentid: Float
   domainkind: Float
@@ -6884,16 +6906,6 @@ type RssLinks {
   groupid: Float
   gdenable: Float
   rssNews: [RssNews!]
-  id: Float!
-}
-
-type RssNews {
-  title: String
-  link: String
-  description: String
-  pubdate: Date
-  isread: Float
-  rssl: RssLinks
   id: Float!
 }
 
@@ -6933,31 +6945,6 @@ type Presource {
   groupresource: Groupresource
 }
 
-type Prdata {
-  comid: Float
-  prpid: Float
-  domainid1: Float
-  domainid2: Float
-  linenum: Float
-  qty: Float
-  fld1: Float
-  fld2: Float
-  fld3: Float
-  fld4: Float
-  fld5: Float
-  fld6: Float
-  fdate: Date
-  ldate: Date
-  iteid: Float
-  giftqty: Float
-  domaintype: Float
-  lastmodifieddate: Date
-  usrid: Float
-  fromtime: String
-  totime: String
-  prdef: Prdef
-}
-
 type Prdef {
   comid: Float
   codeid: Float
@@ -6992,6 +6979,49 @@ type Prdef {
   scriptfunction: String
   scriptparams: String
   prdata: [Prdata!]
+}
+
+type Prdata {
+  comid: Float
+  prpid: Float
+  domainid1: Float
+  domainid2: Float
+  linenum: Float
+  qty: Float
+  fld1: Float
+  fld2: Float
+  fld3: Float
+  fld4: Float
+  fld5: Float
+  fld6: Float
+  fdate: Date
+  ldate: Date
+  iteid: Float
+  giftqty: Float
+  domaintype: Float
+  lastmodifieddate: Date
+  usrid: Float
+  fromtime: String
+  totime: String
+  prdef: Prdef
+}
+
+type Natinistore {
+  comid: Float
+  stoid: Float
+  fyeid: Float
+  fipid: Float
+  iteid: Float
+  bincode: String
+  remprqty: Float
+  remsecqty: Float
+  newprqty: Float
+  newsecqty: Float
+  consumptionqty: Float
+  insdate: Date
+  parid: Float
+  expdate: Date
+  natinistorecolorsizes: [Natinistorecolorsize!]
 }
 
 type Natinistorecolorsize {
@@ -7046,22 +7076,25 @@ type Natinistorecolorsize {
   natinistore: Natinistore
 }
 
-type Natinistore {
+type Myf {
   comid: Float
-  stoid: Float
-  fyeid: Float
-  fipid: Float
-  iteid: Float
-  bincode: String
-  remprqty: Float
-  remsecqty: Float
-  newprqty: Float
-  newsecqty: Float
-  consumptionqty: Float
-  insdate: Date
-  parid: Float
-  expdate: Date
-  natinistorecolorsizes: [Natinistorecolorsize!]
+  fyear: Float
+  fmonth: Float
+  descr: String
+  afm: String
+  branhno: String
+  valtype: Float
+  akind: Float
+  islocked: Float
+  fromdate: Date
+  todate: Date
+  givedate: Date
+  comments: String
+  gsisresponse: String
+  gsisresponseid: Float
+  aa: Float
+  myfData: [MyfData!]
+  id: Float!
 }
 
 type MyfData {
@@ -7085,27 +7118,6 @@ type MyfData {
   id: Float!
 }
 
-type Myf {
-  comid: Float
-  fyear: Float
-  fmonth: Float
-  descr: String
-  afm: String
-  branhno: String
-  valtype: Float
-  akind: Float
-  islocked: Float
-  fromdate: Date
-  todate: Date
-  givedate: Date
-  comments: String
-  gsisresponse: String
-  gsisresponseid: Float
-  aa: Float
-  myfData: [MyfData!]
-  id: Float!
-}
-
 type Mydataexplines {
   comid: Float
   mydataheaderid: Float
@@ -7115,6 +7127,56 @@ type Mydataexplines {
   expvalue: Float
   deductionspercentage: Float
   linecomments: String
+  mydataheader: Mydataheader
+  id: Float!
+}
+
+type Mydataclass {
+  comid: Float
+  mydatalinesid: Float
+  classificationreceipt: String
+  linenumber: Float
+  classificationtype: String
+  classificationcategory: String
+  amount: Float
+  classificationid: Float
+  uploaddate: Date
+  vatamount: Float
+  vatcategory: Float
+  vatexemption: Float
+  mydatalines: Mydatalines
+  id: Float!
+}
+
+type Mydatalines {
+  comid: Float
+  mydataheaderid: Float
+  linenumber: Float
+  quantity: Float
+  measurementunit: Float
+  invoicedetailtype: Float
+  vatcategory: Float
+  netvalue: Float
+  vatexemption: Float
+  applicationid: String
+  applicationdate: Date
+  doy: String
+  shipid: String
+  discountoption: Float
+  linecomments: String
+  vatamount: Float
+  rectype: Float
+  exptype: Float
+  mydatavprc: Float
+  fuelcode: Float
+  itemdescr: String
+  quantity15: Float
+  taricno: String
+  itemcode: String
+  othermeasurementunitquantity: Float
+  othermeasurementunittitle: String
+  notvat195: Float
+  mydataclasses: [Mydataclass!]
   mydataheader: Mydataheader
   id: Float!
 }
@@ -7210,56 +7272,6 @@ type Mydataheader {
   id: Float!
 }
 
-type Mydataclass {
-  comid: Float
-  mydatalinesid: Float
-  classificationreceipt: String
-  linenumber: Float
-  classificationtype: String
-  classificationcategory: String
-  amount: Float
-  classificationid: Float
-  uploaddate: Date
-  vatamount: Float
-  vatcategory: Float
-  vatexemption: Float
-  mydatalines: Mydatalines
-  id: Float!
-}
-
-type Mydatalines {
-  comid: Float
-  mydataheaderid: Float
-  linenumber: Float
-  quantity: Float
-  measurementunit: Float
-  invoicedetailtype: Float
-  vatcategory: Float
-  netvalue: Float
-  vatexemption: Float
-  applicationid: String
-  applicationdate: Date
-  doy: String
-  shipid: String
-  discountoption: Float
-  linecomments: String
-  vatamount: Float
-  rectype: Float
-  exptype: Float
-  mydatavprc: Float
-  fuelcode: Float
-  itemdescr: String
-  quantity15: Float
-  taricno: String
-  itemcode: String
-  othermeasurementunitquantity: Float
-  othermeasurementunittitle: String
-  notvat195: Float
-  mydataclasses: [Mydataclass!]
-  mydataheader: Mydataheader
-  id: Float!
-}
-
 type Lbdata {
   comid: Float
   lbtype: Float
@@ -7289,6 +7301,14 @@ type Lbshapes {
   lbdata: [Lbdata!]
 }
 
+type Eurosystemlistshd {
+  code: String
+  descr: String
+  timestamp: Date
+  eurosystemlistsdts: [Eurosystemlistsdt!]
+  id: Float!
+}
+
 type Eurosystemlistsdt {
   eslihdid: Float
   code: String
@@ -7296,14 +7316,6 @@ type Eurosystemlistsdt {
   timestamp: Date
   deinstructions: String
   eslihd: Eurosystemlistshd
-  id: Float!
-}
-
-type Eurosystemlistshd {
-  code: String
-  descr: String
-  timestamp: Date
-  eurosystemlistsdts: [Eurosystemlistsdt!]
   id: Float!
 }
 
@@ -7331,16 +7343,6 @@ type Documents {
   id: Float!
 }
 
-type Colorlistlines {
-  linkid: Float
-  colorcode: String
-  colordescr: String
-  ordernum: Float
-  optcolordescr: String
-  clgid: Float
-  link: Colorlist
-}
-
 type Colorlist {
   comid: Float
   codeid: Float
@@ -7349,6 +7351,16 @@ type Colorlist {
   ismain: Float
   colorlistlines: [Colorlistlines!]
   id: Float!
+}
+
+type Colorlistlines {
+  linkid: Float
+  colorcode: String
+  colordescr: String
+  ordernum: Float
+  optcolordescr: String
+  clgid: Float
+  link: Colorlist
 }
 
 type Accdiffmodel {
@@ -7397,6 +7409,8 @@ type Query {
   masterlength(pporderno: String!): Masterlength
   pporderlines2(filter: Pporderlines2FilterInput, sorting: [Pporderlines2SortInput!], paging: OffsetPaging): Pporderlines2Response!
   pporderline2(id: Int!): Pporderlines2
+  pporderlines2WithOrder: [Pporderlines2!]!
+  orderLinesCompletionSnapshot(pporderno: String!): [OrderLineCompletion!]!
 
   """Get a single production order by ID"""
   pporder(
@@ -7640,6 +7654,7 @@ type Mutation {
   updateOneCoil(input: UpdateOneCoilInput!): Coil!
   updateCoilStatus(id: Int!, statusIds: [Int!]!, shipBayNo: Int!): Coil!
   updatePporderlineStatus(input: UpdatePporderlineStatusInput!): Pporderlines2!
+  startOrder(pporderno: String!): Pporders
 
   """Create a new production order"""
   createPporder(input: CreatePpordersInput!): Pporders!

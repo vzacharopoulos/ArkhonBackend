@@ -45,7 +45,7 @@ export class Pporderlines2 {
   type: 'nvarchar',
   length: 30,
   nullable: true,
-  collation: 'Greek_CI_AS',
+      collation: 'Greek_CI_AS',
 })
 tradecode: string | null;
 

@@ -9,6 +9,7 @@ import { PubSub } from 'graphql-subscriptions';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { ProdOrdersView } from 'src/entities/views/PanelProductionOrdersExt2.view';
 import { TradecodeCustomer } from 'src/entities/views/TradecodeCustomer.view';
+import { ProductionPlanningService } from 'src/production-planning/production-planning.service';
 
 @Injectable()
 export class Pporderlines2WatcherService {
@@ -18,6 +19,7 @@ export class Pporderlines2WatcherService {
   constructor(
     @InjectRepository(Pporderlines2)
     private readonly linesRepository: Repository<Pporderlines2>,
+    private readonly planning: ProductionPlanningService,
   ) {}
 
 async checkForUpdates(): Promise<void> {
@@ -100,6 +102,12 @@ async checkForUpdates(): Promise<void> {
   }
 
   for (const line of changedLines) {
+    // Trigger backend planning when relevant (status 4 and first start)
+    try {
+      await this.planning.handleLineStatusChange(line);
+    } catch (e) {
+      this.logger.error(`Planning error for line ${line.id}: ${e}`);
+    }
     await pubSub.publish('pporderlineStatusChanged', {
       pporderlineStatusChanged: line,
     });
@@ -122,7 +130,9 @@ async checkForUpdates(): Promise<void> {
     return pubSub;
   }
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_30_SECONDS)
+
+
   async handleCron(): Promise<void> {
     this.logger.log('Running scheduled cron job...');
     return this.checkForUpdates();
