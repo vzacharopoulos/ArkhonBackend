@@ -60,6 +60,8 @@ export class CoilsFilterInput {
   isUnloaded?: BooleanFilter;
 
 
+ 
+
   @Field(() => DateFilter, { nullable: true })
   loadDate?: DateFilter;
 

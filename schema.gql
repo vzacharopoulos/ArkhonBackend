@@ -114,6 +114,7 @@ type Coils {
   dateDiffDelCut: Int
   company: String
   isUnloaded: Boolean
+  isLoaded: Boolean
   shipBayNo: Int
   locationAccess: [UsersLocationAccess!]!
   status: Status
@@ -276,6 +277,7 @@ type Coil {
   company: String
   locationAccess: [UsersLocationAccess!]!
   shipBayNo: Float
+  isLoaded: Boolean
 }
 
 type LoginResponse {
@@ -6768,27 +6770,6 @@ type Utask {
   tasktrns: [Tasktrn!]
 }
 
-type Taxfeehist {
-  code: Float
-  domaintype: Float
-  fyeid: Float
-  coef: Float
-  comments: String
-  taxfee: Taxfee
-}
-
-type Taxfee {
-  descr: String
-  code: Float
-  coef: Float
-  comments: String
-  isactive: Float
-  stopdate: Date
-  domaintype: Float
-  taxfeehists: [Taxfeehist!]
-  id: Float!
-}
-
 type Printtemplate {
   comid: Float
   codeid: Float
@@ -6838,6 +6819,27 @@ type Taxdevcfg {
   printtemplates: [Printtemplate!]
 }
 
+type Taxfee {
+  descr: String
+  code: Float
+  coef: Float
+  comments: String
+  isactive: Float
+  stopdate: Date
+  domaintype: Float
+  taxfeehists: [Taxfeehist!]
+  id: Float!
+}
+
+type Taxfeehist {
+  code: Float
+  domaintype: Float
+  fyeid: Float
+  coef: Float
+  comments: String
+  taxfee: Taxfee
+}
+
 type Sxpcoefcategory {
   codeid: Float
   descr: String
@@ -6870,6 +6872,16 @@ type Sxprofitcoef {
   id: Float!
 }
 
+type RssNews {
+  title: String
+  link: String
+  description: String
+  pubdate: Date
+  isread: Float
+  rssl: RssLinks
+  id: Float!
+}
+
 type RssLinks {
   parentid: Float
   domainkind: Float
@@ -6884,16 +6896,6 @@ type RssLinks {
   groupid: Float
   gdenable: Float
   rssNews: [RssNews!]
-  id: Float!
-}
-
-type RssNews {
-  title: String
-  link: String
-  description: String
-  pubdate: Date
-  isread: Float
-  rssl: RssLinks
   id: Float!
 }
 
@@ -6933,31 +6935,6 @@ type Presource {
   groupresource: Groupresource
 }
 
-type Prdata {
-  comid: Float
-  prpid: Float
-  domainid1: Float
-  domainid2: Float
-  linenum: Float
-  qty: Float
-  fld1: Float
-  fld2: Float
-  fld3: Float
-  fld4: Float
-  fld5: Float
-  fld6: Float
-  fdate: Date
-  ldate: Date
-  iteid: Float
-  giftqty: Float
-  domaintype: Float
-  lastmodifieddate: Date
-  usrid: Float
-  fromtime: String
-  totime: String
-  prdef: Prdef
-}
-
 type Prdef {
   comid: Float
   codeid: Float
@@ -6992,6 +6969,49 @@ type Prdef {
   scriptfunction: String
   scriptparams: String
   prdata: [Prdata!]
+}
+
+type Prdata {
+  comid: Float
+  prpid: Float
+  domainid1: Float
+  domainid2: Float
+  linenum: Float
+  qty: Float
+  fld1: Float
+  fld2: Float
+  fld3: Float
+  fld4: Float
+  fld5: Float
+  fld6: Float
+  fdate: Date
+  ldate: Date
+  iteid: Float
+  giftqty: Float
+  domaintype: Float
+  lastmodifieddate: Date
+  usrid: Float
+  fromtime: String
+  totime: String
+  prdef: Prdef
+}
+
+type Natinistore {
+  comid: Float
+  stoid: Float
+  fyeid: Float
+  fipid: Float
+  iteid: Float
+  bincode: String
+  remprqty: Float
+  remsecqty: Float
+  newprqty: Float
+  newsecqty: Float
+  consumptionqty: Float
+  insdate: Date
+  parid: Float
+  expdate: Date
+  natinistorecolorsizes: [Natinistorecolorsize!]
 }
 
 type Natinistorecolorsize {
@@ -7046,22 +7066,25 @@ type Natinistorecolorsize {
   natinistore: Natinistore
 }
 
-type Natinistore {
+type Myf {
   comid: Float
-  stoid: Float
-  fyeid: Float
-  fipid: Float
-  iteid: Float
-  bincode: String
-  remprqty: Float
-  remsecqty: Float
-  newprqty: Float
-  newsecqty: Float
-  consumptionqty: Float
-  insdate: Date
-  parid: Float
-  expdate: Date
-  natinistorecolorsizes: [Natinistorecolorsize!]
+  fyear: Float
+  fmonth: Float
+  descr: String
+  afm: String
+  branhno: String
+  valtype: Float
+  akind: Float
+  islocked: Float
+  fromdate: Date
+  todate: Date
+  givedate: Date
+  comments: String
+  gsisresponse: String
+  gsisresponseid: Float
+  aa: Float
+  myfData: [MyfData!]
+  id: Float!
 }
 
 type MyfData {
@@ -7082,27 +7105,6 @@ type MyfData {
   fromcomid: Float
   comments: String
   myf: Myf
-  id: Float!
-}
-
-type Myf {
-  comid: Float
-  fyear: Float
-  fmonth: Float
-  descr: String
-  afm: String
-  branhno: String
-  valtype: Float
-  akind: Float
-  islocked: Float
-  fromdate: Date
-  todate: Date
-  givedate: Date
-  comments: String
-  gsisresponse: String
-  gsisresponseid: Float
-  aa: Float
-  myfData: [MyfData!]
   id: Float!
 }
 
@@ -7331,6 +7333,16 @@ type Documents {
   id: Float!
 }
 
+type Colorlist {
+  comid: Float
+  codeid: Float
+  descr: String
+  isactive: Float
+  ismain: Float
+  colorlistlines: [Colorlistlines!]
+  id: Float!
+}
+
 type Colorlistlines {
   linkid: Float
   colorcode: String
@@ -7341,13 +7353,11 @@ type Colorlistlines {
   link: Colorlist
 }
 
-type Colorlist {
-  comid: Float
-  codeid: Float
-  descr: String
-  isactive: Float
-  ismain: Float
-  colorlistlines: [Colorlistlines!]
+type Accdiffmodellines {
+  fromdate: Date
+  coef: Float
+  comments: String
+  accdiffmodel: Accdiffmodel
   id: Float!
 }
 
@@ -7359,14 +7369,6 @@ type Accdiffmodel {
   mobilenum: Float
   akind: Float
   accdiffmodellines: [Accdiffmodellines!]
-  id: Float!
-}
-
-type Accdiffmodellines {
-  fromdate: Date
-  coef: Float
-  comments: String
-  accdiffmodel: Accdiffmodel
   id: Float!
 }
 
@@ -7639,6 +7641,7 @@ type Mutation {
   removeRecipe(id: String!): Boolean!
   updateOneCoil(input: UpdateOneCoilInput!): Coil!
   updateCoilStatus(id: Int!, statusIds: [Int!]!, shipBayNo: Int!): Coil!
+  loadToShipCoil(id: Int!, statusIds: [Int!]!, shipBayNo: Int!): Coil!
   updatePporderlineStatus(input: UpdatePporderlineStatusInput!): Pporderlines2!
 
   """Create a new production order"""

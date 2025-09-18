@@ -288,6 +288,9 @@ export class CoilType {
     @Field({ nullable: true })
   shipBayNo: number;
 
+    @Field({ nullable: true })
+  isLoaded: Boolean;
+
 
 //  @Field(() => CoilColor, { nullable: true })
 //   colorRef?: CoilColor ;
@@ -361,6 +364,15 @@ async updateOneCoil(
     @Args('shipBayNo', { type: () => Int }) shipBayNo: number,
   ): Promise<Coils> {
     return this.coilsService.updateIsUnloadedById(id, statusIds, shipBayNo);
+  }
+
+   @Mutation(() => CoilType, { name: 'loadToShipCoil' })
+  async loadToShipCoil(
+    @Args('id', { type: () => Int }) id: number,
+    @Args('statusIds', { type: () => [Int] }) statusIds: number[],
+    @Args('shipBayNo', { type: () => Int }) shipBayNo: number,
+  ): Promise<Coils> {
+    return this.coilsService.updateIsLoadedById(id, statusIds, shipBayNo);
   }
 
 

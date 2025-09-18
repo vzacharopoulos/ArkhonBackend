@@ -92,6 +92,8 @@ applyStringFilter(qb, 'coil.supcoilId', filter?.supcoilId);
 applyDateFilter(qb, 'coil.upDate', filter?.upDate);
 applyDateFilter(qb, 'coil.loadDate', filter?.loadDate);
 applyBooleanFilter(qb, 'coil.isUnloaded', filter?.isUnloaded);
+applyBooleanFilter(qb, 'coil.isLoaded', filter?.isLoaded);
+
 applyIntFilter(qb, 'coil.currWeight', filter?.currWeight);
 applyIntFilter(qb, 'coil.shipBayNo', filter?.shipBayNo);
 
@@ -338,5 +340,33 @@ async updateOne(input: UpdateOneCoilInput): Promise<Coils> {
 
     return this.findOne(coil.id);
   }
+
+  async updateIsLoadedById(id: number, statusIds: number[], shipBayNo: number): Promise<Coils> {
+    const coil = await this.coilsRepository.findOne({ where: { id }, relations: ['status'] });
+    if (!coil) throw new NotFoundException(`Coil with id ${id} not found`);
+
+    if (!Array.isArray(statusIds) || statusIds.length === 0) {
+      throw new BadRequestException('statusIds must be a non-empty array');
+    }
+
+    if (!coil.status?.id) {
+      throw new BadRequestException('Coil has no status set');
+    }
+
+    if (!statusIds.includes(coil.status.id)) {
+      throw new BadRequestException(
+        `Coil status ${coil.status.id} is not in allowed list [${statusIds.join(', ')}]`,
+      );
+    }
+
+    coil.shipBayNo = shipBayNo;
+    coil.isUnloaded = true;
+        coil.isLoaded = true;
+    coil.upDate = new Date();
+    await this.coilsRepository.save(coil);
+
+    return this.findOne(coil.id);
+  }
+
 
 }

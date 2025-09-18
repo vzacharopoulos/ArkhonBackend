@@ -421,6 +421,10 @@ initWeight: number | null;
   @Column({ type: "bit", default: false })
   isUnloaded: boolean;
 
+    @Field(() => Boolean, { nullable: true })
+  @Column({ type: "bit", default: false })
+  isLoaded: boolean;
+
    @Field(() => Int, { nullable: true })
   @Column("int", { name: "shipBayNo", nullable: true })
   shipBayNo: number | null;
